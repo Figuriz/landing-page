@@ -1,6 +1,6 @@
 "use client"
 
-import { Code2, Globe, Cog, Link2, Bot, MessageCircle, FileSearch, Brain } from "lucide-react"
+import { Cog, Link2, Bot, MessageCircle, FileSearch, Brain } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
@@ -8,55 +8,47 @@ const mainServices = [
   {
     icon: Bot,
     title: "Chatbots Inteligentes",
-    description: "Desarrollamos chatbots con IA que entienden el contexto, responden de forma natural y aprenden de cada interacción con tus clientes.",
+    description: "Chatbots con IA que entienden el contexto, responden de forma natural y resuelven consultas sin intervención humana.",
+    example: "Ej: Un bot que responde preguntas frecuentes, califica leads y agenda reuniones — sin que nadie de tu equipo intervenga.",
     tech: "IA + n8n",
   },
   {
     icon: MessageCircle,
     title: "Asistentes de WhatsApp",
-    description: "Implementamos asistentes virtuales en WhatsApp que automatizan la atención al cliente, ventas y soporte las 24 horas del día.",
+    description: "Asistentes virtuales en WhatsApp que automatizan la atención al cliente, ventas y soporte las 24 horas del día.",
+    example: "Ej: El cliente pregunta por un producto, recibe disponibilidad y precio al instante, y puede reservar sin esperar.",
     tech: "WhatsApp API + IA",
   },
   {
     icon: FileSearch,
     title: "Lectura Inteligente de Archivos",
-    description: "Procesamos documentos, PDFs, imágenes y datos con IA para extraer información relevante y automatizar la captura de datos.",
+    description: "Procesamos documentos, PDFs e imágenes con IA para extraer información y automatizar la carga de datos.",
+    example: "Ej: Subís una factura en PDF y el sistema extrae proveedor, monto e impuestos directo a tu planilla o sistema contable.",
     tech: "IA + OCR",
   },
   {
     icon: Brain,
     title: "Soluciones con IA",
-    description: "Integramos inteligencia artificial en tus procesos de negocio para análisis predictivo, clasificación y toma de decisiones automatizada.",
+    description: "Integramos inteligencia artificial en tus procesos para clasificación automática, análisis y toma de decisiones.",
+    example: "Ej: Clasificación automática de tickets de soporte por urgencia y categoría, sin leerlos uno por uno.",
     tech: "Machine Learning",
   },
   {
     icon: Cog,
     title: "Automatización de Procesos",
-    description: "Optimizamos tus procesos con n8n, automatizando flujos de trabajo complejos sin necesidad de código extensivo.",
+    description: "Automatizamos flujos de trabajo complejos con n8n, eliminando tareas manuales y repetitivas de tu operación.",
+    example: "Ej: Cuando se cierra una venta, n8n genera la factura, la envía por email y notifica al equipo de despacho.",
     tech: "n8n",
   },
   {
     icon: Link2,
     title: "Integraciones",
-    description: "Conectamos tus sistemas usando n8n y APIs personalizadas para crear un ecosistema digital unificado.",
+    description: "Conectamos tus sistemas con n8n y APIs para que todas tus herramientas trabajen juntas en tiempo real.",
+    example: "Ej: Tu tienda online, tu CRM, tu sistema de stock y tu WhatsApp sincronizados automáticamente.",
     tech: "n8n + APIs",
   },
 ]
 
-const secondaryServices = [
-  {
-    icon: Code2,
-    title: "Software a Medida",
-    description: "Soluciones personalizadas con .NET: sistemas robustos, escalables y de alto rendimiento.",
-    tech: ".NET",
-  },
-  {
-    icon: Globe,
-    title: "Aplicaciones Web",
-    description: "Aplicaciones web modernas con Angular: experiencias de usuario excepcionales y código mantenible.",
-    tech: "Angular",
-  },
-]
 
 function ServiceCard({ service, index }: { service: typeof mainServices[0]; index: number }) {
   const animation = useScrollAnimation({ delay: index * 100, animation: "fade-in-up" })
@@ -64,8 +56,10 @@ function ServiceCard({ service, index }: { service: typeof mainServices[0]; inde
   return (
     <div ref={animation.ref} className={animation.className}>
       <Card
-        className="group bg-card border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 hover:scale-[1.02] transition-all duration-300 h-full relative overflow-hidden"
+        className="group bg-card border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] transition-all duration-300 h-full relative overflow-hidden"
       >
+        {/* Left accent bar — visible on hover */}
+        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-bl-full" />
         <CardHeader>
           <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
@@ -79,6 +73,9 @@ function ServiceCard({ service, index }: { service: typeof mainServices[0]; inde
           <CardDescription className="text-muted-foreground leading-relaxed">
             {service.description}
           </CardDescription>
+          <p className="mt-3 text-xs text-muted-foreground/70 italic leading-relaxed">
+            {service.example}
+          </p>
           <div className="mt-4">
             <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
               {service.tech}
@@ -90,42 +87,9 @@ function ServiceCard({ service, index }: { service: typeof mainServices[0]; inde
   )
 }
 
-function SecondaryServiceCard({ service, index }: { service: typeof secondaryServices[0]; index: number }) {
-  const animation = useScrollAnimation({ delay: index * 150, animation: "fade-in-up" })
-
-  return (
-    <div ref={animation.ref} className={animation.className}>
-      <Card
-        className="group bg-card border-border hover:border-primary/30 hover:shadow-md hover:shadow-primary/5 hover:scale-[1.02] transition-all duration-300 h-full"
-      >
-        <CardHeader className="pb-3">
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-              <service.icon className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-colors" />
-            </div>
-            <div>
-              <CardTitle className="text-lg font-[family-name:var(--font-heading)]">
-                {service.title}
-              </CardTitle>
-              <span className="text-xs font-semibold text-muted-foreground">
-                {service.tech}
-              </span>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-0">
-          <CardDescription className="text-muted-foreground leading-relaxed text-sm">
-            {service.description}
-          </CardDescription>
-        </CardContent>
-      </Card>
-    </div>
-  )
-}
 
 export function Services() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
-  const secondaryHeaderAnimation = useScrollAnimation({ animation: "fade-in-up" })
 
   return (
     <section id="servicios" className="py-20 md:py-32 bg-muted/50">
@@ -134,14 +98,14 @@ export function Services() {
         <div ref={headerAnimation.ref} className={`text-center max-w-3xl mx-auto mb-16 ${headerAnimation.className}`}>
           <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full text-sm font-semibold text-primary mb-4">
             <Brain className="h-4 w-4" />
-            Automatización e Inteligencia Artificial
+            Soluciones para tu negocio
           </div>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
-            Nuestros <span className="text-primary">Servicios</span>
+            ¿Qué puede hacer <span className="text-primary">Figuriz</span> por vos?
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Implementamos soluciones de IA y automatización que transforman la manera en que
-            interactuas con tus clientes y procesas información.
+            Automatizamos las tareas que te quitan tiempo: atención al cliente, procesamiento de datos,
+            comunicaciones y más — para que vos puedas enfocarte en hacer crecer tu negocio.
           </p>
         </div>
 
@@ -152,29 +116,6 @@ export function Services() {
           ))}
         </div>
 
-        {/* Gradient separator */}
-        <div className="my-16 flex items-center gap-4">
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-          <span className="text-sm text-muted-foreground font-medium px-4">Además</span>
-          <div className="flex-1 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
-        </div>
-
-        {/* Secondary section */}
-        <div ref={secondaryHeaderAnimation.ref} className={`text-center max-w-2xl mx-auto mb-10 ${secondaryHeaderAnimation.className}`}>
-          <h3 className="text-2xl md:text-3xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
-            También <span className="text-primary">desarrollamos</span>
-          </h3>
-          <p className="mt-3 text-base text-muted-foreground leading-relaxed">
-            Software a medida y aplicaciones web con tecnologías de primer nivel.
-          </p>
-        </div>
-
-        {/* Secondary services - more compact */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          {secondaryServices.map((service, index) => (
-            <SecondaryServiceCard key={service.title} service={service} index={index} />
-          ))}
-        </div>
       </div>
     </section>
   )

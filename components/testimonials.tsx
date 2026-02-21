@@ -1,72 +1,68 @@
 "use client"
 
-import { Quote, Star } from "lucide-react"
-import { Card, CardContent } from "@/components/ui/card"
+import { Search, PenTool, Code2, Rocket } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
-const testimonials = [
+const steps = [
   {
-    quote: "Figuriz transformó completamente nuestra operación. El sistema que desarrollaron nos permitió aumentar nuestra productividad en un 40%.",
-    author: "María González",
-    role: "CEO",
-    company: "TechStart Solutions",
-    rating: 5,
+    icon: Search,
+    number: "01",
+    title: "Descubrimiento",
+    description:
+      "Analizamos tu negocio, objetivos y necesidades para entender exactamente qué solución necesitas.",
   },
   {
-    quote: "El equipo de Figuriz entendió perfectamente nuestras necesidades. Entregaron a tiempo y el soporte post-implementación ha sido excepcional.",
-    author: "Carlos Mendoza",
-    role: "Director de TI",
-    company: "Grupo Innovar",
-    rating: 5,
+    icon: PenTool,
+    number: "02",
+    title: "Diseño",
+    description:
+      "Creamos prototipos y definimos la arquitectura de la solución antes de escribir una sola línea de código.",
   },
   {
-    quote: "La calidad del código y la documentación que entregan es impecable. Son un socio tecnológico en el que realmente puedes confiar.",
-    author: "Ana Ramírez",
-    role: "CTO",
-    company: "DataFlow Corp",
-    rating: 5,
+    icon: Code2,
+    number: "03",
+    title: "Desarrollo",
+    description:
+      "Construimos tu solución con tecnologías modernas, manteniéndote informado en cada paso del proceso.",
+  },
+  {
+    icon: Rocket,
+    number: "04",
+    title: "Entrega y Soporte",
+    description:
+      "Lanzamos tu proyecto y te acompañamos con soporte continuo para asegurar su éxito a largo plazo.",
   },
 ]
 
-function TestimonialCard({ testimonial, index }: { testimonial: typeof testimonials[0]; index: number }) {
+function StepCard({ step, index }: { step: (typeof steps)[0]; index: number }) {
   const animation = useScrollAnimation({ delay: index * 150, animation: "fade-in-up" })
-  const initials = testimonial.author
-    .split(" ")
-    .map((n) => n[0])
-    .join("")
+  const Icon = step.icon
 
   return (
-    <div ref={animation.ref} className={animation.className}>
-      <Card
-        className="bg-card border-border hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative overflow-hidden h-full"
-      >
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent" />
-        <CardContent className="pt-6">
-          {/* Star rating */}
-          <div className="flex gap-1 mb-4">
-            {Array.from({ length: testimonial.rating }).map((_, i) => (
-              <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-            ))}
-          </div>
+    <div ref={animation.ref} className={`relative ${animation.className}`}>
+      {/* Connector line (hidden on last item and on mobile) */}
+      {index < steps.length - 1 && (
+        <div className="hidden md:block absolute top-10 left-[calc(50%+2rem)] w-[calc(100%-4rem)] h-0.5 bg-gradient-to-r from-primary/40 to-primary/10" />
+      )}
 
-          <Quote className="h-8 w-8 text-primary/20 mb-4" />
-          <blockquote className="text-foreground leading-relaxed mb-6">
-            &ldquo;{testimonial.quote}&rdquo;
-          </blockquote>
-          <div className="border-t border-border pt-4 flex items-center gap-3">
-            {/* Avatar with initials */}
-            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <span className="text-sm font-bold text-primary">{initials}</span>
-            </div>
-            <div>
-              <p className="font-semibold text-foreground">{testimonial.author}</p>
-              <p className="text-sm text-muted-foreground">
-                {testimonial.role}, {testimonial.company}
-              </p>
-            </div>
+      <div className="flex flex-col items-center text-center">
+        {/* Number + Icon */}
+        <div className="relative mb-6">
+          <div className="h-20 w-20 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20">
+            <Icon className="h-8 w-8 text-primary" />
           </div>
-        </CardContent>
-      </Card>
+          <span className="absolute -top-2 -right-2 h-7 w-7 rounded-full bg-primary text-primary-foreground text-xs font-bold flex items-center justify-center">
+            {step.number}
+          </span>
+        </div>
+
+        <h3 className="text-xl font-bold text-foreground mb-2 font-[family-name:var(--font-heading)]">
+          {step.title}
+        </h3>
+        <p className="text-muted-foreground leading-relaxed max-w-xs">
+          {step.description}
+        </p>
+      </div>
     </div>
   )
 }
@@ -75,20 +71,20 @@ export function Testimonials() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
 
   return (
-    <section id="testimonios" className="py-20 md:py-32 bg-muted/50">
+    <section id="proceso" className="py-20 md:py-32 bg-muted/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headerAnimation.ref} className={`text-center max-w-3xl mx-auto mb-16 ${headerAnimation.className}`}>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
-            Lo que dicen nuestros <span className="text-primary">clientes</span>
+            Nuestro <span className="text-primary">proceso</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            La confianza de nuestros clientes es nuestro mayor logro.
+            Un enfoque claro y estructurado para llevar tu idea de concepto a realidad.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {testimonials.map((testimonial, index) => (
-            <TestimonialCard key={testimonial.author} testimonial={testimonial} index={index} />
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-6">
+          {steps.map((step, index) => (
+            <StepCard key={step.number} step={step} index={index} />
           ))}
         </div>
       </div>
