@@ -1,45 +1,36 @@
 "use client"
 
-import { CheckCircle2, Users, TrendingUp, Shield, Zap } from "lucide-react"
+import { Target, Handshake, Clock, Headphones } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const features = [
   {
-    icon: Users,
-    title: "Equipo Dedicado",
-    description: "Profesionales especializados en automatización, IA y desarrollo de software que se comprometen con cada proyecto.",
+    icon: Target,
+    title: "Foco en resultados",
+    description: "No vendemos tecnología por vender. Cada solución se diseña para resolver un problema concreto de tu operación.",
   },
   {
-    icon: TrendingUp,
-    title: "Soluciones Escalables",
-    description: "Arquitecturas diseñadas para crecer junto con tu negocio sin comprometer el rendimiento.",
+    icon: Handshake,
+    title: "Hablamos tu idioma",
+    description: "Te explicamos todo en términos simples. No necesitás saber de programación para trabajar con nosotros.",
   },
   {
-    icon: Shield,
-    title: "Seguridad Primero",
-    description: "Implementamos las mejores prácticas de seguridad para proteger tu información empresarial.",
+    icon: Clock,
+    title: "Entregas rápidas",
+    description: "Trabajamos con sprints cortos para que veas avances reales cada semana, no después de meses.",
   },
   {
-    icon: Zap,
-    title: "Entrega Ágil",
-    description: "Metodologías ágiles que nos permiten entregar resultados incrementales y adaptar el rumbo según tu feedback.",
+    icon: Headphones,
+    title: "Soporte real",
+    description: "No desaparecemos después de entregar. Te acompañamos con soporte continuo para que todo siga funcionando.",
   },
 ]
 
-const benefits = [
-  "Metodologías ágiles de desarrollo",
-  "Comunicación transparente y constante",
-  "Entrega puntual de proyectos",
-  "Soporte post-implementación",
-  "Resultados medibles desde el inicio",
-  "Atención en español, siempre disponible",
-]
-
-const techStack = [
-  { name: "n8n", description: "Automatización", primary: true },
-  { name: "IA", description: "Inteligencia Artificial", primary: true },
-  { name: ".NET", description: "Backend", primary: false },
-  { name: "Angular", description: "Frontend", primary: false },
+const stats = [
+  { value: "24/7", label: "Automatizaciones activas" },
+  { value: "Días", label: "Para ver resultados" },
+  { value: "-80%", label: "Tareas manuales" },
+  { value: "x3", label: "Más rápido" },
 ]
 
 function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
@@ -67,8 +58,7 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
 
 export function About() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
-  const leftAnimation = useScrollAnimation({ animation: "slide-in-left", delay: 150 })
-  const benefitsAnimation = useScrollAnimation({ animation: "fade-in-up", delay: 200 })
+  const statsAnimation = useScrollAnimation({ animation: "fade-in-up", delay: 100 })
 
   return (
     <section id="nosotros" className="py-20 md:py-32 bg-muted/20 relative overflow-hidden">
@@ -81,73 +71,38 @@ export function About() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        {/* Section Header */}
-        <div ref={headerAnimation.ref} className={`mb-14 ${headerAnimation.className}`}>
-          <div className="grid lg:grid-cols-2 gap-8 items-end">
-            <div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
-                Sobre <span className="text-primary">Nosotros</span>
-              </h2>
-              <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-                Somos un equipo apasionado por la automatización y la inteligencia artificial.
-                Nos enfocamos en construir soluciones reales que eliminen trabajo manual
-                y conecten los sistemas que ya usas.
-              </p>
-            </div>
-            <div className="lg:text-right">
-              <p className="text-base text-muted-foreground leading-relaxed">
-                Nuestro compromiso es entregar soluciones de calidad que no solo cumplan,
-                sino que superen las expectativas — con comunicación clara y soporte real.
-              </p>
-            </div>
-          </div>
-          {/* Decorative rule */}
-          <div className="mt-10 h-px bg-gradient-to-r from-primary/40 via-primary/10 to-transparent" />
+        {/* Header — centrado */}
+        <div ref={headerAnimation.ref} className={`text-center max-w-3xl mx-auto mb-14 ${headerAnimation.className}`}>
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
+            Por qué elegir <span className="text-primary">Figuriz</span>
+          </h2>
+          <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
+            Somos un equipo especializado en automatización e inteligencia artificial.
+            Nos enfocamos en una sola cosa: hacer que tu negocio funcione
+            con menos esfuerzo manual.
+          </p>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-          {/* Left Column */}
-          <div ref={leftAnimation.ref} className={leftAnimation.className}>
-            {/* Benefits */}
-            <div ref={benefitsAnimation.ref} className={`grid grid-cols-2 gap-3 ${benefitsAnimation.className}`}>
-              {benefits.map((benefit) => (
-                <div key={benefit} className="flex items-center gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-sm text-foreground">{benefit}</span>
-                </div>
-              ))}
+        {/* Stats — fila horizontal */}
+        <div ref={statsAnimation.ref} className={`grid grid-cols-2 md:grid-cols-4 gap-3 mb-12 ${statsAnimation.className}`}>
+          {stats.map((stat) => (
+            <div
+              key={stat.label}
+              className="flex flex-col items-center gap-1 px-4 py-5 bg-background/70 rounded-xl border border-border hover:border-primary/30 transition-all duration-300 text-center"
+            >
+              <span className="text-2xl font-bold font-[family-name:var(--font-heading)] text-primary">
+                {stat.value}
+              </span>
+              <span className="text-xs text-muted-foreground">{stat.label}</span>
             </div>
+          ))}
+        </div>
 
-            {/* Tech Stack */}
-            <div className="mt-8 p-6 bg-background/70 rounded-xl border border-border">
-              <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-4">
-                Nuestro Stack Tecnológico
-              </h3>
-              <div className="grid grid-cols-2 gap-3">
-                {techStack.map((tech) => (
-                  <div
-                    key={tech.name}
-                    className={`flex items-center gap-3 px-4 py-3 bg-muted/50 rounded-lg border transition-all duration-300 hover:border-primary/30 hover:shadow-sm ${
-                      tech.primary ? "border-primary/20" : "border-border"
-                    }`}
-                  >
-                    <span className={`font-bold text-sm ${tech.primary ? "text-primary" : "text-foreground/70"}`}>
-                      {tech.name}
-                    </span>
-                    <span className="text-xs text-muted-foreground">{tech.description}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - 2x2 Feature Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {features.map((feature, index) => (
-              <FeatureCard key={feature.title} feature={feature} index={index} />
-            ))}
-          </div>
+        {/* Feature cards — 4 columnas */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {features.map((feature, index) => (
+            <FeatureCard key={feature.title} feature={feature} index={index} />
+          ))}
         </div>
       </div>
     </section>

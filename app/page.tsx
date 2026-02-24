@@ -3,7 +3,8 @@ import { Hero } from "@/components/hero"
 import { Services } from "@/components/services"
 import { TechLogos } from "@/components/tech-logos"
 import { About } from "@/components/about"
-import { Testimonials } from "@/components/testimonials"
+import { Industries } from "@/components/industries"
+import { ProcessSteps } from "@/components/process-steps"
 import { FAQ } from "@/components/faq"
 import { CTA } from "@/components/cta"
 import { Footer } from "@/components/footer"
@@ -13,10 +14,11 @@ export default function Home() {
     <main className="min-h-screen">
       <Header />
       <Hero />
-      <TechLogos />
       <Services />
+      <TechLogos />
       <About />
-      <Testimonials />
+      <Industries />
+      <ProcessSteps />
       <FAQ />
       <CTA />
       <Footer />

@@ -67,7 +67,7 @@ function StepCard({ step, index }: { step: (typeof steps)[0]; index: number }) {
   )
 }
 
-export function Testimonials() {
+export function ProcessSteps() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
 
   return (

@@ -32,9 +32,9 @@ export function Header() {
             <Image
               src="/logo-figuriz.png"
               alt="Figuriz"
-              width={120}
-              height={40}
-              className="h-9 w-auto object-contain"
+              width={800}
+              height={240}
+              className="h-10 w-auto object-contain"
               priority
             />
           </Link>

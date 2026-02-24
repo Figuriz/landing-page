@@ -41,12 +41,29 @@ const faqs = [
   },
 ]
 
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqs.map((faq) => ({
+    "@type": "Question",
+    name: faq.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: faq.answer,
+    },
+  })),
+}
+
 export function FAQ() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
   const contentAnimation = useScrollAnimation({ animation: "fade-in-up", delay: 150 })
 
   return (
     <section id="faq" className="py-20 md:py-32 bg-background">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headerAnimation.ref} className={`text-center mb-12 ${headerAnimation.className}`}>
           <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-foreground">

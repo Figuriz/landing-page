@@ -60,9 +60,9 @@ export function Footer() {
             <Image
               src="/logo-figuriz.png"
               alt="Figuriz"
-              width={140}
-              height={46}
-              className="h-9 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-200"
+              width={800}
+              height={240}
+              className="h-10 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-200"
             />
           </Link>
           <p className="text-lg md:text-xl font-semibold font-[family-name:var(--font-heading)] text-foreground/80 max-w-sm leading-snug">
