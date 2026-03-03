@@ -15,10 +15,36 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Solicitud inválida." }, { status: 400 })
   }
 
-  const { name, email, message } = body as {
+  const { name, email, message, captchaToken } = body as {
     name?: string
     email?: string
     message?: string
+    captchaToken?: string
+  }
+
+  // Validar reCAPTCHA si la clave secreta está configurada
+  const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY
+  if (recaptchaSecret) {
+    if (!captchaToken) {
+      return NextResponse.json(
+        { error: "Falta la verificación de reCAPTCHA." },
+        { status: 400 }
+      )
+    }
+
+    const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `secret=${encodeURIComponent(recaptchaSecret)}&response=${encodeURIComponent(captchaToken)}`,
+    })
+    const verifyData = await verifyRes.json()
+
+    if (!verifyData.success || (verifyData.score ?? 0) < 0.5) {
+      return NextResponse.json(
+        { error: "No pudimos verificar que seas humano. Intentá de nuevo." },
+        { status: 400 }
+      )
+    }
   }
 
   if (!name?.trim() || !email?.trim() || !message?.trim()) {

@@ -6,6 +6,18 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { CheckCircle2, Loader2, Send } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
+import Script from "next/script"
+
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (cb: () => void) => void
+      execute: (siteKey: string, options: { action: string }) => Promise<string>
+    }
+  }
+}
+
+const RECAPTCHA_SITE_KEY = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""
 
 const schema = z.object({
   name: z.string().min(2, "Ingresá tu nombre completo."),
@@ -31,10 +43,20 @@ export function CTA() {
     setSubmitState("loading")
     setServerError(null)
     try {
+      let captchaToken = ""
+      if (RECAPTCHA_SITE_KEY && window.grecaptcha) {
+        captchaToken = await new Promise<string>((resolve) => {
+          window.grecaptcha.ready(async () => {
+            const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: "contact" })
+            resolve(token)
+          })
+        })
+      }
+
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, captchaToken }),
       })
       const json = await res.json()
       if (!res.ok) {
@@ -51,6 +73,13 @@ export function CTA() {
   }
 
   return (
+    <>
+      {RECAPTCHA_SITE_KEY && (
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`}
+          strategy="lazyOnload"
+        />
+      )}
     <section id="contacto" className="relative py-20 md:py-32 bg-primary overflow-hidden">
       {/* Dot pattern */}
       <div
@@ -191,5 +220,6 @@ export function CTA() {
         </div>
       </div>
     </section>
+    </>
   )
 }
