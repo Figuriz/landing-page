@@ -12,7 +12,7 @@ import {
   SiCloudflare,
   SiGithubactions,
   SiJest,
-  SiAdobeacrobatreader,
+  SiAdobeacrobat,
   SiMinutemailer,
 } from "react-icons/si"
 import { FaAws } from "react-icons/fa6"
@@ -31,7 +31,7 @@ const technologies = [
   { name: "Cloudflare", label: "Seguridad y CDN",             icon: SiCloudflare,           color: "#F6821F" },
   { name: "CI/CD",      label: "Integración continua",        icon: SiGithubactions,        color: "#2088FF" },
   { name: "Testing",    label: "Calidad de software",         icon: SiJest,                 color: "#C21325" },
-  { name: "PDFs",       label: "Generación de documentos",    icon: SiAdobeacrobatreader,   color: "#EC1C24" },
+  { name: "PDFs",       label: "Generación de documentos",    icon: SiAdobeacrobat,         color: "#EC1C24" },
   { name: "Emails",     label: "Automatización de correos",   icon: SiMinutemailer,         color: "#29ABE2" },
 ]
 
