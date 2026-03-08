@@ -7,6 +7,16 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Ocultar badge de reCAPTCHA v3 (atribución textual en el formulario) */
+.grecaptcha-badge {
+  visibility: hidden !important;
+  opacity: 0 !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
+}
+
 :root {
   --background: #0C0C10;
   --foreground: #EEEAE3;

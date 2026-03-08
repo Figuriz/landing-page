@@ -57,7 +57,7 @@ export function Hero() {
               className="text-sm md:text-base px-6 md:px-8 py-5 md:py-6 shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
             >
               <Link href="#contacto">
-                Agendá una consulta gratuita
+                Quiero automatizar mi negocio
                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
               </Link>
             </Button>
@@ -67,7 +67,7 @@ export function Hero() {
               size="lg"
               className="text-sm md:text-base px-6 md:px-8 py-5 md:py-6 bg-transparent border-border/60 hover:border-primary/40 hover:scale-105 transition-all duration-300"
             >
-              <Link href="#servicios">Ver servicios</Link>
+              <Link href="#proceso">Ver cómo funciona</Link>
             </Button>
           </div>
 

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     default: 'Figuriz | Automatización e IA para tu negocio',
     template: '%s | Figuriz',
   },
-  description: 'Automatizamos la atención al cliente, el procesamiento de datos y las tareas repetitivas de tu negocio. Chatbots, asistentes de WhatsApp e integraciones para que tu empresa trabaje sola.',
+  description: 'Ahorra hasta un 80% del tiempo en tareas repetitivas. Chatbots con IA, asistentes de WhatsApp y automatizaciones que trabajan 24/7 para tu negocio en Argentina.',
   keywords: [
     'automatización de procesos',
     'inteligencia artificial para empresas',
@@ -56,12 +56,12 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'Figuriz',
     title: 'Figuriz | Automatización e IA para tu negocio',
-    description: 'Automatizamos tus procesos con n8n e IA. Chatbots, asistentes de WhatsApp e integraciones — para que vos te enfoques en crecer.',
+    description: 'Ahorra hasta un 80% del tiempo en tareas repetitivas. Chatbots con IA, asistentes de WhatsApp y automatizaciones que trabajan 24/7 para tu negocio en Argentina.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Figuriz | Automatización e IA para tu negocio',
-    description: 'Automatizamos tus procesos con n8n e IA. Chatbots, asistentes de WhatsApp e integraciones.',
+    description: 'Ahorra hasta un 80% del tiempo en tareas repetitivas. Chatbots con IA, asistentes de WhatsApp y automatizaciones que trabajan 24/7 para tu negocio en Argentina.',
   },
   icons: {
     icon: [
@@ -73,6 +73,11 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: siteUrl,
+    languages: {
+      'es-AR': siteUrl,
+      'es': siteUrl,
+      'x-default': siteUrl,
+    },
   },
 }
 
@@ -91,22 +96,63 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'Organization',
-              name: 'Figuriz',
-              url: 'https://figuriz.com',
-              logo: 'https://figuriz.com/logo-figuriz.png',
-              description: 'Automatizamos procesos de negocio con n8n e IA. Chatbots, asistentes de WhatsApp, integraciones y flujos de trabajo inteligentes.',
-              email: 'contacto@figuriz.com',
-              sameAs: ['https://linkedin.com/company/figuriz'],
-              serviceType: [
-                'Automatización de procesos',
-                'Chatbots con IA',
-                'Asistentes de WhatsApp',
-                'Integración de sistemas',
+              '@graph': [
+                {
+                  '@type': ['Organization', 'LocalBusiness'],
+                  '@id': 'https://figuriz.com/#organization',
+                  name: 'Figuriz',
+                  url: 'https://figuriz.com',
+                  logo: 'https://figuriz.com/logo-figuriz.png',
+                  description: 'Automatizamos procesos de negocio con IA. Chatbots, asistentes de WhatsApp, integraciones y flujos de trabajo inteligentes.',
+                  email: 'contacto@figuriz.com',
+                  sameAs: ['https://linkedin.com/company/figuriz'],
+                  areaServed: { '@type': 'Country', name: 'Argentina' },
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://figuriz.com/#website',
+                  url: 'https://figuriz.com',
+                  name: 'Figuriz',
+                  publisher: { '@id': 'https://figuriz.com/#organization' },
+                },
+                {
+                  '@type': 'Service',
+                  name: 'Chatbots con IA',
+                  description: 'Chatbots inteligentes que atienden consultas de tus clientes 24/7 con inteligencia artificial.',
+                  provider: { '@id': 'https://figuriz.com/#organization' },
+                },
+                {
+                  '@type': 'Service',
+                  name: 'Asistentes de WhatsApp',
+                  description: 'Asistentes automatizados en WhatsApp que responden, procesan pedidos y gestionan consultas.',
+                  provider: { '@id': 'https://figuriz.com/#organization' },
+                },
+                {
+                  '@type': 'Service',
+                  name: 'Automatización de procesos',
+                  description: 'Automatización de tareas repetitivas e integración de sistemas con n8n e IA.',
+                  provider: { '@id': 'https://figuriz.com/#organization' },
+                },
               ],
             }),
           }}
         />
+        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="ga4-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+              `}
+            </Script>
+          </>
+        )}
       </body>
     </html>
   )

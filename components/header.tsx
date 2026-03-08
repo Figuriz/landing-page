@@ -32,8 +32,8 @@ export function Header() {
             <Image
               src="/logo-figuriz.png"
               alt="Figuriz"
-              width={800}
-              height={240}
+              width={134}
+              height={40}
               className="h-10 w-auto object-contain"
               priority
             />
