@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, Linkedin, ArrowUpRight } from "lucide-react"
+import { Mail, Linkedin, ArrowUpRight, Lock, ShieldCheck, BadgeCheck } from "lucide-react"
 
 const navLinks = [
   { label: "Servicios", href: "#servicios" },
@@ -60,8 +60,8 @@ export function Footer() {
             <Image
               src="/logo-figuriz.png"
               alt="Figuriz"
-              width={800}
-              height={240}
+              width={134}
+              height={40}
               className="h-10 w-auto object-contain opacity-90 group-hover:opacity-100 transition-opacity duration-200"
             />
           </Link>
@@ -152,6 +152,20 @@ export function Footer() {
             </div>
           </div>
 
+        </div>
+
+        {/* Trust badges */}
+        <div className="flex items-center justify-center gap-6 flex-wrap py-4">
+          {[
+            { icon: Lock, label: "SSL Seguro" },
+            { icon: ShieldCheck, label: "Protección de Datos" },
+            { icon: BadgeCheck, label: "Consulta Sin Cargo" },
+          ].map((badge) => (
+            <div key={badge.label} className="flex items-center gap-1.5 text-foreground/40">
+              <badge.icon className="h-3.5 w-3.5" />
+              <span className="text-xs">{badge.label}</span>
+            </div>
+          ))}
         </div>
 
         {/* Bottom bar */}
