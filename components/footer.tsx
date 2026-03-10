@@ -99,8 +99,8 @@ export function Footer() {
             </nav>
           </div>
 
-          {/* Column 2: What we do */}
-          <div>
+          {/* Column 2: What we do — hidden on mobile */}
+          <div className="hidden md:block">
             <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-primary mb-5">
               Lo que hacemos
             </p>
@@ -173,7 +173,7 @@ export function Footer() {
           <p className="text-xs text-foreground/35">
             © {new Date().getFullYear()} Figuriz. Todos los derechos reservados.
           </p>
-          <div className="flex items-center gap-1.5 flex-wrap justify-center">
+          <div className="hidden sm:flex items-center gap-1.5 flex-wrap justify-center">
             {["Automatización", "n8n", "IA", "WhatsApp", "APIs"].map((tag) => (
               <span
                 key={tag}

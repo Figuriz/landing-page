@@ -1,7 +1,9 @@
 "use client"
 
-import { Cog, Link2, Bot, MessageCircle, FileSearch, Brain } from "lucide-react"
+import { useState } from "react"
+import { Cog, Link2, Bot, MessageCircle, FileSearch, Brain, Globe, ChevronDown } from "lucide-react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const mainServices = [
@@ -20,18 +22,11 @@ const mainServices = [
     tech: "Respuesta inmediata",
   },
   {
-    icon: FileSearch,
-    title: "Lectura Inteligente de Archivos",
-    description: "Procesamos documentos, PDFs e imágenes con IA para extraer información y automatizar la carga de datos.",
-    example: "Ej: Subís una factura en PDF y el sistema extrae proveedor, monto e impuestos directo a tu planilla o sistema contable.",
-    tech: "Sin carga manual",
-  },
-  {
-    icon: Brain,
-    title: "Soluciones con IA",
-    description: "Integramos inteligencia artificial en tus procesos para clasificación automática, análisis y toma de decisiones.",
-    example: "Ej: Clasificación automática de tickets de soporte por urgencia y categoría, sin leerlos uno por uno.",
-    tech: "Decisiones automáticas",
+    icon: Globe,
+    title: "Páginas Web y Aplicaciones",
+    description: "Desarrollo de sitios web y aplicaciones a medida con diseño moderno y tecnología de punta.",
+    example: "Ej: Landing pages, e-commerce, dashboards internos o apps móviles — diseñados para tu marca y objetivos.",
+    tech: "Diseño a medida",
   },
   {
     icon: Cog,
@@ -39,6 +34,13 @@ const mainServices = [
     description: "Automatizamos flujos de trabajo complejos, eliminando tareas manuales y repetitivas de tu operación diaria.",
     example: "Ej: Cuando se cierra una venta, se genera la factura, se envía por email y se notifica al equipo de despacho.",
     tech: "Sin intervención manual",
+  },
+  {
+    icon: FileSearch,
+    title: "Lectura Inteligente de Archivos",
+    description: "Procesamos documentos, PDFs e imágenes con IA para extraer información y automatizar la carga de datos.",
+    example: "Ej: Subís una factura en PDF y el sistema extrae proveedor, monto e impuestos directo a tu planilla o sistema contable.",
+    tech: "Sin carga manual",
   },
   {
     icon: Link2,
@@ -90,6 +92,7 @@ function ServiceCard({ service, index }: { service: typeof mainServices[0]; inde
 
 export function Services() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
+  const [showAll, setShowAll] = useState(false)
 
   return (
     <section id="servicios" className="py-20 md:py-32 bg-muted/50">
@@ -109,12 +112,32 @@ export function Services() {
           </p>
         </div>
 
-        {/* Main services grid - AI & Automation */}
+        {/* Main services grid - show first 3 on mobile, all on desktop */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mainServices.map((service, index) => (
+          {mainServices.slice(0, 3).map((service, index) => (
             <ServiceCard key={service.title} service={service} index={index} />
           ))}
+          {/* Remaining services: hidden on mobile unless expanded, always visible on desktop */}
+          {mainServices.slice(3).map((service, index) => (
+            <div key={service.title} className={`${showAll ? "block" : "hidden"} md:block`}>
+              <ServiceCard service={service} index={index + 3} />
+            </div>
+          ))}
         </div>
+
+        {/* "Ver todos" button — only on mobile */}
+        {!showAll && (
+          <div className="mt-8 flex justify-center md:hidden">
+            <Button
+              variant="outline"
+              onClick={() => setShowAll(true)}
+              className="gap-2"
+            >
+              Ver todos los servicios
+              <ChevronDown className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
 
       </div>
     </section>

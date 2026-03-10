@@ -26,12 +26,6 @@ const features = [
   },
 ]
 
-const stats = [
-  { value: "24/7", label: "Automatizaciones activas" },
-  { value: "Días", label: "Para ver resultados" },
-  { value: "-80%", label: "Tareas manuales" },
-  { value: "x3", label: "Más rápido" },
-]
 
 function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
   const animation = useScrollAnimation({ delay: index * 100, animation: "fade-in-up" })
@@ -58,7 +52,6 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
 
 export function About() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
-  const statsAnimation = useScrollAnimation({ animation: "fade-in-up", delay: 100 })
 
   return (
     <section id="nosotros" className="py-20 md:py-32 bg-muted/20 relative overflow-hidden">
@@ -81,21 +74,6 @@ export function About() {
             Nos enfocamos en una sola cosa: hacer que tu negocio funcione
             con menos esfuerzo manual.
           </p>
-        </div>
-
-        {/* Stats — fila horizontal */}
-        <div ref={statsAnimation.ref} className={`grid grid-cols-2 md:grid-cols-4 gap-3 mb-12 ${statsAnimation.className}`}>
-          {stats.map((stat) => (
-            <div
-              key={stat.label}
-              className="flex flex-col items-center gap-1 px-4 py-5 bg-background/70 rounded-xl border border-border hover:border-primary/30 transition-all duration-300 text-center"
-            >
-              <span className="text-2xl font-bold font-[family-name:var(--font-heading)] text-primary">
-                {stat.value}
-              </span>
-              <span className="text-xs text-muted-foreground">{stat.label}</span>
-            </div>
-          ))}
         </div>
 
         {/* Feature cards — 4 columnas */}

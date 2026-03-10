@@ -35,9 +35,14 @@ const faqs = [
       "Primero tenemos una consulta gratuita para entender tu negocio y qué querés automatizar. Luego te proponemos una solución con alcance, tiempos y costo. Una vez que estés de acuerdo, arrancamos el desarrollo con comunicación constante hasta la entrega.",
   },
   {
+    question: "¿También desarrollan páginas web y aplicaciones?",
+    answer:
+      "Sí. Además de automatizaciones, diseñamos y desarrollamos sitios web, landing pages y aplicaciones a medida. Trabajamos con tecnologías modernas para que tu negocio tenga presencia digital profesional, rápida y optimizada para convertir visitantes en clientes.",
+  },
+  {
     question: "¿Cuánto cuesta?",
     answer:
-      "Cada proyecto es distinto, por lo que no manejamos precios fijos. El costo depende de la complejidad de los flujos, las integraciones necesarias y el tiempo de desarrollo. Contactanos para una consulta sin cargo y te damos una propuesta concreta.",
+      "Cada proyecto es distinto, por lo que no manejamos precios fijos. El costo depende de la complejidad del proyecto, las integraciones necesarias y el tiempo de desarrollo. Contactanos para una consulta sin cargo y te damos una propuesta concreta.",
   },
 ]
 

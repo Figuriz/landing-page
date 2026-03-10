@@ -73,7 +73,7 @@ export function Hero() {
 
           <div
             ref={statsAnimation.ref}
-            className={`mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-3 pt-6 md:pt-8 border-t border-border ${statsAnimation.className}`}
+            className={`mt-8 md:mt-12 hidden md:flex flex-wrap items-center justify-center gap-3 pt-6 md:pt-8 border-t border-border ${statsAnimation.className}`}
           >
             {[
               { label: "Tareas sin trabajo manual", icon: Zap },
