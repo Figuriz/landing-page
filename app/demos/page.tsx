@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   title: "Demos por rubro",
   description:
     "Sistemas a medida para negocios de Tandil y la zona. Probá una demo de tu rubro: pedidos, stock, turnos, cuentas corrientes y avisos por WhatsApp.",
-  robots: { index: false, follow: false },
+  robots: { index: true, follow: true },
   alternates: { canonical: "https://figuriz.com/demos" },
 }
 
