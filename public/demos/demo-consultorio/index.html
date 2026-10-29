@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Turnos, confirmaciones y ausentismo · Demo</title>
+<meta name="description" content="Demo para consultorios y centros médicos: agenda por profesional, confirmación automática de turnos, huecos ofrecidos a la lista de espera y turnos online.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Turnos, confirmaciones y ausentismo · Demo">
+<meta property="og:description" content="Demo para consultorios y centros médicos: agenda por profesional, confirmación automática de turnos, huecos ofrecidos a la lista de espera y turnos online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef4f4;--card:#ffffff;--ink:#14292e;--mu:#56696d;--line:#d9e5e6;
+--brand:#0f4c5c;--brand-ink:#eef7f8;--accent:#ffb703;--accent-ink:#14292e;--accent-soft:#ffefc4;
+--ok:#1e8259;--ok-soft:#daf0e5;--warn:#b06d00;--warn-soft:#fdeed2;--bad:#c2413c;--bad-soft:#f9dfdd;--info:#2a64a3;--info-soft:#dde9f6;
+--fd:"Sora",system-ui,sans-serif;--fb:"Nunito Sans",system-ui,sans-serif}
+h1{font-size:25px}
+.slot{display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:1px solid var(--line)}
+.slot:last-child{border-bottom:0}
+.slot .h{font:700 14px var(--fd);min-width:46px}
+.slot.libre .g{color:var(--mu);font-style:italic}
+.os{font-size:11px;font-weight:800;color:var(--mu);border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-left:4px}
+.step{display:flex;align-items:center;gap:8px;font:700 13px var(--fd);color:var(--mu);margin:14px 0 8px}
+.step i{width:22px;height:22px;border-radius:50%;background:var(--brand);color:#fff;font-style:normal;display:flex;align-items:center;justify-content:center;font-size:12px}
+.hrs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.hrs button{padding:10px 0;border:1px solid var(--line);border-radius:9px;font-weight:800;background:var(--card)}
+.hrs button.on{background:var(--brand);color:#fff;border-color:var(--brand)}
+.phone{max-width:420px;margin:0 auto}
+.cmp{display:flex;align-items:flex-end;gap:24px;height:150px;justify-content:center}
+.cmp div{width:70px;border-radius:8px 8px 0 0;display:flex;align-items:flex-start;justify-content:center;color:#fff;font:700 18px var(--fd);padding-top:8px}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+h1,h2,h3,.num,.fd{font-family:var(--fd)}
+h1{font-size:27px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.1}
+h2{font-size:18px;font-weight:700;margin:0}
+h3{font-size:16px;font-weight:700;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+.muted{color:var(--mu)}
+.sm{font-size:13px}
+
+/* header */
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:20}
+.top-in{max-width:1120px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--brand);display:flex;align-items:center;justify-content:center;font:800 17px var(--fd);flex:none}
+.brand b{font:800 18px/1.05 var(--fd);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-size:12px;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--accent);color:var(--brand);padding:4px 8px;border-radius:99px;flex:none}
+.reset{font-size:12.5px;opacity:.8;text-decoration:underline;text-underline-offset:3px;flex:none}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mu);position:relative;min-width:0}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--brand)}
+.nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.nav .badge{position:absolute;top:7px;left:calc(50% + 5px);background:var(--bad);color:#fff;font-size:10.5px;min-width:18px;height:18px;border-radius:9px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+@media(min-width:860px){
+  body{padding-bottom:0}
+  .nav{position:sticky;top:56px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);justify-content:center;gap:4px}
+  .nav button{flex:none;flex-direction:row;height:48px;padding:0 18px;font-size:14px;gap:8px}
+  .nav button.on::before{top:auto;bottom:0;left:14px;right:14px;border-radius:3px 3px 0 0}
+  .nav .badge{position:static}
+}
+main{max-width:1120px;margin:0 auto;padding:16px 16px 28px}
+
+/* dolores */
+.pains{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:12px 14px;margin-bottom:16px;position:relative}
+.pains b.t{display:block;font:700 15px var(--fd);margin-bottom:6px;padding-right:24px}
+.pains ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:13.5px}
+.pains li{display:flex;gap:8px}
+.pains li i{font-style:normal;flex:none}
+.pains .x{position:absolute;top:8px;right:10px;font-size:20px;opacity:.5;padding:2px 6px}
+.para{display:inline-block;margin:0 0 10px;font-size:12.5px;font-weight:600;background:var(--accent-soft);color:var(--ink);padding:4px 10px;border-radius:99px}
+
+/* comunes */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.pad{padding:14px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.head .sub{color:var(--mu);font-size:14px;margin-top:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13.5px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip b{margin-left:5px;opacity:.65}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;border-radius:11px;font-weight:600;font-size:14.5px;white-space:nowrap}
+.btn-p{background:var(--brand);color:var(--brand-ink)}
+.btn-a{background:var(--accent);color:var(--accent-ink)}
+.btn-g{border:1px solid var(--line);background:var(--card)}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-s{padding:7px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px}
+.w100{width:100%}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-info{background:var(--info-soft);color:var(--info)}
+.p-mu{background:var(--line);color:var(--mu)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:860px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{padding:12px 14px}
+.kpi small{font-size:12px;color:var(--mu);display:block}
+.kpi .num{font-size:22px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:3px}
+.kpi.hl{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.kpi.hl small{color:inherit;opacity:.75}
+.kpi.bad .num{color:var(--bad)}
+.list{overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.row:last-child{border-bottom:0}
+.row .g{flex:1;min-width:0}
+.row .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{font-size:12.5px;color:var(--mu)}
+.row .r{text-align:right;flex:none}
+button.row:active{background:var(--line)}
+.amt{font:800 15.5px var(--fd);white-space:nowrap}
+.stack{display:grid;gap:14px}
+.g2{display:grid;gap:14px}
+@media(min-width:900px){.g2{grid-template-columns:1fr 1fr;align-items:start}.g2 .span{grid-column:1/-1}}
+.sec-t{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 6px}
+.empty{padding:26px;text-align:center;color:var(--mu)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--brand)}
+.bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}.bar i.ok{background:var(--ok)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-weight:700}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl .r{text-align:right;white-space:nowrap}
+.scrollx{overflow-x:auto}
+.note{font-size:12.5px;color:var(--mu);margin-top:8px}
+
+/* formularios */
+.form{display:grid;gap:12px}
+.fld{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--mu)}
+.fld input,.fld select,.fld textarea{font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--brand)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .18s}
+@keyframes fade{from{opacity:0}}
+@media(min-width:700px){.modal{align-items:center;padding:24px}}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.sheet{border-radius:18px}}
+.sheet-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sheet-h .x{font-size:24px;line-height:1;opacity:.55;padding:2px 6px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.acts .btn{flex:1}
+.wa{background:#e7f8ec;border:1px solid #bfe8cb;border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:#1b3a24}
+.okline{display:flex;align-items:center;gap:8px;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:12px}
+.okline svg,.pains svg{width:18px;height:18px;flex:none}
+
+/* toast */
+.toast{position:fixed;left:50%;top:70px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:80;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:.25s;max-width:calc(100% - 32px);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{color:var(--accent)}
+.flash{animation:fl 1.6s ease}
+@keyframes fl{0%,40%{background:var(--accent-soft)}}
+@media(min-width:860px){.pad .acts .btn{flex:0 1 auto}}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<nav class="nav" id="nav"></nav>
+<main id="app"></main>
+<div id="modal"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+const D = (() => {
+  const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
+  const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
+  const ICONS = {
+    box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+    cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+    users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.3 5 2.7 5 5.8"/>',
+    cal:'<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+    wrench:'<path d="M14.5 6.5a4 4 0 0 0 5 5L21 13l-8 8-3-3 8-8-1.5-1.5a4 4 0 0 1-5-5L13 2z" transform="translate(-1 0)"/>',
+    list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+    chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+    home:'<path d="M3 11 12 3l9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+    file:'<path d="M6 2.5h9l4 4V21.5H6z"/><path d="M14.5 2.5v4.5H19M9 12h7M9 16h7"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    tag:'<path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    key:'<circle cx="8" cy="15" r="4.5"/><path d="M11.5 12 21 2.5M17 6.5l3 3M15 8.5l2 2"/>',
+    door:'<path d="M5 21V3h11v18M3 21h18"/><circle cx="13" cy="12" r="1"/>',
+    flame:'<path d="M12 22c4 0 7-2.8 7-7 0-3.5-2.5-6.5-4-8 0 2.5-1.5 4-3 4.5C12 8 10.5 4.5 8 2c.5 3-3 6-3 11 0 5 3 9 7 9z"/>',
+    pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+    bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    car:'<path d="M3 16v-4l2.5-5.5h13L21 12v4z"/><path d="M3 12h18"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+    search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+    wa:'<path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 .8c-1-.4-2.2-1.6-2.6-2.6l.8-1-1-2z"/>'
+  };
+  const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`;
+
+  const qs = new URLSearchParams(location.search);
+  const PARA = (qs.get('para') || '').trim().slice(0, 60);
+
+  let APP, UI = { tab:null }, handlers = {}, inputs = {};
+  const st = { S:null };
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+  const money = n => fmt0.format(Math.round(n || 0));
+  const num = n => fmtN.format(n || 0);
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const day0 = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+  const today = () => day0(new Date());
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const key = d => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+  const fromKey = k => { const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd); };
+  const diffDays = (a, b) => Math.round((day0(a) - day0(b)) / 864e5);
+  const asDate = d => typeof d === 'string' && /^\d{4}-\d\d-\d\d$/.test(d) ? fromKey(d) : new Date(d);
+  const fdate = (d, o = { day:'2-digit', month:'2-digit' }) => asDate(d).toLocaleDateString('es-AR', o);
+  const flong = d => asDate(d).toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+  const fshort = d => asDate(d).toLocaleDateString('es-AR', { weekday:'short', day:'numeric' }).replace('.', '');
+  const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = (r, a) => a[Math.floor(r() * a.length)];
+
+  function save(){ try { localStorage.setItem(APP.key, JSON.stringify(st.S)); } catch(e) {} }
+  function load(){
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(APP.key)); } catch(e) {}
+    if (!s || s._v !== APP.version) { s = APP.seed(); s._v = APP.version; }
+    st.S = s;
+  }
+
+  let tt;
+  function toast(h){ const t = document.getElementById('toast'); t.innerHTML = h; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3400); }
+  function modal(title, body, foot = ''){
+    document.getElementById('modal').innerHTML = `<div class="modal" data-act="_bg"><div class="sheet" role="dialog" aria-label="${esc(title)}"><div class="sheet-h"><h2>${title}</h2><button class="x" data-act="_close" aria-label="Cerrar">×</button></div>${body}${foot ? `<div class="acts">${foot}</div>` : ''}</div></div>`;
+  }
+  function close(){ document.getElementById('modal').innerHTML = ''; }
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const nval = id => parseFloat(val(id).replace(/\./g, '').replace(',', '.')) || 0;
+  function waPreview(title, text, okMsg){
+    modal(title, `<p class="muted sm" style="margin:0 0 8px">Así le llega por WhatsApp:</p><div class="wa">${esc(text)}</div>`,
+      `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="_waSent" data-v="${esc(okMsg || 'Mensaje enviado (simulado)')}">${icon('wa')} Enviar</button>`);
+  }
+
+  function brandName(){ return PARA || APP.brand.name; }
+  function renderNav(){
+    document.getElementById('nav').innerHTML = APP.tabs.map(([id, label, ic]) => {
+      const b = APP.badges && APP.badges[id] ? APP.badges[id]() : 0;
+      return `<button class="${UI.tab === id ? 'on' : ''}" data-act="_tab" data-v="${id}">${icon(ic)}<span>${label}</span>${b ? `<span class="badge">${b}</span>` : ''}</button>`;
+    }).join('');
+  }
+  function painsHtml(){
+    if (st.S._painsOff) return '';
+    return `<div class="pains"><b class="t">${esc(APP.pains.title)}</b><ul>${APP.pains.items.map(p => `<li><i>✕</i><span>${p}</span></li>`).join('')}</ul><div class="sm" style="margin-top:8px;font-weight:600">${APP.pains.fix}</div><button class="x" data-act="_pains" aria-label="Ocultar">×</button></div>`;
+  }
+  function render(){
+    renderNav();
+    const v = APP.views[UI.tab];
+    document.getElementById('app').innerHTML = (PARA ? `<span class="para">Demo preparada para ${esc(PARA)} · datos de ejemplo</span>` : '') + painsHtml() + v();
+    if (APP.after) APP.after();
+  }
+  function header(){
+    const n = brandName();
+    document.getElementById('top').innerHTML = `<div class="top-in"><div class="brand"><span class="logo">${esc(n.trim()[0] || 'D').toUpperCase()}</span><div><b>${esc(n)}</b><small>${esc(APP.brand.sub)}</small></div></div><span class="tag">Demo</span><button class="reset" data-act="_reset">Reiniciar</button></div>`;
+    document.title = `${n} · ${APP.brand.title} (demo)`;
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el) return;
+    const a = el.dataset.act, v = el.dataset.v;
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') return;
+    if (a === '_bg'){ if (e.target === el) close(); return; }
+    if (a === '_close'){ close(); return; }
+    if (a === '_tab'){ UI.tab = v; close(); window.scrollTo(0, 0); render(); return; }
+    if (a === '_pains'){ st.S._painsOff = true; save(); render(); return; }
+    if (a === '_waSent'){ close(); toast(esc(v)); if (APP.onWaSent) APP.onWaSent(); return; }
+    if (a === '_reset'){ if (!confirm('¿Reiniciar la demo con los datos de ejemplo?')) return; try { localStorage.removeItem(APP.key); } catch(_) {} load(); UI.tab = APP.tabs[0][0]; close(); render(); return; }
+    if (handlers[a]){ handlers[a](v, el, e); }
+  });
+  document.addEventListener('input', e => { const k = e.target.dataset.in; if (k && inputs[k]) inputs[k](e.target.value, e.target); });
+  document.addEventListener('change', e => { const k = e.target.dataset.ch; if (k && handlers[k]) handlers[k](e.target.value, e.target); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  function start(app){
+    APP = app; UI.tab = app.tabs[0][0];
+    load(); header(); render();
+  }
+  return {
+    start, render, save, toast, modal, close, val, nval, waPreview, icon, esc, money, num, pad,
+    today, addDays, key, fromKey, diffDays, fdate, flong, fshort, rng, pick, day0, brandName,
+    on:(a, f) => { handlers[a] = f; }, onInput:(k, f) => { inputs[k] = f; },
+    get S(){ return st.S; }, UI, PARA
+  };
+})();
+</script>
+<script>
+const PROF = [['ferreyra','Dra. Ana Ferreyra','Clínica médica'],['ruiz','Dr. Pablo Ruiz','Traumatología'],['gil','Lic. Sofía Gil','Kinesiología'],['ibarra','Dra. Marta Ibarra','Pediatría']];
+const OS = ['IOMA','OSDE','PAMI','Swiss Medical','Particular','IOMA','Galeno'];
+const SLOTS = ['9:00','9:20','9:40','10:00','10:20','10:40','11:00','11:20','11:40','12:00','12:20','12:40'];
+const NOM = ['Laura Gómez','Ricardo Paz','Marina Soto','Jorge Luna','Elena Ríos','Tomás Vera','Alicia Bustos','Carlos Méndez','Noelia Arce','Hugo Ledesma','Silvina Prado','Fabián Correa','Andrea Molina','Raúl Ojeda','Patricia Funes','Emiliano Cruz','Gabriela Sosa','Iván Toledo','Norma Quiroga','Pilar Medina'];
+const T0 = () => D.today();
+const T = () => { let d = T0(); while (d.getDay() === 0 || d.getDay() === 6) d = D.addDays(d, 1); return d; };
+const prof = id => PROF.find(p => p[0] === id);
+const APP = {
+  key:'demo-consultorio-v1', version:1,
+  brand:{ name:'Centro Médico Sierra', sub:'Consultorios · Tandil', title:'Turnos' },
+  pains:{ title:'¿Te pasa esto?', items:[
+    'El teléfono no para: la secretaria se pasa la mañana dando turnos.',
+    'Uno de cada seis pacientes no viene y no avisa.',
+    'Cuando alguien cancela, ese hueco queda vacío aunque haya gente esperando turno.',
+    'Los recordatorios se mandan a mano, uno por uno, si queda tiempo.'],
+    fix:'Así se ve con turnos online y confirmación automática:' },
+  tabs:[['agenda','Agenda','cal'],['conf','Mañana','bell'],['online','Turno online','pulse'],['panel','Resultados','chart']],
+  badges:{ conf:() => D.S.man.filter(t => t.est === 'cancelado' && !t.reasignado).length },
+  seed(){
+    const r = D.rng(17), hoy = [], man = []; let n = 0;
+    const FN = ['Laura','Ricardo','Marina','Jorge','Elena','Tomás','Alicia','Carlos','Noelia','Hugo','Silvina','Fabián','Andrea','Raúl','Patricia','Emiliano','Gabriela','Iván','Norma','Pilar','Mateo','Rosa','Diego','Lucía','Oscar','Sabrina','Héctor','Daniela'];
+    const LN = ['Gómez','Paz','Soto','Luna','Ríos','Vera','Bustos','Méndez','Arce','Ledesma','Prado','Correa','Molina','Ojeda','Funes','Cruz','Sosa','Toledo','Quiroga','Medina','Aguirre','Castro','Rey','Salas','Villalba','Navarro'];
+    const usados = new Set(), nombre = () => { let x; do { x = D.pick(r, FN) + ' ' + D.pick(r, LN); } while (usados.has(x)); usados.add(x); return x; };
+    PROF.forEach(([id]) => SLOTS.forEach((h, i) => {
+      if (r() < .82) hoy.push({ p:id, h, nom:nombre(), os:D.pick(r, OS), est:i < 4 ? (r() < .15 ? 'ausente' : 'atendido') : 'confirmado' });
+      if (r() < .55) man.push({ p:id, h, nom:nombre(), os:D.pick(r, OS), est:'pendiente', id:n++ });
+    }));
+    const esp = [['Mirta Acosta','Clínica médica'],['Juan Pablo Ríos','Traumatología'],['Lorena Díaz','Kinesiología'],['Familia Ortiz (nene 6 años)','Pediatría']].map(([nom, esp], i) => ({ id:i + 1, nom, esp }));
+    return { hoy, man, esp, sel:'ferreyra', enviados:false };
+  },
+  views:{}
+};
+
+/* ---------- Agenda ---------- */
+APP.views.agenda = () => {
+  const ts = D.S.hoy.filter(t => t.p === D.S.sel), P = prof(D.S.sel);
+  const all = D.S.hoy, aus = all.filter(t => t.est === 'ausente').length;
+  const L = { confirmado:['Confirmó','p-ok'], atendido:['Atendido','p-mu'], ausente:['No vino','p-bad'], presente:['En sala','p-info'] };
+  return `<div class="head"><div><h1>${D.key(T()) === D.key(T0()) ? 'Agenda de hoy' : 'Agenda del lunes'}</h1><div class="sub">${D.flong(T()).replace(/^./, c => c.toUpperCase())}</div></div></div>
+  <div class="kpis"><div class="card kpi hl"><small>Turnos hoy</small><span class="num">${all.length}</span></div><div class="card kpi"><small>Confirmados</small><span class="num">${Math.round(all.filter(t => t.est !== 'ausente').length / all.length * 100)}%</span></div>
+    <div class="card kpi"><small>Huecos libres</small><span class="num">${PROF.length * SLOTS.length - all.length}</span></div><div class="card kpi ${aus ? 'bad' : ''}"><small>No vinieron</small><span class="num">${aus}</span></div></div>
+  <div class="chips scroll" style="margin-bottom:12px">${PROF.map(([id, n]) => `<button class="chip ${D.S.sel === id ? 'on' : ''}" data-act="sel" data-v="${id}">${n}</button>`).join('')}</div>
+  <section class="card list"><div class="sec-t"><h2>${P[1]}</h2><span class="muted sm">${P[2]}</span></div>
+  ${SLOTS.map(h => { const t = ts.find(x => x.h === h); if (!t) return `<div class="slot libre"><span class="h">${h}</span><div class="g">Libre</div><button class="btn btn-g btn-s" data-act="ofrecer" data-v="${D.S.sel}|${h}">Ofrecer</button></div>`;
+    return `<div class="slot"><span class="h">${h}</span><div class="g" style="flex:1;min-width:0"><b>${D.esc(t.nom)}</b><span class="os">${t.os}</span></div>${t.est === 'confirmado' ? `<button class="btn btn-g btn-s" data-act="est" data-v="${h}|ausente">No vino</button><button class="btn btn-p btn-s" data-act="est" data-v="${h}|presente">Llegó</button>` : `<span class="pill ${L[t.est][1]}">${L[t.est][0]}</span>`}</div>`; }).join('')}</section>`;
+};
+D.on('sel', v => { D.S.sel = v; D.save(); D.render(); });
+D.on('est', v => { const [h, e] = v.split('|'); D.S.hoy.find(t => t.p === D.S.sel && t.h === h).est = e; D.save(); D.render(); });
+D.on('ofrecer', v => {
+  const [p, h] = v.split('|'), e = D.S.esp.find(x => x.esp === prof(p)[2]);
+  if (!e) return D.toast('No hay nadie en lista de espera para esta especialidad');
+  D.waPreview('Ofrecer el turno libre', `Hola! Te escribimos de ${D.brandName()}. Se liberó un turno hoy a las ${h} con ${prof(p)[1]} (${prof(p)[2]}). ¿Lo querés? Respondé SÍ y te lo reservamos.`, `Turno ofrecido a ${e.nom}`);
+  APP.onWaSent = () => { D.S.hoy.push({ p, h, nom:e.nom, os:'Particular', est:'confirmado' }); D.S.esp = D.S.esp.filter(x => x !== e); D.save(); D.render(); setTimeout(() => D.toast(`✓ <b>${D.esc(e.nom)}</b> aceptó el turno de las ${h}`), 500); APP.onWaSent = null; };
+});
+
+/* ---------- Mañana / confirmaciones ---------- */
+APP.views.conf = () => {
+  const ts = D.S.man, c = k => ts.filter(t => t.est === k).length;
+  const L = { pendiente:['Sin enviar','p-mu'], enviado:['Sin respuesta','p-warn'], confirmado:['Confirmó','p-ok'], cancelado:['Canceló','p-bad'] };
+  const canc = ts.filter(t => t.est === 'cancelado');
+  return `<div class="head"><div><h1>Turnos del ${D.fshort(D.addDays(T(), T().getDay() === 5 ? 3 : 1))}</h1><div class="sub">El recordatorio sale solo 24 h antes. El paciente confirma o cancela con un toque.</div></div>${D.S.enviados ? '' : `<button class="btn btn-a" data-act="enviar">${D.icon('wa')} Enviar ${ts.length} recordatorios</button>`}</div>
+  <div class="kpis"><div class="card kpi hl"><small>Turnos mañana</small><span class="num">${ts.length}</span></div><div class="card kpi"><small>Confirmaron</small><span class="num">${c('confirmado')}</span></div><div class="card kpi"><small>Sin respuesta</small><span class="num">${c('enviado')}</span></div><div class="card kpi ${canc.length ? 'bad' : ''}"><small>Cancelaron</small><span class="num">${canc.length}</span></div></div>
+  ${canc.length ? `<section class="card list" style="margin-bottom:14px"><div class="sec-t"><h2>Huecos para ofrecer</h2><span class="muted sm">lista de espera</span></div>${canc.map(t => { const e = D.S.esp.find(x => x.esp === prof(t.p)[2]); return `<div class="row"><div class="g"><div class="t">${t.h} · ${prof(t.p)[1]}</div><div class="s">Canceló ${D.esc(t.nom)}${e && !t.reasignado ? ` · esperando: ${D.esc(e.nom)}` : ''}</div></div>${t.reasignado ? `<span class="pill p-ok">Ocupado: ${D.esc(t.reasignado)}</span>` : e ? `<button class="btn btn-p btn-s" data-act="reasignar" data-v="${t.id}">Ofrecer</button>` : '<span class="pill p-mu">Sin espera</span>'}</div>`; }).join('')}</section>` : ''}
+  <section class="card list">${ts.slice().sort((a, b) => SLOTS.indexOf(a.h) - SLOTS.indexOf(b.h)).map(t => `<div class="slot"><span class="h">${t.h}</span><div class="g" style="flex:1;min-width:0"><b>${D.esc(t.nom)}</b><div class="sm muted">${prof(t.p)[1]}</div></div><span class="pill ${L[t.est][1]}">${L[t.est][0]}</span></div>`).join('')}</section>`;
+};
+D.on('enviar', () => {
+  const t = D.S.man[0];
+  D.waPreview('Recordatorio automático', `Hola ${t.nom.split(' ')[0]}! Te recordamos tu turno de mañana a las ${t.h} con ${prof(t.p)[1]} en ${D.brandName()}.\nRespondé:\n1️⃣ Confirmo\n2️⃣ Necesito cancelar\n(Así le llega a cada paciente, con su horario)`, 'Recordatorios enviados');
+  APP.onWaSent = () => {
+    D.S.enviados = true; D.S.man.forEach(t => t.est = 'enviado'); D.save(); D.render(); APP.onWaSent = null;
+    const r = D.rng(3); let k = 0;
+    const tick = () => { const p = D.S.man.filter(t => t.est === 'enviado'); if (!p.length || k > 40) return; const n = Math.min(p.length, 5);
+      for (let i = 0; i < n; i++){ const t = p[Math.floor(r() * p.length)]; if (t.est === 'enviado') t.est = r() < .12 ? 'cancelado' : 'confirmado'; }
+      k++; D.save(); if (D.UI.tab === 'conf' && !document.querySelector('.modal')) D.render(); if (D.S.man.filter(t => t.est === 'enviado').length > 4) setTimeout(tick, 900); };
+    setTimeout(tick, 900);
+  };
+});
+D.on('reasignar', id => {
+  const t = D.S.man.find(x => x.id == id), e = D.S.esp.find(x => x.esp === prof(t.p)[2]);
+  D.waPreview('Ofrecer el hueco', `Hola! Te escribimos de ${D.brandName()}. Se liberó un turno mañana a las ${t.h} con ${prof(t.p)[1]}. ¿Lo querés? Respondé SÍ y es tuyo.`, `Turno ofrecido a ${e.nom}`);
+  APP.onWaSent = () => { t.reasignado = e.nom; D.S.esp = D.S.esp.filter(x => x !== e); D.save(); D.render(); setTimeout(() => D.toast(`✓ <b>${D.esc(e.nom)}</b> tomó el turno. Hueco recuperado.`), 500); APP.onWaSent = null; };
+});
+
+/* ---------- Turno online ---------- */
+const OL = { esp:'Clínica médica', p:'ferreyra', d:1, h:'' };
+APP.views.online = () => {
+  const ps = PROF.filter(p => p[2] === OL.esp), dia = D.addDays(T(), OL.d);
+  const ocup = OL.d === 1 ? D.S.man.filter(t => t.p === OL.p && t.est !== 'cancelado').map(t => t.h) : SLOTS.filter((_, i) => (i * 7 + OL.d * 3) % 5 < 3);
+  const libres = SLOTS.filter(h => !ocup.includes(h));
+  return `<div class="head"><div><h1>Turno online</h1><div class="sub">Así lo ve el paciente: saca turno solo, a cualquier hora, sin llamar</div></div></div>
+  <div class="phone card pad">
+    <div class="step"><i>1</i>Especialidad</div><div class="chips">${[...new Set(PROF.map(p => p[2]))].map(e => `<button class="chip ${OL.esp === e ? 'on' : ''}" data-act="olE" data-v="${e}">${e}</button>`).join('')}</div>
+    <div class="step"><i>2</i>Profesional</div><div class="chips">${ps.map(([id, n]) => `<button class="chip ${OL.p === id ? 'on' : ''}" data-act="olP" data-v="${id}">${n}</button>`).join('')}</div>
+    <div class="step"><i>3</i>Día</div><div class="chips scroll">${[1, 2, 3, 4, 5].map(k => { const d = D.addDays(T(), k); return d.getDay() === 0 ? '' : `<button class="chip ${OL.d === k ? 'on' : ''}" data-act="olD" data-v="${k}">${D.fshort(d)}</button>`; }).join('')}</div>
+    <div class="step"><i>4</i>Horario · ${libres.length} libres</div><div class="hrs">${libres.map(h => `<button class="${OL.h === h ? 'on' : ''}" data-act="olH" data-v="${h}">${h}</button>`).join('')}</div>
+    <div class="form" style="margin-top:14px"><div class="f2"><label class="fld">Nombre<input id="ol-n" value="María Fernández"></label><label class="fld">Obra social<select id="ol-o">${[...new Set(OS)].map(o => `<option>${o}</option>`).join('')}</select></label></div>
+    <button class="btn btn-p w100" data-act="olOk" ${OL.h ? '' : 'disabled'}>Confirmar turno</button></div></div>`;
+};
+D.on('olE', v => { OL.esp = v; OL.p = PROF.find(p => p[2] === v)[0]; OL.h = ''; D.render(); });
+D.on('olP', v => { OL.p = v; OL.h = ''; D.render(); });
+D.on('olD', v => { OL.d = +v; OL.h = ''; D.render(); });
+D.on('olH', v => { OL.h = v; D.render(); });
+D.on('olOk', () => {
+  const nom = D.val('ol-n') || 'Paciente', dia = D.addDays(T(), OL.d);
+  if (OL.d === 1) D.S.man.push({ p:OL.p, h:OL.h, nom, os:D.val('ol-o'), est:'confirmado', id:Date.now() });
+  D.save();
+  D.modal('Turno confirmado', `<div class="okline">${D.icon('check')} Listo, ${D.esc(nom.split(' ')[0])}</div><div class="sm">${prof(OL.p)[1]} · ${prof(OL.p)[2]}<br>${D.flong(dia)} a las ${OL.h}<br>${D.esc(D.brandName())}</div>
+    <p class="note">Le llega la confirmación por WhatsApp y un recordatorio el día anterior. En la agenda aparece solo${OL.d === 1 ? ' (miralo en "Mañana")' : ''}.</p>`, `<button class="btn btn-p" data-act="_close">Listo</button>`);
+  OL.h = ''; D.render();
+});
+
+/* ---------- Resultados ---------- */
+APP.views.panel = () => `<div class="head"><div><h1>Resultados</h1><div class="sub">Lo que cambia cuando los turnos se confirman solos (números de ejemplo)</div></div></div>
+  <div class="kpis"><div class="card kpi hl"><small>Ausentismo</small><span class="num">17% → 6%</span></div><div class="card kpi"><small>Turnos recuperados / mes</small><span class="num">48</span></div>
+    <div class="card kpi"><small>Turnos sacados online</small><span class="num">62%</span></div><div class="card kpi"><small>Llamadas menos por día</small><span class="num">~35</span></div></div>
+  <section class="card pad"><h2 style="margin-bottom:14px">Pacientes que no vienen</h2><div class="cmp"><div style="height:100%;background:var(--bad)">17%</div><div style="height:35%;background:var(--ok)">6%</div></div>
+    <div style="display:flex;justify-content:center;gap:24px;font-size:13px;color:var(--mu);margin-top:6px"><span style="width:70px;text-align:center">Antes</span><span style="width:70px;text-align:center">Con recordatorios</span></div>
+    <p class="note">Con 4 profesionales y 12 turnos por día, bajar el ausentismo del 17% al 6% recupera más de 100 consultas por mes.</p></section>`;
+
+D.start(APP);
+</script>
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Producción, lotes y stock · Demo</title>
+<meta name="description" content="Demo para fábricas de quesos y fiambres: lotes en maduración, vencimientos, stock de fábrica y locales, pedidos de revendedores y trazabilidad.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Producción, lotes y stock · Demo">
+<meta property="og:description" content="Demo para fábricas de quesos y fiambres: lotes en maduración, vencimientos, stock de fábrica y locales, pedidos de revendedores y trazabilidad.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f1e8;--card:#fffdf8;--ink:#23281f;--mu:#666b5f;--line:#e4dccb;
+--brand:#2f3b2b;--brand-ink:#f5f1e8;--accent:#e8b04b;--accent-ink:#2f3b2b;--accent-soft:#f8e8c4;
+--ok:#3c7a4a;--ok-soft:#e1efe3;--warn:#b7791f;--warn-soft:#fbefd7;--bad:#b4442e;--bad-soft:#f7e0da;--info:#3b6a8c;--info-soft:#e1ebf3;
+--fd:"Fraunces",Georgia,serif;--fb:"Public Sans",system-ui,sans-serif}
+.lote{padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left;display:block}
+.lote:last-child{border-bottom:0}
+.lote .l1{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.lote .code{font:600 12px ui-monospace,monospace;color:var(--mu)}
+.lote .l2{display:flex;justify-content:space-between;font-size:12.5px;color:var(--mu);margin-top:5px}
+.ubic{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.ubic span{font-size:11.5px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:2px 7px}
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 12px 12px;font-size:14px}
+.tl li::before{content:"";position:absolute;left:-20px;top:4px;width:10px;height:10px;border-radius:50%;background:var(--brand)}
+.tl li.v::before{background:var(--accent)}
+.tl small{display:block;color:var(--mu);font-size:12px}
+.asig{font-size:12.5px;background:var(--bg);border-radius:8px;padding:8px 10px;margin-top:8px}
+.asig div{display:flex;justify-content:space-between;gap:8px}
+.quote{font-style:italic;font-size:13.5px;background:#e7f8ec;border-radius:10px 10px 10px 3px;padding:8px 10px;margin:6px 0;color:#1b3a24}
+.cell-low{color:var(--bad);font-weight:700}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+h1,h2,h3,.num,.fd{font-family:var(--fd)}
+h1{font-size:27px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.1}
+h2{font-size:18px;font-weight:700;margin:0}
+h3{font-size:16px;font-weight:700;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+.muted{color:var(--mu)}
+.sm{font-size:13px}
+
+/* header */
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:20}
+.top-in{max-width:1120px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--brand);display:flex;align-items:center;justify-content:center;font:800 17px var(--fd);flex:none}
+.brand b{font:800 18px/1.05 var(--fd);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-size:12px;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--accent);color:var(--brand);padding:4px 8px;border-radius:99px;flex:none}
+.reset{font-size:12.5px;opacity:.8;text-decoration:underline;text-underline-offset:3px;flex:none}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mu);position:relative;min-width:0}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--brand)}
+.nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.nav .badge{position:absolute;top:7px;left:calc(50% + 5px);background:var(--bad);color:#fff;font-size:10.5px;min-width:18px;height:18px;border-radius:9px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+@media(min-width:860px){
+  body{padding-bottom:0}
+  .nav{position:sticky;top:56px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);justify-content:center;gap:4px}
+  .nav button{flex:none;flex-direction:row;height:48px;padding:0 18px;font-size:14px;gap:8px}
+  .nav button.on::before{top:auto;bottom:0;left:14px;right:14px;border-radius:3px 3px 0 0}
+  .nav .badge{position:static}
+}
+main{max-width:1120px;margin:0 auto;padding:16px 16px 28px}
+
+/* dolores */
+.pains{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:12px 14px;margin-bottom:16px;position:relative}
+.pains b.t{display:block;font:700 15px var(--fd);margin-bottom:6px;padding-right:24px}
+.pains ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:13.5px}
+.pains li{display:flex;gap:8px}
+.pains li i{font-style:normal;flex:none}
+.pains .x{position:absolute;top:8px;right:10px;font-size:20px;opacity:.5;padding:2px 6px}
+.para{display:inline-block;margin:0 0 10px;font-size:12.5px;font-weight:600;background:var(--accent-soft);color:var(--ink);padding:4px 10px;border-radius:99px}
+
+/* comunes */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.pad{padding:14px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.head .sub{color:var(--mu);font-size:14px;margin-top:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13.5px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip b{margin-left:5px;opacity:.65}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;border-radius:11px;font-weight:600;font-size:14.5px;white-space:nowrap}
+.btn-p{background:var(--brand);color:var(--brand-ink)}
+.btn-a{background:var(--accent);color:var(--accent-ink)}
+.btn-g{border:1px solid var(--line);background:var(--card)}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-s{padding:7px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px}
+.w100{width:100%}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-info{background:var(--info-soft);color:var(--info)}
+.p-mu{background:var(--line);color:var(--mu)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:860px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{padding:12px 14px}
+.kpi small{font-size:12px;color:var(--mu);display:block}
+.kpi .num{font-size:22px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:3px}
+.kpi.hl{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.kpi.hl small{color:inherit;opacity:.75}
+.kpi.bad .num{color:var(--bad)}
+.list{overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.row:last-child{border-bottom:0}
+.row .g{flex:1;min-width:0}
+.row .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{font-size:12.5px;color:var(--mu)}
+.row .r{text-align:right;flex:none}
+button.row:active{background:var(--line)}
+.amt{font:800 15.5px var(--fd);white-space:nowrap}
+.stack{display:grid;gap:14px}
+.g2{display:grid;gap:14px}
+@media(min-width:900px){.g2{grid-template-columns:1fr 1fr;align-items:start}.g2 .span{grid-column:1/-1}}
+.sec-t{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 6px}
+.empty{padding:26px;text-align:center;color:var(--mu)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--brand)}
+.bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}.bar i.ok{background:var(--ok)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-weight:700}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl .r{text-align:right;white-space:nowrap}
+.scrollx{overflow-x:auto}
+.note{font-size:12.5px;color:var(--mu);margin-top:8px}
+
+/* formularios */
+.form{display:grid;gap:12px}
+.fld{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--mu)}
+.fld input,.fld select,.fld textarea{font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--brand)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .18s}
+@keyframes fade{from{opacity:0}}
+@media(min-width:700px){.modal{align-items:center;padding:24px}}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.sheet{border-radius:18px}}
+.sheet-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sheet-h .x{font-size:24px;line-height:1;opacity:.55;padding:2px 6px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.acts .btn{flex:1}
+.wa{background:#e7f8ec;border:1px solid #bfe8cb;border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:#1b3a24}
+.okline{display:flex;align-items:center;gap:8px;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:12px}
+.okline svg,.pains svg{width:18px;height:18px;flex:none}
+
+/* toast */
+.toast{position:fixed;left:50%;top:70px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:80;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:.25s;max-width:calc(100% - 32px);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{color:var(--accent)}
+.flash{animation:fl 1.6s ease}
+@keyframes fl{0%,40%{background:var(--accent-soft)}}
+@media(min-width:860px){.pad .acts .btn{flex:0 1 auto}}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<nav class="nav" id="nav"></nav>
+<main id="app"></main>
+<div id="modal"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+const D = (() => {
+  const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
+  const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
+  const ICONS = {
+    box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+    cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+    users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.3 5 2.7 5 5.8"/>',
+    cal:'<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+    wrench:'<path d="M14.5 6.5a4 4 0 0 0 5 5L21 13l-8 8-3-3 8-8-1.5-1.5a4 4 0 0 1-5-5L13 2z" transform="translate(-1 0)"/>',
+    list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+    chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+    home:'<path d="M3 11 12 3l9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+    file:'<path d="M6 2.5h9l4 4V21.5H6z"/><path d="M14.5 2.5v4.5H19M9 12h7M9 16h7"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    tag:'<path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    key:'<circle cx="8" cy="15" r="4.5"/><path d="M11.5 12 21 2.5M17 6.5l3 3M15 8.5l2 2"/>',
+    door:'<path d="M5 21V3h11v18M3 21h18"/><circle cx="13" cy="12" r="1"/>',
+    flame:'<path d="M12 22c4 0 7-2.8 7-7 0-3.5-2.5-6.5-4-8 0 2.5-1.5 4-3 4.5C12 8 10.5 4.5 8 2c.5 3-3 6-3 11 0 5 3 9 7 9z"/>',
+    pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+    bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    car:'<path d="M3 16v-4l2.5-5.5h13L21 12v4z"/><path d="M3 12h18"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+    search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+    wa:'<path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 .8c-1-.4-2.2-1.6-2.6-2.6l.8-1-1-2z"/>'
+  };
+  const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`;
+
+  const qs = new URLSearchParams(location.search);
+  const PARA = (qs.get('para') || '').trim().slice(0, 60);
+
+  let APP, UI = { tab:null }, handlers = {}, inputs = {};
+  const st = { S:null };
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+  const money = n => fmt0.format(Math.round(n || 0));
+  const num = n => fmtN.format(n || 0);
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const day0 = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+  const today = () => day0(new Date());
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const key = d => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+  const fromKey = k => { const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd); };
+  const diffDays = (a, b) => Math.round((day0(a) - day0(b)) / 864e5);
+  const asDate = d => typeof d === 'string' && /^\d{4}-\d\d-\d\d$/.test(d) ? fromKey(d) : new Date(d);
+  const fdate = (d, o = { day:'2-digit', month:'2-digit' }) => asDate(d).toLocaleDateString('es-AR', o);
+  const flong = d => asDate(d).toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+  const fshort = d => asDate(d).toLocaleDateString('es-AR', { weekday:'short', day:'numeric' }).replace('.', '');
+  const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = (r, a) => a[Math.floor(r() * a.length)];
+
+  function save(){ try { localStorage.setItem(APP.key, JSON.stringify(st.S)); } catch(e) {} }
+  function load(){
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(APP.key)); } catch(e) {}
+    if (!s || s._v !== APP.version) { s = APP.seed(); s._v = APP.version; }
+    st.S = s;
+  }
+
+  let tt;
+  function toast(h){ const t = document.getElementById('toast'); t.innerHTML = h; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3400); }
+  function modal(title, body, foot = ''){
+    document.getElementById('modal').innerHTML = `<div class="modal" data-act="_bg"><div class="sheet" role="dialog" aria-label="${esc(title)}"><div class="sheet-h"><h2>${title}</h2><button class="x" data-act="_close" aria-label="Cerrar">×</button></div>${body}${foot ? `<div class="acts">${foot}</div>` : ''}</div></div>`;
+  }
+  function close(){ document.getElementById('modal').innerHTML = ''; }
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const nval = id => parseFloat(val(id).replace(/\./g, '').replace(',', '.')) || 0;
+  function waPreview(title, text, okMsg){
+    modal(title, `<p class="muted sm" style="margin:0 0 8px">Así le llega por WhatsApp:</p><div class="wa">${esc(text)}</div>`,
+      `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="_waSent" data-v="${esc(okMsg || 'Mensaje enviado (simulado)')}">${icon('wa')} Enviar</button>`);
+  }
+
+  function brandName(){ return PARA || APP.brand.name; }
+  function renderNav(){
+    document.getElementById('nav').innerHTML = APP.tabs.map(([id, label, ic]) => {
+      const b = APP.badges && APP.badges[id] ? APP.badges[id]() : 0;
+      return `<button class="${UI.tab === id ? 'on' : ''}" data-act="_tab" data-v="${id}">${icon(ic)}<span>${label}</span>${b ? `<span class="badge">${b}</span>` : ''}</button>`;
+    }).join('');
+  }
+  function painsHtml(){
+    if (st.S._painsOff) return '';
+    return `<div class="pains"><b class="t">${esc(APP.pains.title)}</b><ul>${APP.pains.items.map(p => `<li><i>✕</i><span>${p}</span></li>`).join('')}</ul><div class="sm" style="margin-top:8px;font-weight:600">${APP.pains.fix}</div><button class="x" data-act="_pains" aria-label="Ocultar">×</button></div>`;
+  }
+  function render(){
+    renderNav();
+    const v = APP.views[UI.tab];
+    document.getElementById('app').innerHTML = (PARA ? `<span class="para">Demo preparada para ${esc(PARA)} · datos de ejemplo</span>` : '') + painsHtml() + v();
+    if (APP.after) APP.after();
+  }
+  function header(){
+    const n = brandName();
+    document.getElementById('top').innerHTML = `<div class="top-in"><div class="brand"><span class="logo">${esc(n.trim()[0] || 'D').toUpperCase()}</span><div><b>${esc(n)}</b><small>${esc(APP.brand.sub)}</small></div></div><span class="tag">Demo</span><button class="reset" data-act="_reset">Reiniciar</button></div>`;
+    document.title = `${n} · ${APP.brand.title} (demo)`;
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el) return;
+    const a = el.dataset.act, v = el.dataset.v;
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') return;
+    if (a === '_bg'){ if (e.target === el) close(); return; }
+    if (a === '_close'){ close(); return; }
+    if (a === '_tab'){ UI.tab = v; close(); window.scrollTo(0, 0); render(); return; }
+    if (a === '_pains'){ st.S._painsOff = true; save(); render(); return; }
+    if (a === '_waSent'){ close(); toast(esc(v)); if (APP.onWaSent) APP.onWaSent(); return; }
+    if (a === '_reset'){ if (!confirm('¿Reiniciar la demo con los datos de ejemplo?')) return; try { localStorage.removeItem(APP.key); } catch(_) {} load(); UI.tab = APP.tabs[0][0]; close(); render(); return; }
+    if (handlers[a]){ handlers[a](v, el, e); }
+  });
+  document.addEventListener('input', e => { const k = e.target.dataset.in; if (k && inputs[k]) inputs[k](e.target.value, e.target); });
+  document.addEventListener('change', e => { const k = e.target.dataset.ch; if (k && handlers[k]) handlers[k](e.target.value, e.target); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  function start(app){
+    APP = app; UI.tab = app.tabs[0][0];
+    load(); header(); render();
+  }
+  return {
+    start, render, save, toast, modal, close, val, nval, waPreview, icon, esc, money, num, pad,
+    today, addDays, key, fromKey, diffDays, fdate, flong, fshort, rng, pick, day0, brandName,
+    on:(a, f) => { handlers[a] = f; }, onInput:(k, f) => { inputs[k] = f; },
+    get S(){ return st.S; }, UI, PARA
+  };
+})();
+</script>
+<script>
+const PRODS = [
+  { id:'tybo', n:'Queso Tybo', t:'queso', mad:20, vida:60, kg:3.5 },
+  { id:'hol', n:'Queso Holanda', t:'queso', mad:45, vida:90, kg:2.8 },
+  { id:'sardo', n:'Queso Sardo', t:'queso', mad:120, vida:240, kg:4 },
+  { id:'regg', n:'Queso Reggianito', t:'queso', mad:180, vida:365, kg:7 },
+  { id:'sal', n:'Salame de la casa', t:'fiambre', mad:25, vida:90, kg:.45 },
+  { id:'bond', n:'Bondiola', t:'fiambre', mad:60, vida:120, kg:1.2 },
+  { id:'crudo', n:'Jamón crudo', t:'fiambre', mad:240, vida:365, kg:7.5 }
+];
+const UB = [['fab','Fábrica'],['cen','Local Centro'],['ruta','Local Ruta 226']];
+const REV = ['Almacén Los Pinos','Fiambrería El Lago','Despensa Doña Rosa','Regalos Serranos','Proveeduría Vela'];
+const P = id => PRODS.find(p => p.id === id);
+const T = () => D.today();
+
+function estado(l){
+  const p = P(l.pid), d = D.fromKey(l.f), listo = D.addDays(d, p.mad), vence = D.addDays(listo, p.vida);
+  const dia = D.diffDays(T(), d), falta = D.diffDays(listo, T()), aVencer = D.diffDays(vence, T());
+  return { p, listo, vence, dia, falta, aVencer, madurando: falta > 0, total: Object.values(l.kg).reduce((a, b) => a + b, 0) };
+}
+function code(pid, d, n){ return `${pid.slice(0, 3).toUpperCase()}-${D.key(d).slice(2).replace(/-/g, '')}-${n}`; }
+
+const APP = {
+  key:'demo-fabrica-v1', version:1,
+  brand:{ name:'La Tranquera', sub:'Quesos y fiambres · Tandil', title:'Producción y stock' },
+  pains:{ title:'¿Te pasa esto?', items:[
+    'Los lotes se anotan en un cuaderno o en un Excel que entiende una sola persona.',
+    'No sabés qué horma vence primero, y alguna se termina tirando o rematando.',
+    'Para saber cuánto queda en cada local hay que llamar o mandar un WhatsApp.',
+    'Los revendedores piden por WhatsApp y alguien lo pasa a mano.',
+    'Si bromatología pregunta por un lote, rastrearlo lleva horas.'],
+    fix:'Así se ve con todo en un solo lugar, desde el celular:' },
+  tabs:[['camara','Cámara','box'],['stock','Stock','chart'],['pedidos','Pedidos','truck'],['traza','Lotes','search']],
+  badges:{ pedidos:() => D.S.pedidos.filter(p => p.estado === 'nuevo').length },
+  seed(){
+    const r = D.rng(2610), lotes = [], t = T();
+    const plan = [['tybo',-70,'v'],['tybo',-38,''],['tybo',-12,''],['tybo',-4,''],['hol',-105,'v'],['hol',-52,''],['hol',-21,''],['sardo',-300,'v'],['sardo',-140,''],['sardo',-60,''],
+      ['regg',-260,''],['regg',-95,''],['sal',-100,'v'],['sal',-40,''],['sal',-14,''],['bond',-150,'v'],['bond',-70,''],['bond',-20,''],['crudo',-400,''],['crudo',-130,'']];
+    plan.forEach(([pid, off, flag], i) => {
+      const p = P(pid), d = D.addDays(t, off), kg0 = Math.round((pid === 'sal' ? 60 : pid === 'crudo' ? 90 : 120 + r() * 160));
+      const l = { id:code(pid, d, (i % 3) + 1), pid, f:D.key(d), kg0, kg:{ fab:kg0, cen:0, ruta:0 }, origen: p.t === 'queso' ? `Leche: ${D.pick(r, ['Tambo La Esperanza','Tambo San José','Tambo El Ombú'])} · ${Math.round(kg0 * 10)} L` : `Materia prima: ${D.pick(r, ['Frigorífico Serrano','Granja Los Álamos'])}`, mov:[{ f:D.key(d), t:'elab', d:`Elaborado · ${kg0} kg` }] };
+      const e = estado(l);
+      if (!e.madurando){
+        const vend = Math.round(kg0 * (flag === 'v' ? .82 : .3 + r() * .25));
+        const cen = Math.round(kg0 * .12), ruta = Math.round(kg0 * .08);
+        l.kg = { fab:Math.max(0, kg0 - vend - cen - ruta), cen, ruta };
+        l.mov.push({ f:D.key(D.addDays(e.listo, 1)), t:'transf', d:`A Local Centro · ${cen} kg` });
+        l.mov.push({ f:D.key(D.addDays(e.listo, 2)), t:'transf', d:`A Local Ruta 226 · ${ruta} kg` });
+        l.mov.push({ f:D.key(D.addDays(e.listo, 4)), t:'venta', d:`Revendedores (${D.pick(r, REV)} y otros) · ${vend} kg` });
+      }
+      lotes.push(l);
+    });
+    const pedidos = [
+      { id:301, cli:'Almacén Los Pinos', f:D.key(t), via:'WhatsApp', txt:'Hola! Mandame 12 kg de tybo y 5 de salame para el jueves', items:[{ pid:'tybo', kg:12 },{ pid:'sal', kg:5 }], estado:'nuevo' },
+      { id:302, cli:'Fiambrería El Lago', f:D.key(t), via:'WhatsApp', txt:'Buenas, necesito 8 kg de holanda, 6 de sardo y 2 bondiolas', items:[{ pid:'hol', kg:8 },{ pid:'sardo', kg:6 },{ pid:'bond', kg:2.4 }], estado:'nuevo' },
+      { id:300, cli:'Regalos Serranos', f:D.key(D.addDays(t, -1)), via:'Teléfono', txt:'', items:[{ pid:'regg', kg:14 },{ pid:'crudo', kg:7.5 }], estado:'despachado', asig:[] }
+    ];
+    return { lotes, pedidos, next:303 };
+  },
+  views:{}
+};
+
+/* ---------- Cámara ---------- */
+APP.views.camara = () => {
+  const L = D.S.lotes.map(l => ({ l, e:estado(l) })).filter(x => x.e.total > 0.05);
+  const mad = L.filter(x => x.e.madurando).sort((a, b) => a.e.falta - b.e.falta);
+  const listos = L.filter(x => !x.e.madurando);
+  const pronto = listos.filter(x => x.e.aVencer <= 30);
+  const kg = L.reduce((s, x) => s + x.e.total, 0);
+  return `<div class="head"><div><h1>Cámara</h1><div class="sub">Lotes en maduración y listos para vender</div></div><button class="btn btn-p" data-act="nuevoLote">${D.icon('plus')} Nuevo lote</button></div>
+  <div class="kpis">
+    <div class="card kpi hl"><small>Madurando</small><span class="num">${mad.length} lotes</span></div>
+    <div class="card kpi"><small>Listos para vender</small><span class="num">${listos.length} lotes</span></div>
+    <div class="card kpi"><small>Stock total</small><span class="num">${D.num(kg)} kg</span></div>
+    <div class="card kpi ${pronto.length ? 'bad' : ''}"><small>Vencen en 30 días</small><span class="num">${pronto.length} lotes</span></div>
+  </div>
+  <div class="g2">
+    <section class="card list"><div class="sec-t"><h2>Madurando</h2><span class="muted sm">el más cercano arriba</span></div>
+      ${mad.map(({ l, e }) => `<button class="lote" data-act="verLote" data-v="${l.id}"><div class="l1"><div style="flex:1;min-width:0"><b>${e.p.n}</b> <span class="code">${l.id}</span></div><span class="pill ${e.falta <= 3 ? 'p-ok' : 'p-info'}">${e.falta <= 3 ? `listo en ${e.falta} d` : `${e.falta} días`}</span></div>
+        <div class="bar"><i style="width:${Math.min(100, e.dia / e.p.mad * 100)}%"></i></div><div class="l2"><span>Día ${e.dia} de ${e.p.mad}</span><span>${D.num(e.total)} kg · listo ${D.fdate(e.listo)}</span></div></button>`).join('') || '<div class="empty">No hay lotes madurando</div>'}
+    </section>
+    <section class="card list"><div class="sec-t"><h2>Listos</h2><span class="muted sm">vence primero, arriba</span></div>
+      ${listos.sort((a, b) => a.e.aVencer - b.e.aVencer).map(({ l, e }) => `<button class="lote" data-act="verLote" data-v="${l.id}"><div class="l1"><div style="flex:1;min-width:0"><b>${e.p.n}</b> <span class="code">${l.id}</span></div><span class="pill ${e.aVencer <= 15 ? 'p-bad' : e.aVencer <= 30 ? 'p-warn' : 'p-ok'}">vence ${D.fdate(e.vence)}</span></div>
+        <div class="ubic">${UB.map(([k, n]) => l.kg[k] > 0 ? `<span>${n}: <b>${D.num(l.kg[k])} kg</b></span>` : '').join('')}</div></button>`).join('')}
+    </section>
+  </div>`;
+};
+
+D.on('nuevoLote', () => {
+  D.modal('Nuevo lote', `<div class="form">
+    <label class="fld">Producto<select id="nl-p">${PRODS.map(p => `<option value="${p.id}">${p.n}</option>`).join('')}</select></label>
+    <div class="f2"><label class="fld">Kilos<input id="nl-kg" inputmode="decimal" value="150"></label><label class="fld">Elaborado<input id="nl-f" type="date" value="${D.key(T())}"></label></div>
+    <label class="fld">Origen de la materia prima<input id="nl-o" value="Tambo La Esperanza · 1.500 L"></label>
+    <p class="note" style="margin:0">El sistema calcula solo cuándo está listo y cuándo vence, según el producto.</p></div>`,
+    `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-p" data-act="guardarLote">Guardar lote</button>`);
+});
+D.on('guardarLote', () => {
+  const pid = D.val('nl-p'), kg = D.nval('nl-kg') || 100, f = D.val('nl-f') || D.key(T());
+  const n = D.S.lotes.filter(l => l.pid === pid && l.f === f).length + 1;
+  const l = { id:code(pid, D.fromKey(f), n), pid, f, kg0:kg, kg:{ fab:kg, cen:0, ruta:0 }, origen:D.val('nl-o'), mov:[{ f, t:'elab', d:`Elaborado · ${D.num(kg)} kg` }] };
+  D.S.lotes.push(l); D.save(); D.close();
+  const e = estado(l);
+  D.toast(`Lote <b>${l.id}</b> creado · listo el ${D.fdate(e.listo)}`); D.render();
+});
+
+function loteModal(id){
+  const l = D.S.lotes.find(x => x.id === id), e = estado(l);
+  D.modal(`${e.p.n} · ${l.id}`, `
+    <div class="kpis" style="grid-template-columns:repeat(3,1fr);margin-bottom:12px">
+      <div class="card kpi"><small>Elaborado</small><span class="num" style="font-size:17px">${D.fdate(l.f)}</span></div>
+      <div class="card kpi"><small>${e.madurando ? 'Listo' : 'Estado'}</small><span class="num" style="font-size:17px">${e.madurando ? D.fdate(e.listo) : 'Listo'}</span></div>
+      <div class="card kpi"><small>Vence</small><span class="num" style="font-size:17px">${D.fdate(e.vence)}</span></div>
+    </div>
+    <div class="sm muted" style="margin-bottom:6px">${D.esc(l.origen)}</div>
+    <div class="ubic" style="margin-bottom:14px">${UB.map(([k, n]) => `<span>${n}: <b>${D.num(l.kg[k])} kg</b></span>`).join('')}</div>
+    <h3 style="margin-bottom:8px">Recorrido del lote</h3>
+    <ul class="tl">${l.mov.map(m => `<li class="${m.t === 'venta' ? 'v' : ''}">${D.esc(m.d)}<small>${D.fdate(m.f, { day:'2-digit', month:'2-digit', year:'numeric' })}</small></li>`).join('')}</ul>`,
+    e.madurando || l.kg.fab <= 0 ? `<button class="btn btn-g" data-act="_close">Cerrar</button>` :
+    `<button class="btn btn-g" data-act="_close">Cerrar</button><button class="btn btn-p" data-act="transf" data-v="${l.id}">Mandar a un local</button>`);
+}
+D.on('verLote', id => loteModal(id));
+D.on('transf', id => {
+  const l = D.S.lotes.find(x => x.id === id);
+  D.modal('Mandar a un local', `<div class="form"><div class="sm muted">${P(l.pid).n} · lote ${l.id} · en fábrica: ${D.num(l.kg.fab)} kg</div>
+    <div class="f2"><label class="fld">Local<select id="tr-u"><option value="cen">Local Centro</option><option value="ruta">Local Ruta 226</option></select></label>
+    <label class="fld">Kilos<input id="tr-kg" inputmode="decimal" value="${Math.min(20, Math.floor(l.kg.fab))}"></label></div></div>`,
+    `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-p" data-act="transfOk" data-v="${id}">Confirmar envío</button>`);
+});
+D.on('transfOk', id => {
+  const l = D.S.lotes.find(x => x.id === id), u = D.val('tr-u'), kg = Math.min(l.kg.fab, D.nval('tr-kg'));
+  if (kg <= 0) return;
+  l.kg.fab -= kg; l.kg[u] += kg;
+  l.mov.push({ f:D.key(T()), t:'transf', d:`A ${UB.find(x => x[0] === u)[1]} · ${D.num(kg)} kg` });
+  D.save(); D.toast(`${D.num(kg)} kg enviados a <b>${UB.find(x => x[0] === u)[1]}</b>`); loteModal(id); D.render();
+});
+
+/* ---------- Stock ---------- */
+APP.views.stock = () => {
+  const rows = PRODS.map(p => {
+    const ls = D.S.lotes.filter(l => l.pid === p.id && !estado(l).madurando);
+    const s = Object.fromEntries(UB.map(([k]) => [k, ls.reduce((a, l) => a + l.kg[k], 0)]));
+    return { p, s, mad:D.S.lotes.filter(l => l.pid === p.id && estado(l).madurando).reduce((a, l) => a + l.kg.fab, 0) };
+  });
+  const prox = D.S.lotes.map(l => ({ l, e:estado(l) })).filter(x => !x.e.madurando && x.e.total > 0 && x.e.aVencer <= 30).sort((a, b) => a.e.aVencer - b.e.aVencer);
+  return `<div class="head"><div><h1>Stock</h1><div class="sub">Fábrica y locales, en tiempo real. Sin llamar a nadie.</div></div></div>
+  <section class="card scrollx" style="margin-bottom:14px"><table class="tbl"><thead><tr><th>Producto</th>${UB.map(([, n]) => `<th class="r">${n}</th>`).join('')}<th class="r">Madurando</th></tr></thead><tbody>
+    ${rows.map(({ p, s, mad }) => `<tr><td><b>${p.n}</b></td>${UB.map(([k]) => `<td class="r ${k !== 'fab' && s[k] < 5 ? 'cell-low' : ''}">${D.num(s[k])} kg</td>`).join('')}<td class="r muted">${D.num(mad)} kg</td></tr>`).join('')}
+  </tbody></table></section>
+  <p class="note" style="margin:-6px 0 14px">En rojo: menos de 5 kg en el local. Con un toque se manda desde fábrica.</p>
+  <section class="card list"><div class="sec-t"><h2>Vencen en los próximos 30 días</h2></div>
+    ${prox.length ? prox.map(({ l, e }) => `<div class="row"><div class="g"><div class="t">${e.p.n} · <span class="muted" style="font:600 12px ui-monospace,monospace">${l.id}</span></div><div class="s">${UB.filter(([k]) => l.kg[k] > 0).map(([k, n]) => `${n} ${D.num(l.kg[k])} kg`).join(' · ')}</div></div>
+      <div class="r"><span class="pill ${e.aVencer <= 15 ? 'p-bad' : 'p-warn'}">${e.aVencer} días</span><div style="margin-top:6px"><button class="btn btn-a btn-s" data-act="promo" data-v="${l.id}">Ofrecer</button></div></div></div>`).join('') : '<div class="empty">Nada por vencer 🎉</div>'}
+  </section>`;
+};
+D.on('promo', id => {
+  const l = D.S.lotes.find(x => x.id === id), e = estado(l);
+  D.waPreview('Ofrecer a revendedores', `¡Hola! Esta semana tenemos ${e.p.n.toLowerCase()} con precio especial por cantidad. Quedan ${D.num(e.total)} kg. ¿Te reservo?`, `Oferta enviada a ${REV.length} revendedores (simulado)`);
+});
+
+/* ---------- Pedidos ---------- */
+function fefo(pid, kg){
+  const ls = D.S.lotes.map(l => ({ l, e:estado(l) })).filter(x => x.l.pid === pid && !x.e.madurando && x.l.kg.fab > 0).sort((a, b) => a.e.vence - b.e.vence);
+  const out = []; let falta = kg;
+  for (const { l } of ls){ if (falta <= 0) break; const k = Math.min(falta, l.kg.fab); out.push({ lote:l.id, kg:k }); falta -= k; }
+  return { out, falta:Math.max(0, falta) };
+}
+APP.views.pedidos = () => {
+  const ps = [...D.S.pedidos].sort((a, b) => b.id - a.id);
+  const lbl = { nuevo:['Nuevo','p-warn'], armado:['Armado','p-info'], despachado:['Despachado','p-ok'] };
+  return `<div class="head"><div><h1>Pedidos de revendedores</h1><div class="sub">Los que llegan por WhatsApp quedan cargados solos</div></div><button class="btn btn-g" data-act="simPedido">${D.icon('wa')} Simular pedido</button></div>
+  <div class="stack">${ps.map(p => `<article class="card pad">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:flex-start"><div><b>${D.esc(p.cli)}</b><div class="sm muted">#${p.id} · ${D.fdate(p.f)} · por ${p.via}</div></div><span class="pill ${lbl[p.estado][1]}">${lbl[p.estado][0]}</span></div>
+    ${p.txt ? `<div class="quote">“${D.esc(p.txt)}”</div>` : ''}
+    <div class="sm" style="margin-top:6px">${p.items.map(i => `<b>${D.num(i.kg)} kg</b> ${P(i.pid).n}`).join(' · ')}</div>
+    ${p.asig && p.asig.length ? `<div class="asig"><div class="muted" style="margin-bottom:4px"><span>Lotes asignados (vence primero, sale primero)</span></div>${p.asig.map(a => `<div><span style="font-family:ui-monospace,monospace">${a.lote}</span><b>${D.num(a.kg)} kg</b></div>`).join('')}</div>` : ''}
+    <div class="acts" style="margin-top:10px">${p.estado === 'nuevo' ? `<button class="btn btn-p btn-s" data-act="armar" data-v="${p.id}">Armar con lotes</button>` : p.estado === 'armado' ? `<button class="btn btn-ok btn-s" data-act="despachar" data-v="${p.id}">Despachar y hacer remito</button>` : '<span class="sm muted">Remito generado · stock descontado</span>'}</div>
+  </article>`).join('')}</div>`;
+};
+D.on('armar', id => {
+  const p = D.S.pedidos.find(x => x.id == id); p.asig = []; let faltan = [];
+  p.items.forEach(i => { const r = fefo(i.pid, i.kg); p.asig.push(...r.out); if (r.falta > 0) faltan.push(`${D.num(r.falta)} kg de ${P(i.pid).n}`); });
+  p.estado = 'armado'; D.save(); D.render();
+  D.toast(faltan.length ? `Armado. <b>Falta:</b> ${faltan.join(', ')}` : `Pedido armado con los lotes que vencen primero`);
+});
+D.on('despachar', id => {
+  const p = D.S.pedidos.find(x => x.id == id);
+  p.asig.forEach(a => { const l = D.S.lotes.find(x => x.id === a.lote); l.kg.fab = Math.max(0, l.kg.fab - a.kg); l.mov.push({ f:D.key(T()), t:'venta', d:`${p.cli} · ${D.num(a.kg)} kg (pedido #${p.id})` }); });
+  p.estado = 'despachado'; D.save(); D.render(); D.toast(`Pedido #${p.id} despachado · remito listo`);
+});
+D.on('simPedido', () => {
+  const ej = [['Despensa Doña Rosa','Hola, me mandás 6 kg de sardo y 4 de salame? Gracias!',[{ pid:'sardo', kg:6 },{ pid:'sal', kg:4 }]],
+    ['Proveeduría Vela','Buen día! 10 kg de tybo y un jamón crudo entero',[{ pid:'tybo', kg:10 },{ pid:'crudo', kg:7.5 }]],
+    ['Almacén Los Pinos','Agregame 5 kg de holanda al pedido de la semana',[{ pid:'hol', kg:5 }]]];
+  const [cli, txt, items] = ej[D.S.next % ej.length];
+  D.S.pedidos.push({ id:D.S.next++, cli, f:D.key(T()), via:'WhatsApp', txt, items, estado:'nuevo' }); D.save();
+  D.toast(`📲 Nuevo pedido de <b>${cli}</b> cargado desde WhatsApp`); D.render();
+});
+
+/* ---------- Trazabilidad ---------- */
+let q = '';
+APP.views.traza = () => `<div class="head"><div><h1>Lotes y trazabilidad</h1><div class="sub">Buscá un lote, un producto o un cliente y mirá todo su recorrido</div></div></div>
+  <label class="fld" style="margin-bottom:12px"><input id="q" data-in="q" placeholder="Ej: TYB, Fiambrería El Lago, sardo…" value="${D.esc(q)}" autocomplete="off"></label>
+  <section class="card list" id="qres">${trazaRes()}</section>`;
+function trazaRes(){
+  const s = q.trim().toLowerCase();
+  const ls = D.S.lotes.filter(l => !s || l.id.toLowerCase().includes(s) || P(l.pid).n.toLowerCase().includes(s) || l.mov.some(m => m.d.toLowerCase().includes(s)));
+  return ls.length ? ls.slice().reverse().map(l => { const e = estado(l); return `<button class="row" data-act="verLote" data-v="${l.id}"><div class="g"><div class="t">${e.p.n} · <span style="font:600 12px ui-monospace,monospace">${l.id}</span></div><div class="s">Elaborado ${D.fdate(l.f)} · ${l.mov.length} movimientos · ${D.esc(l.origen)}</div></div><span class="pill ${e.madurando ? 'p-info' : 'p-ok'}">${e.madurando ? 'Madurando' : 'Listo'}</span></button>`; }).join('') : '<div class="empty">Sin resultados</div>';
+}
+D.onInput('q', v => { q = v; document.getElementById('qres').innerHTML = trazaRes(); });
+
+D.start(APP);
+</script>
+</body>
+</html>

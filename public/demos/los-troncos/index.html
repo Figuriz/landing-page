@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Los Troncos · Salón de eventos · Salón de eventos en Tandil</title>
+<meta name="description" content="Parque con vista, salón con hogar y estufas, y lugar para estar adentro o afuera. Llueva o salga el sol, el festejo sigue.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Los Troncos · Salón de eventos">
+<meta property="og:description" content="Parque con vista, salón con hogar y estufas, y lugar para estar adentro o afuera. Llueva o salga el sol, el festejo sigue.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#f1ece0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1ece0;--sf:#fbf8f1;--ink:#22301f;--mu:#5f6b58;--ac:#a4532a;--ac2:#3f5b34;--ln:#ddd4c2;--on:#ffffff;
+  --fd:"Fraunces",Georgia,serif;--fb:"Work Sans",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--fb);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{max-width:100%;display:block}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+h1,h2,h3{font-family:var(--fd);font-weight:700;line-height:1.05;margin:0;letter-spacing:-.01em}
+.kick{font-size:12.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ac)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:15px 22px;border-radius:999px;font-weight:600;font-size:15.5px;text-decoration:none;border:1.5px solid transparent;cursor:pointer;font-family:var(--fb);transition:transform .15s}
+.btn:active{transform:scale(.98)}
+.btn-ac{background:var(--ac);color:var(--on)}
+.btn-ol{border-color:var(--ln);color:var(--ink);background:transparent}
+.btn svg{width:19px;height:19px;flex:none}
+
+/* header */
+.hd{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--ln)}
+.hd .wrap{display:flex;align-items:center;gap:20px;height:62px}
+.logo{font-family:var(--fd);font-size:23px;font-weight:700;text-decoration:none;margin-right:auto;white-space:nowrap}
+.hd nav{display:none;gap:22px;font-size:14.5px}
+.hd nav a{text-decoration:none;color:var(--mu)}
+.hd nav a:hover{color:var(--ink)}
+.hd .btn{padding:10px 16px;font-size:14px}
+@media(min-width:820px){.hd nav{display:flex}}
+
+/* hero */
+.hero{padding:34px 0 50px}
+.hero .wrap{display:grid;gap:30px;align-items:center}
+@media(min-width:880px){.hero .wrap{grid-template-columns:1.1fr .9fr;gap:56px}.hero{padding:64px 0 80px}}
+.hero h1{font-size:clamp(42px,9vw,82px);margin:16px 0 18px}
+.hero p.lead{font-size:18px;color:var(--mu);max-width:34em;margin:0 0 26px}
+.hero .acts{display:flex;gap:10px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:10px;margin-top:26px;font-size:14px;color:var(--mu)}
+.chip b{font-family:var(--fd);font-size:22px;color:var(--ink)}
+.chip .st{color:var(--ac);letter-spacing:2px}
+.vis{border-radius:220px 220px 22px 22px;overflow:hidden;aspect-ratio:4/5;background:var(--sf);border:1px solid var(--ln)}
+.vis svg,.vis img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* bloques */
+.sec{padding:64px 0;border-top:1px solid var(--ln)}
+.sec-h{display:flex;flex-direction:column;gap:10px;margin-bottom:30px;max-width:36em}
+.sec-h h2{font-size:clamp(32px,5.5vw,52px)}
+.lst{list-style:none;margin:0;padding:0;display:grid;gap:0}
+@media(min-width:820px){.lst{grid-template-columns:1fr 1fr;column-gap:56px}}
+.lst li{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--ln)}
+.lst .n{font-family:var(--fd);font-size:30px;color:var(--ac);line-height:1;min-width:46px}
+.lst h3{font-size:24px;margin-bottom:6px}
+.lst p{margin:0;color:var(--mu)}
+
+/* galeria */
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;padding:0 20px 64px;max-width:1140px;margin:0 auto}
+.gal img{aspect-ratio:1;object-fit:cover;border-radius:10px;width:100%}
+
+/* carta */
+.carta{padding:64px 0;background:var(--sf);border-top:1px solid var(--ln)}
+.menu{display:grid;gap:30px}
+@media(min-width:820px){.menu{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:48px}}
+.mc h3{font-size:26px;margin-bottom:12px;color:var(--ac)}
+.mc ul{list-style:none;margin:0;padding:0}
+.mc li{display:flex;align-items:baseline;gap:10px;padding:9px 0;font-size:16.5px}
+.mc li i{flex:1;border-bottom:1.5px dotted var(--ln);transform:translateY(-4px)}
+.mc li em{font-style:normal;color:var(--mu);font-size:14px}
+.note{margin:28px 0 0;font-size:13.5px;color:var(--mu);border-left:3px solid var(--ac);padding:4px 0 4px 12px;max-width:42em}
+
+/* reseñas */
+.rev .big{font-family:var(--fd);font-size:clamp(25px,4.2vw,40px);line-height:1.25;margin:0 0 14px;max-width:26em}
+.rev .who{color:var(--mu);font-size:15px;margin-bottom:40px}
+.rev .who b{color:var(--ink)}
+.rev .sm{display:grid;gap:22px}
+@media(min-width:820px){.rev .sm{grid-template-columns:1fr 1fr;gap:40px}}
+.rev figure{margin:0;padding:20px 0 0;border-top:2px solid var(--ac2)}
+.rev blockquote{margin:0 0 10px;font-size:16.5px}
+.rev figcaption{color:var(--mu);font-size:14px;font-weight:600}
+.rev .src{display:flex;align-items:center;gap:10px;margin-bottom:26px;font-size:14.5px;color:var(--mu)}
+.rev .src b{font-family:var(--fd);font-size:28px;color:var(--ink)}
+.rev .src .st{color:var(--ac);letter-spacing:2px}
+
+/* form */
+.res{padding:64px 0;background:var(--ink);color:var(--bg)}
+.res .wrap{display:grid;gap:34px}
+@media(min-width:880px){.res .wrap{grid-template-columns:.9fr 1.1fr;gap:64px;align-items:start}}
+.res h2{font-size:clamp(34px,6vw,58px)}
+.res .kick{color:var(--ac)}
+.res p{opacity:.75;margin:14px 0 0;max-width:30em}
+form{display:grid;gap:16px}
+form label{display:grid;gap:6px;font-size:13.5px;font-weight:600;letter-spacing:.02em}
+form input,form select,form textarea{font:inherit;font-size:16px;font-weight:400;color:var(--ink);background:var(--bg);border:1.5px solid transparent;border-radius:12px;padding:13px 14px;width:100%;outline:none}
+form input:focus,form select:focus,form textarea:focus{border-color:var(--ac)}
+.f2,.f3{display:grid;gap:12px;grid-template-columns:1fr 1fr}
+.f3{grid-template-columns:1.3fr .9fr 1fr}
+@media(max-width:480px){.f3{grid-template-columns:1fr 1fr}.f3 label:first-child{grid-column:1/-1}}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{position:relative}
+.opt input{position:absolute;left:0;top:0;width:1px;height:1px;opacity:0;pointer-events:none;padding:0}
+.opt span{display:inline-block;padding:9px 14px;border-radius:999px;border:1.5px solid color-mix(in srgb,var(--bg) 35%,transparent);font-size:14px;font-weight:500;cursor:pointer}
+.opt input:checked+span{background:var(--ac);border-color:var(--ac);color:var(--on)}
+.opt input:focus-visible+span{outline:2px solid var(--ac);outline-offset:2px}
+.stepper{display:flex;align-items:center;background:var(--bg);border-radius:12px;overflow:hidden}
+.stepper button{width:44px;height:48px;border:0;background:none;color:var(--ink);font-size:22px;cursor:pointer}
+.stepper input{text-align:center;padding:13px 0;border-radius:0;min-width:0}
+.res .btn-ac{width:100%;padding:17px}
+.fine{font-size:12.5px;opacity:.6;margin:0;text-align:center}
+
+/* ubicacion */
+.ub .wrap{display:grid;gap:26px}
+@media(min-width:880px){.ub .wrap{grid-template-columns:.8fr 1.2fr;align-items:center}}
+.ub h2{font-size:clamp(30px,5vw,46px);margin:10px 0 14px}
+.ub address{font-style:normal;font-size:19px;margin-bottom:20px}
+.map{border-radius:20px;overflow:hidden;border:1px solid var(--ln);aspect-ratio:16/11;background:var(--sf)}
+.map iframe{width:100%;height:100%;border:0}
+
+/* footer */
+.ft{padding:36px 0 110px;border-top:1px solid var(--ln);font-size:14px;color:var(--mu)}
+.ft .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;align-items:center}
+.ft .logo{font-size:20px;color:var(--ink)}
+.ft .firma{width:100%;font-size:12.5px;opacity:.8;margin-top:8px}
+@media(min-width:820px){.ft{padding-bottom:36px}}
+
+/* flotante */
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:30;width:58px;height:58px;border-radius:50%;background:#25d366;color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 28px -8px rgba(0,0,0,.45)}
+.fab svg{width:30px;height:30px}
+</style>
+</head>
+<body>
+<header class="hd"><div class="wrap">
+  <a class="logo" href="#">Los Troncos</a>
+  <nav><a href="#lugar">El lugar</a><a href="#resenas">Reseñas</a><a href="#ubicacion">Cómo llegar</a></nav>
+  <a class="btn btn-ac" href="#reservar">Consultar fecha</a>
+</div></header>
+
+<main>
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="kick">Salón de eventos · Tandil</span>
+    <h1>Una fiesta bajo la arboleda.</h1>
+    <p class="lead">Parque con vista, salón con hogar y estufas, y lugar para estar adentro o afuera. Llueva o salga el sol, el festejo sigue.</p>
+    <div class="acts">
+      <a class="btn btn-ac" href="#reservar">Consultar fecha</a>
+      <a class="btn btn-ol" href="#ubicacion">Cómo llegar</a>
+    </div>
+    <div class="chip"><b>4,3</b><span class="st">★★★★☆</span><span>118 reseñas en Google</span></div>
+  </div>
+  <div class="vis"><svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+<rect width="400" height="500" fill="#fbf8f1"/><circle cx="40" cy="110" r="90" fill="#3f5b34" opacity="0.9"/><circle cx="150" cy="70" r="110" fill="#3f5b34" opacity="0.8"/><circle cx="270" cy="100" r="100" fill="#3f5b34" opacity="0.85"/><circle cx="370" cy="80" r="85" fill="#3f5b34" opacity="0.9"/><circle cx="210" cy="150" r="70" fill="#3f5b34" opacity="0.6"/><circle cx="90" cy="170" r="60" fill="#3f5b34" opacity="0.6"/><circle cx="330" cy="170" r="60" fill="#3f5b34" opacity="0.55"/><rect x="30" y="150" width="26" height="330" rx="13.0" fill="#a4532a" opacity="0.77"/><path d="M37.8 260 q6 20 0 40 M46.900000000000006 340 q-5 18 0 34" stroke="#f1ece0" stroke-opacity=".35" stroke-width="2" fill="none"/><rect x="95" y="150" width="18" height="330" rx="9.0" fill="#a4532a" opacity="0.59"/><path d="M100.4 260 q6 20 0 40 M106.7 340 q-5 18 0 34" stroke="#f1ece0" stroke-opacity=".35" stroke-width="2" fill="none"/><rect x="150" y="150" width="34" height="330" rx="17.0" fill="#a4532a" opacity="0.85"/><path d="M160.2 260 q6 20 0 40 M172.1 340 q-5 18 0 34" stroke="#f1ece0" stroke-opacity=".35" stroke-width="2" fill="none"/><rect x="225" y="150" width="22" height="330" rx="11.0" fill="#a4532a" opacity="0.68"/><path d="M231.6 260 q6 20 0 40 M239.3 340 q-5 18 0 34" stroke="#f1ece0" stroke-opacity=".35" stroke-width="2" fill="none"/><rect x="285" y="150" width="30" height="330" rx="15.0" fill="#a4532a" opacity="0.81"/><path d="M294.0 260 q6 20 0 40 M304.5 340 q-5 18 0 34" stroke="#f1ece0" stroke-opacity=".35" stroke-width="2" fill="none"/><rect x="350" y="150" width="20" height="330" rx="10.0" fill="#a4532a" opacity="0.64"/><path d="M356.0 260 q6 20 0 40 M363.0 340 q-5 18 0 34" stroke="#f1ece0" stroke-opacity=".35" stroke-width="2" fill="none"/>
+<rect y="470" width="400" height="30" fill="#3f5b34" opacity=".9"/>
+</svg></div>
+</div></section>
+
+<section class="sec" id="lugar"><div class="wrap">
+  <div class="sec-h"><span class="kick">El lugar</span><h2>Por qué vuelven a Los Troncos</h2></div>
+  <ol class="lst"><li><span class="n">01</span><div><h3>El parque y la arboleda</h3><p>Lo que más destacan los que ya festejaron acá: verde, sombra y vistas.</p></div></li><li><span class="n">02</span><div><h3>Hogar y estufas</h3><p>Si el día sale feo, adentro se está cálido y cómodo.</p></div></li><li><span class="n">03</span><div><h3>Adentro o afuera</h3><p>El evento se acomoda al clima y a la cantidad de invitados.</p></div></li></ol>
+</div></section>
+
+
+
+<section class="sec rev" id="resenas"><div class="wrap">
+  <div class="src"><b>4,3</b><span class="st">★★★★☆</span><span>118 reseñas en Google</span></div>
+  <p class="big">“Hermoso parque y vistas, lástima que nos tocó un día feo, pero con el hogar y estufas estuvo perfecto!”</p>
+  <div class="who">— <b>ariel bonomo</b>, en Google</div>
+  <div class="sm"><figure><blockquote>“Muy buen lugar para hacer fiestas, esa arboleda es lo que lo hace más hermoso.”</blockquote><figcaption>Agus</figcaption></figure><figure><blockquote>“Muy lindo lugar, cómodo para estar adentro o afuera.”</blockquote><figcaption>agustina picart</figcaption></figure></div>
+</div></section>
+
+<section class="res" id="reservar"><div class="wrap">
+  <div><span class="kick">Consultar fecha</span><h2>Contanos tu evento</h2><p>Completá lo básico y te llega la consulta armada por WhatsApp. Te responden con disponibilidad y presupuesto.</p></div>
+  <form id="f" novalidate>
+    <div class="opts"><label class="opt"><input type="radio" name="tipo" value="Cumpleaños" checked><span>Cumpleaños</span></label><label class="opt"><input type="radio" name="tipo" value="Casamiento"><span>Casamiento</span></label><label class="opt"><input type="radio" name="tipo" value="Bautismo / comunión"><span>Bautismo / comunión</span></label><label class="opt"><input type="radio" name="tipo" value="Reunión familiar"><span>Reunión familiar</span></label><label class="opt"><input type="radio" name="tipo" value="Evento de empresa"><span>Evento de empresa</span></label><label class="opt"><input type="radio" name="tipo" value="Otro"><span>Otro</span></label></div>
+<div class="f2"><label>Fecha tentativa<input type="date" name="fecha"></label><label>Invitados (aprox.)<input type="number" name="invitados" min="1" inputmode="numeric" placeholder="Ej: 80"></label></div>
+<label>Tu nombre<input name="nombre" autocomplete="name" placeholder="Nombre y apellido" required></label>
+<label>¿Algo más que tengamos que saber?<textarea name="msg" rows="3" placeholder="Horario, tipo de menú, si necesitás DJ…"></textarea></label>
+    <button class="btn btn-ac" type="submit"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>Enviar por WhatsApp</button>
+    <p class="fine">Se abre WhatsApp con el mensaje ya escrito. Vos solo tocás enviar.</p>
+  </form>
+</div></section>
+
+<section class="sec ub" id="ubicacion"><div class="wrap">
+  <div><span class="kick">Cómo llegar</span><h2>Te esperamos</h2><address>Av. San Gabriel y Calihue, Tandil</address>
+    <div class="acts" style="display:flex;gap:10px;flex-wrap:wrap"><a class="btn btn-ac" href="https://www.google.com/maps/search/?api=1&query=Los%20Troncos%20%C2%B7%20Sal%C3%B3n%20de%20eventos%2C%20Av.%20San%20Gabriel%20y%20Calihue%2C%20Tandil" target="_blank" rel="noopener">Abrir en Maps</a><a class="btn btn-ol" href="tel:0249 15-467-2812">Llamar</a></div></div>
+  <div class="map"><iframe title="Mapa de Los Troncos" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=Los%20Troncos%20%C2%B7%20Sal%C3%B3n%20de%20eventos%2C%20Av.%20San%20Gabriel%20y%20Calihue%2C%20Tandil&z=15&output=embed"></iframe></div>
+</div></section>
+</main>
+
+<footer class="ft"><div class="wrap">
+  <span class="logo">Los Troncos · Salón de eventos</span><span>Av. San Gabriel y Calihue, Tandil</span><a href="https://wa.me/5492494672812">WhatsApp 0249 15-467-2812</a>
+  <div class="firma">Boceto de propuesta diseñado por Figuriz · desarrollo web en Tandil. Fotos, textos y colores se ajustan con el negocio.</div>
+</div></footer>
+
+<a class="fab" href="https://wa.me/5492494672812" aria-label="Escribir por WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
+
+<script>
+(function(){
+  var TIPO = "salon", WA = "5492494672812", NOMBRE = "Los Troncos";
+  var f = document.getElementById('f');
+  f.querySelectorAll('.stepper button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var i = b.parentNode.querySelector('input'), v = parseInt(i.value, 10) || 1;
+      i.value = Math.max(1, Math.min(30, v + parseInt(b.dataset.d, 10)));
+    });
+  });
+  var hoy = new Date(); hoy.setMinutes(hoy.getMinutes() - hoy.getTimezoneOffset());
+  var d = f.querySelector('input[type=date]'); if (d) d.min = hoy.toISOString().slice(0, 10);
+  function fecha(v){ if(!v) return ''; var p = v.split('-'); return p[2] + '/' + p[1] + '/' + p[0]; }
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    var g = function(n){ var el = f.elements[n]; return el ? (el.value || '').trim() : ''; };
+    if (!g('nombre')) { f.elements.nombre.focus(); return; }
+    var L = [];
+    if (TIPO === 'resto') {
+      if (!g('fecha')) { f.elements.fecha.focus(); return; }
+      L.push('¡Hola ' + NOMBRE + '! Quiero reservar una mesa.');
+      L.push('📅 ' + fecha(g('fecha')) + ' a las ' + g('hora'));
+      L.push('👥 ' + g('personas') + ' personas');
+    } else if (TIPO === 'turnos') {
+      var sv = f.querySelector('input[name=tipo]:checked'), fr = f.querySelector('input[name=franja]:checked');
+      L.push('¡Hola ' + NOMBRE + '! Quería pedir un turno.');
+      L.push('👉 ' + (sv ? sv.value : 'Turno'));
+      if (g('fecha')) L.push('📅 ' + fecha(g('fecha')) + (fr && fr.value !== 'Me da igual' ? ' a la ' + fr.value.toLowerCase() : ''));
+      else if (fr && fr.value !== 'Me da igual') L.push('🕒 Mejor a la ' + fr.value.toLowerCase());
+    } else {
+      var t = f.querySelector('input[name=tipo]:checked');
+      L.push('¡Hola ' + NOMBRE + '! Quería consultar por un evento.');
+      L.push('🎉 ' + (t ? t.value : 'Evento'));
+      if (g('fecha')) L.push('📅 Fecha tentativa: ' + fecha(g('fecha')));
+      if (g('invitados')) L.push('👥 Unos ' + g('invitados') + ' invitados');
+    }
+    if (g('msg')) L.push('📝 ' + g('msg'));
+    L.push('Soy ' + g('nombre') + '.');
+    window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent(L.join('\n')), '_blank');
+  });
+})();
+</script>
+</body>
+</html>

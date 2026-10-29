@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Envíos, seguimiento y reparto · Demo</title>
+<meta name="description" content="Demo para expresos y empresas de logística: cada envío con su código de seguimiento, página para que el cliente lo siga solo, hoja de ruta del chofer y contrareembolsos a rendir.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Envíos, seguimiento y reparto · Demo">
+<meta property="og:description" content="Demo para expresos y empresas de logística: cada envío con su código de seguimiento, página para que el cliente lo siga solo, hoja de ruta del chofer y contrareembolsos a rendir.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eff2f6;--card:#ffffff;--ink:#14213a;--mu:#56627a;--line:#dce2ec;
+--brand:#1d3557;--brand-ink:#f1f5fb;--accent:#e76f51;--accent-ink:#ffffff;--accent-soft:#fbe0d8;
+--ok:#20845a;--ok-soft:#dbf1e6;--warn:#b06a00;--warn-soft:#fcedd3;--bad:#c23a3a;--bad-soft:#f8dede;--info:#2f63a8;--info-soft:#dde8f6;
+--fd:"Kanit",system-ui,sans-serif;--fb:"Mulish",system-ui,sans-serif}
+.cod{font:600 13px ui-monospace,monospace;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:1px 6px}
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 14px 14px;font-size:14px}
+.tl li::before{content:"";position:absolute;left:-21px;top:3px;width:12px;height:12px;border-radius:50%;background:var(--line)}
+.tl li.on::before{background:var(--ok)}
+.tl li.now::before{background:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.tl small{display:block;color:var(--mu);font-size:12px}
+.pub{max-width:420px;margin:0 auto}
+.pub .ph{background:var(--brand);color:var(--brand-ink);border-radius:16px 16px 0 0;padding:16px}
+.pub .pb{background:var(--card);border:1px solid var(--line);border-top:0;border-radius:0 0 16px 16px;padding:16px}
+.stop{display:flex;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.stop:last-child{border-bottom:0}
+.stop .n{width:28px;height:28px;border-radius:50%;background:var(--brand);color:#fff;font:600 14px var(--fd);display:flex;align-items:center;justify-content:center;flex:none}
+.stop.done .n{background:var(--ok)}
+.cr{font-size:11.5px;font-weight:800;color:var(--accent);background:var(--accent-soft);border-radius:5px;padding:2px 6px}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+h1,h2,h3,.num,.fd{font-family:var(--fd)}
+h1{font-size:27px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.1}
+h2{font-size:18px;font-weight:700;margin:0}
+h3{font-size:16px;font-weight:700;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+.muted{color:var(--mu)}
+.sm{font-size:13px}
+
+/* header */
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:20}
+.top-in{max-width:1120px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--brand);display:flex;align-items:center;justify-content:center;font:800 17px var(--fd);flex:none}
+.brand b{font:800 18px/1.05 var(--fd);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-size:12px;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--accent);color:var(--brand);padding:4px 8px;border-radius:99px;flex:none}
+.reset{font-size:12.5px;opacity:.8;text-decoration:underline;text-underline-offset:3px;flex:none}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mu);position:relative;min-width:0}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--brand)}
+.nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.nav .badge{position:absolute;top:7px;left:calc(50% + 5px);background:var(--bad);color:#fff;font-size:10.5px;min-width:18px;height:18px;border-radius:9px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+@media(min-width:860px){
+  body{padding-bottom:0}
+  .nav{position:sticky;top:56px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);justify-content:center;gap:4px}
+  .nav button{flex:none;flex-direction:row;height:48px;padding:0 18px;font-size:14px;gap:8px}
+  .nav button.on::before{top:auto;bottom:0;left:14px;right:14px;border-radius:3px 3px 0 0}
+  .nav .badge{position:static}
+}
+main{max-width:1120px;margin:0 auto;padding:16px 16px 28px}
+
+/* dolores */
+.pains{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:12px 14px;margin-bottom:16px;position:relative}
+.pains b.t{display:block;font:700 15px var(--fd);margin-bottom:6px;padding-right:24px}
+.pains ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:13.5px}
+.pains li{display:flex;gap:8px}
+.pains li i{font-style:normal;flex:none}
+.pains .x{position:absolute;top:8px;right:10px;font-size:20px;opacity:.5;padding:2px 6px}
+.para{display:inline-block;margin:0 0 10px;font-size:12.5px;font-weight:600;background:var(--accent-soft);color:var(--ink);padding:4px 10px;border-radius:99px}
+
+/* comunes */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.pad{padding:14px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.head .sub{color:var(--mu);font-size:14px;margin-top:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13.5px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip b{margin-left:5px;opacity:.65}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;border-radius:11px;font-weight:600;font-size:14.5px;white-space:nowrap}
+.btn-p{background:var(--brand);color:var(--brand-ink)}
+.btn-a{background:var(--accent);color:var(--accent-ink)}
+.btn-g{border:1px solid var(--line);background:var(--card)}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-s{padding:7px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px}
+.w100{width:100%}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-info{background:var(--info-soft);color:var(--info)}
+.p-mu{background:var(--line);color:var(--mu)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:860px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{padding:12px 14px}
+.kpi small{font-size:12px;color:var(--mu);display:block}
+.kpi .num{font-size:22px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:3px}
+.kpi.hl{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.kpi.hl small{color:inherit;opacity:.75}
+.kpi.bad .num{color:var(--bad)}
+.list{overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.row:last-child{border-bottom:0}
+.row .g{flex:1;min-width:0}
+.row .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{font-size:12.5px;color:var(--mu)}
+.row .r{text-align:right;flex:none}
+button.row:active{background:var(--line)}
+.amt{font:800 15.5px var(--fd);white-space:nowrap}
+.stack{display:grid;gap:14px}
+.g2{display:grid;gap:14px}
+@media(min-width:900px){.g2{grid-template-columns:1fr 1fr;align-items:start}.g2 .span{grid-column:1/-1}}
+.sec-t{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 6px}
+.empty{padding:26px;text-align:center;color:var(--mu)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--brand)}
+.bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}.bar i.ok{background:var(--ok)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-weight:700}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl .r{text-align:right;white-space:nowrap}
+.scrollx{overflow-x:auto}
+.note{font-size:12.5px;color:var(--mu);margin-top:8px}
+
+/* formularios */
+.form{display:grid;gap:12px}
+.fld{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--mu)}
+.fld input,.fld select,.fld textarea{font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--brand)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .18s}
+@keyframes fade{from{opacity:0}}
+@media(min-width:700px){.modal{align-items:center;padding:24px}}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.sheet{border-radius:18px}}
+.sheet-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sheet-h .x{font-size:24px;line-height:1;opacity:.55;padding:2px 6px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.acts .btn{flex:1}
+.wa{background:#e7f8ec;border:1px solid #bfe8cb;border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:#1b3a24}
+.okline{display:flex;align-items:center;gap:8px;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:12px}
+.okline svg,.pains svg{width:18px;height:18px;flex:none}
+
+/* toast */
+.toast{position:fixed;left:50%;top:70px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:80;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:.25s;max-width:calc(100% - 32px);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{color:var(--accent)}
+.flash{animation:fl 1.6s ease}
+@keyframes fl{0%,40%{background:var(--accent-soft)}}
+@media(min-width:860px){.pad .acts .btn{flex:0 1 auto}}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<nav class="nav" id="nav"></nav>
+<main id="app"></main>
+<div id="modal"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+const D = (() => {
+  const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
+  const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
+  const ICONS = {
+    box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+    cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+    users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.3 5 2.7 5 5.8"/>',
+    cal:'<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+    wrench:'<path d="M14.5 6.5a4 4 0 0 0 5 5L21 13l-8 8-3-3 8-8-1.5-1.5a4 4 0 0 1-5-5L13 2z" transform="translate(-1 0)"/>',
+    list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+    chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+    home:'<path d="M3 11 12 3l9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+    file:'<path d="M6 2.5h9l4 4V21.5H6z"/><path d="M14.5 2.5v4.5H19M9 12h7M9 16h7"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    tag:'<path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    key:'<circle cx="8" cy="15" r="4.5"/><path d="M11.5 12 21 2.5M17 6.5l3 3M15 8.5l2 2"/>',
+    door:'<path d="M5 21V3h11v18M3 21h18"/><circle cx="13" cy="12" r="1"/>',
+    flame:'<path d="M12 22c4 0 7-2.8 7-7 0-3.5-2.5-6.5-4-8 0 2.5-1.5 4-3 4.5C12 8 10.5 4.5 8 2c.5 3-3 6-3 11 0 5 3 9 7 9z"/>',
+    pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+    bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    car:'<path d="M3 16v-4l2.5-5.5h13L21 12v4z"/><path d="M3 12h18"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+    search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+    wa:'<path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 .8c-1-.4-2.2-1.6-2.6-2.6l.8-1-1-2z"/>'
+  };
+  const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`;
+
+  const qs = new URLSearchParams(location.search);
+  const PARA = (qs.get('para') || '').trim().slice(0, 60);
+
+  let APP, UI = { tab:null }, handlers = {}, inputs = {};
+  const st = { S:null };
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+  const money = n => fmt0.format(Math.round(n || 0));
+  const num = n => fmtN.format(n || 0);
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const day0 = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+  const today = () => day0(new Date());
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const key = d => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+  const fromKey = k => { const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd); };
+  const diffDays = (a, b) => Math.round((day0(a) - day0(b)) / 864e5);
+  const asDate = d => typeof d === 'string' && /^\d{4}-\d\d-\d\d$/.test(d) ? fromKey(d) : new Date(d);
+  const fdate = (d, o = { day:'2-digit', month:'2-digit' }) => asDate(d).toLocaleDateString('es-AR', o);
+  const flong = d => asDate(d).toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+  const fshort = d => asDate(d).toLocaleDateString('es-AR', { weekday:'short', day:'numeric' }).replace('.', '');
+  const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = (r, a) => a[Math.floor(r() * a.length)];
+
+  function save(){ try { localStorage.setItem(APP.key, JSON.stringify(st.S)); } catch(e) {} }
+  function load(){
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(APP.key)); } catch(e) {}
+    if (!s || s._v !== APP.version) { s = APP.seed(); s._v = APP.version; }
+    st.S = s;
+  }
+
+  let tt;
+  function toast(h){ const t = document.getElementById('toast'); t.innerHTML = h; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3400); }
+  function modal(title, body, foot = ''){
+    document.getElementById('modal').innerHTML = `<div class="modal" data-act="_bg"><div class="sheet" role="dialog" aria-label="${esc(title)}"><div class="sheet-h"><h2>${title}</h2><button class="x" data-act="_close" aria-label="Cerrar">×</button></div>${body}${foot ? `<div class="acts">${foot}</div>` : ''}</div></div>`;
+  }
+  function close(){ document.getElementById('modal').innerHTML = ''; }
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const nval = id => parseFloat(val(id).replace(/\./g, '').replace(',', '.')) || 0;
+  function waPreview(title, text, okMsg){
+    modal(title, `<p class="muted sm" style="margin:0 0 8px">Así le llega por WhatsApp:</p><div class="wa">${esc(text)}</div>`,
+      `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="_waSent" data-v="${esc(okMsg || 'Mensaje enviado (simulado)')}">${icon('wa')} Enviar</button>`);
+  }
+
+  function brandName(){ return PARA || APP.brand.name; }
+  function renderNav(){
+    document.getElementById('nav').innerHTML = APP.tabs.map(([id, label, ic]) => {
+      const b = APP.badges && APP.badges[id] ? APP.badges[id]() : 0;
+      return `<button class="${UI.tab === id ? 'on' : ''}" data-act="_tab" data-v="${id}">${icon(ic)}<span>${label}</span>${b ? `<span class="badge">${b}</span>` : ''}</button>`;
+    }).join('');
+  }
+  function painsHtml(){
+    if (st.S._painsOff) return '';
+    return `<div class="pains"><b class="t">${esc(APP.pains.title)}</b><ul>${APP.pains.items.map(p => `<li><i>✕</i><span>${p}</span></li>`).join('')}</ul><div class="sm" style="margin-top:8px;font-weight:600">${APP.pains.fix}</div><button class="x" data-act="_pains" aria-label="Ocultar">×</button></div>`;
+  }
+  function render(){
+    renderNav();
+    const v = APP.views[UI.tab];
+    document.getElementById('app').innerHTML = (PARA ? `<span class="para">Demo preparada para ${esc(PARA)} · datos de ejemplo</span>` : '') + painsHtml() + v();
+    if (APP.after) APP.after();
+  }
+  function header(){
+    const n = brandName();
+    document.getElementById('top').innerHTML = `<div class="top-in"><div class="brand"><span class="logo">${esc(n.trim()[0] || 'D').toUpperCase()}</span><div><b>${esc(n)}</b><small>${esc(APP.brand.sub)}</small></div></div><span class="tag">Demo</span><button class="reset" data-act="_reset">Reiniciar</button></div>`;
+    document.title = `${n} · ${APP.brand.title} (demo)`;
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el) return;
+    const a = el.dataset.act, v = el.dataset.v;
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') return;
+    if (a === '_bg'){ if (e.target === el) close(); return; }
+    if (a === '_close'){ close(); return; }
+    if (a === '_tab'){ UI.tab = v; close(); window.scrollTo(0, 0); render(); return; }
+    if (a === '_pains'){ st.S._painsOff = true; save(); render(); return; }
+    if (a === '_waSent'){ close(); toast(esc(v)); if (APP.onWaSent) APP.onWaSent(); return; }
+    if (a === '_reset'){ if (!confirm('¿Reiniciar la demo con los datos de ejemplo?')) return; try { localStorage.removeItem(APP.key); } catch(_) {} load(); UI.tab = APP.tabs[0][0]; close(); render(); return; }
+    if (handlers[a]){ handlers[a](v, el, e); }
+  });
+  document.addEventListener('input', e => { const k = e.target.dataset.in; if (k && inputs[k]) inputs[k](e.target.value, e.target); });
+  document.addEventListener('change', e => { const k = e.target.dataset.ch; if (k && handlers[k]) handlers[k](e.target.value, e.target); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  function start(app){
+    APP = app; UI.tab = app.tabs[0][0];
+    load(); header(); render();
+  }
+  return {
+    start, render, save, toast, modal, close, val, nval, waPreview, icon, esc, money, num, pad,
+    today, addDays, key, fromKey, diffDays, fdate, flong, fshort, rng, pick, day0, brandName,
+    on:(a, f) => { handlers[a] = f; }, onInput:(k, f) => { inputs[k] = f; },
+    get S(){ return st.S; }, UI, PARA
+  };
+})();
+</script>
+<script>
+const EST = [['deposito','En depósito','p-mu'],['viaje','En viaje','p-info'],['reparto','En reparto','p-warn'],['entregado','Entregado','p-ok'],['fallido','No se pudo entregar','p-bad']];
+const est = k => EST.find(e => e[0] === k);
+const CHOF = ['Raúl','Diego'];
+const T = () => D.today();
+const hm = () => new Date().toLocaleTimeString('es-AR', { hour:'2-digit', minute:'2-digit', hour12:false });
+const APP = {
+  key:'demo-transporte-v1', version:1,
+  brand:{ name:'Expreso Serrano', sub:'Cargas y encomiendas · Tandil', title:'Expreso' },
+  pains:{ title:'¿Te pasa esto?', items:[
+    'El teléfono suena todo el día con "¿dónde está mi paquete?".',
+    'Los remitos son de papel, y si se pierde uno no hay cómo probar la entrega.',
+    'El chofer sale con una lista escrita y nadie sabe qué entregó hasta que vuelve.',
+    'Los contrareembolsos cobrados se rinden a mano, y alguno queda en el aire.'],
+    fix:'Así se ve con cada envío trazado y el cliente siguiéndolo solo:' },
+  tabs:[['env','Envíos','box'],['seg','Seguimiento','search'],['rep','Reparto','truck'],['cob','Cobros','cash']],
+  badges:{ rep:() => D.S.env.filter(e => e.est === 'reparto').length },
+  seed(){
+    const r = D.rng(21), dest = [['Laura Gómez','Av. Colón 1450','Tandil'],['Ferretería Centro','Rodríguez 820','Tandil'],['Marcos Díaz','Brasil 330','Tandil'],['Kiosco El Sol','Belgrano 1200','Tandil'],['Ana Ríos','Paz 765','Tandil'],['Corralón Norte','Av. Espora 2100','Tandil'],['Pedro Salas','San Martín 455','Azul'],['Distribuidora Azul','Av. Mitre 990','Azul'],['Óptica Visión','Necochea 230','Olavarría'],['Julieta Paz','Güemes 3120','Mar del Plata'],['Repuestos Sur','Av. Independencia 1800','Mar del Plata'],['Martín Coria','Rivadavia 650','Balcarce']];
+    const rem = ['Repuestos Centro','Agronomía Los Molinos','Tienda Online Mía','Laboratorio Sur'];
+    const env = dest.map(([n, dir, c], i) => {
+      const e = c === 'Tandil' ? (i < 3 ? 'entregado' : 'reparto') : i < 9 ? 'viaje' : 'deposito';
+      const h = [{ e:'deposito', t:'Recibido en el depósito de Buenos Aires', f:'ayer 18:40' }];
+      if (e !== 'deposito') h.push({ e:'viaje', t:'Salió hacia ' + c, f:'ayer 23:10' });
+      if (e === 'reparto' || e === 'entregado') h.push({ e:'reparto', t:'En reparto con ' + CHOF[i % 2], f:'hoy 8:05' });
+      if (e === 'entregado') h.push({ e:'entregado', t:'Entregado · firmó ' + n.split(' ')[0], f:'hoy ' + (9 + i) + ':2' + i });
+      return { cod:`ES-${48200 + i * 7}`, n, dir, c, rem:rem[i % 4], bultos:1 + Math.floor(r() * 4), kg:Math.round(2 + r() * 40), est:e, cr:i % 3 === 1 ? Math.round(20 + r() * 180) * 1000 : 0, cobrado:e === 'entregado' && i % 3 === 1, rendido:false, chof:CHOF[i % 2], h };
+    });
+    return { env, next:48300, q:'ES-48221' };
+  },
+  views:{}
+};
+const E = cod => D.S.env.find(e => e.cod === cod);
+function tl(e){
+  const pasos = ['deposito','viaje','reparto','entregado'], i = e.est === 'fallido' ? 2 : pasos.indexOf(e.est);
+  return `<ul class="tl">${e.h.map((x, k) => `<li class="${k === e.h.length - 1 ? 'now' : 'on'}">${D.esc(x.t)}<small>${x.f}</small></li>`).join('')}${pasos.slice(i + 1).map(p => `<li>${est(p)[1]}</li>`).join('')}</ul>`;
+}
+
+/* Envíos */
+let fe = 'todos';
+APP.views.env = () => {
+  const c = k => D.S.env.filter(e => e.est === k).length;
+  const ls = D.S.env.filter(e => fe === 'todos' || e.est === fe);
+  return `<div class="head"><div><h1>Envíos</h1><div class="sub">Cada uno con su código. El cliente recibe el link y lo sigue solo.</div></div><button class="btn btn-a" data-act="nuevo">${D.icon('plus')} Nuevo envío</button></div>
+  <div class="kpis"><div class="card kpi hl"><small>En reparto ahora</small><span class="num">${c('reparto')}</span></div><div class="card kpi"><small>En viaje</small><span class="num">${c('viaje')}</span></div>
+    <div class="card kpi"><small>Entregados hoy</small><span class="num">${c('entregado')}</span></div><div class="card kpi ${c('fallido') ? 'bad' : ''}"><small>No se pudieron entregar</small><span class="num">${c('fallido')}</span></div></div>
+  <div class="chips scroll" style="margin-bottom:12px"><button class="chip ${fe === 'todos' ? 'on' : ''}" data-act="fe" data-v="todos">Todos<b>${D.S.env.length}</b></button>${EST.map(([k, l]) => `<button class="chip ${fe === k ? 'on' : ''}" data-act="fe" data-v="${k}">${l}<b>${c(k)}</b></button>`).join('')}</div>
+  <section class="card list">${ls.map(e => `<button class="row" data-act="ver" data-v="${e.cod}"><div class="g"><div class="t">${D.esc(e.n)} <span class="muted" style="font-weight:600">· ${e.c}</span></div><div class="s"><span class="cod">${e.cod}</span> · ${e.bultos} bulto${e.bultos > 1 ? 's' : ''} · de ${D.esc(e.rem)}${e.cr ? ` · <span class="cr">CR ${D.money(e.cr)}</span>` : ''}</div></div><span class="pill ${est(e.est)[2]}">${est(e.est)[1]}</span></button>`).join('') || '<div class="empty">Nada en este estado</div>'}</section>`;
+};
+D.on('fe', v => { fe = v; D.render(); });
+D.on('ver', cod => { const e = E(cod);
+  D.modal(`<span class="cod">${e.cod}</span>`, `<div class="sm" style="margin-bottom:10px"><b>${D.esc(e.n)}</b> · ${D.esc(e.dir)}, ${e.c}<br><span class="muted">${e.bultos} bultos · ${e.kg} kg · remite ${D.esc(e.rem)}${e.cr ? ` · contrareembolso ${D.money(e.cr)}` : ''}</span></div>${tl(e)}`,
+    `<button class="btn btn-g" data-act="link" data-v="${cod}">${D.icon('wa')} Mandar link</button>${e.est === 'deposito' ? `<button class="btn btn-p" data-act="mover" data-v="${cod}:viaje">Despachar</button>` : e.est === 'viaje' ? `<button class="btn btn-p" data-act="mover" data-v="${cod}:reparto">Llegó · a reparto</button>` : ''}`); });
+D.on('mover', v => { const [cod, k] = v.split(':'), e = E(cod); e.est = k; e.h.push({ e:k, t:k === 'viaje' ? 'Salió hacia ' + e.c : 'En reparto con ' + e.chof, f:'hoy ' + hm() }); D.save(); D.close(); D.render(); D.toast(`<b>${cod}</b> → ${est(k)[1]} · el cliente lo ve en su link`); });
+D.on('link', cod => { const e = E(cod); D.waPreview('Link de seguimiento', `¡Hola ${e.n.split(' ')[0]}! Tenés un envío de ${e.rem} con ${D.brandName()} 📦\nSeguilo acá: expresoserrano.app/${e.cod}\n${e.cr ? `Al recibirlo se abonan ${D.money(e.cr)}.` : ''}`, 'Link enviado'); });
+D.on('nuevo', () => D.modal('Nuevo envío', `<div class="form"><div class="f2"><label class="fld">Destinatario<input id="ne-n" value="Sofía Lanza"></label><label class="fld">Ciudad<select id="ne-c"><option>Tandil</option><option>Azul</option><option>Olavarría</option><option>Mar del Plata</option><option>Balcarce</option></select></label></div>
+  <label class="fld">Dirección<input id="ne-d" value="Pinto 980"></label><div class="f2"><label class="fld">Bultos<input id="ne-b" inputmode="numeric" value="2"></label><label class="fld">Contrareembolso ($)<input id="ne-cr" inputmode="numeric" value="0"></label></div></div>`,
+  `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-a" data-act="nuevoOk">Crear y mandar link</button>`));
+D.on('nuevoOk', () => { const e = { cod:`ES-${D.S.next++}`, n:D.val('ne-n') || 'Cliente', dir:D.val('ne-d'), c:D.val('ne-c'), rem:'Mostrador', bultos:D.nval('ne-b') || 1, kg:5, est:'deposito', cr:D.nval('ne-cr'), cobrado:false, rendido:false, chof:'Raúl', h:[{ e:'deposito', t:'Recibido en el depósito de Tandil', f:'hoy ' + hm() }] };
+  D.S.env.unshift(e); D.save(); D.close(); D.render(); D.toast(`Envío <b>${e.cod}</b> creado · etiqueta lista para imprimir · link enviado`); });
+
+/* Seguimiento */
+APP.views.seg = () => { const e = E(D.S.q.trim().toUpperCase());
+  return `<div class="head"><div><h1>Lo que ve el cliente</h1><div class="sub">Pone su código (o toca el link) y ve dónde está, sin llamar</div></div></div>
+  <div class="pub"><div class="ph"><b style="font:600 20px var(--fd)">${D.esc(D.brandName())}</b><div class="sm" style="opacity:.8">Seguí tu envío</div></div><div class="pb">
+    <label class="fld" style="margin-bottom:14px"><input data-ch="q" value="${D.esc(D.S.q)}" style="text-transform:uppercase;font-family:ui-monospace,monospace"></label>
+    ${e ? `<div style="display:flex;justify-content:space-between;gap:8px;margin-bottom:12px"><div><b>${D.esc(e.n.split(' ')[0])}</b><div class="sm muted">${e.c} · ${e.bultos} bulto${e.bultos > 1 ? 's' : ''}</div></div><span class="pill ${est(e.est)[2]}">${est(e.est)[1]}</span></div>${tl(e)}
+      ${e.est === 'reparto' ? `<div class="okline" style="background:var(--warn-soft);color:var(--warn)">🚚 Llega hoy entre las 14 y las 18 h</div>` : ''}` : '<div class="empty">No encontramos ese código</div>'}
+    <div class="note">Probá con otros códigos: ${D.S.env.slice(0, 3).map(x => x.cod).join(', ')}</div></div></div>`; };
+D.on('q', v => { D.S.q = v; D.save(); D.render(); });
+
+/* Reparto */
+let ch = 'Raúl';
+APP.views.rep = () => { const ls = D.S.env.filter(e => e.c === 'Tandil' && e.chof === ch && ['reparto','entregado','fallido'].includes(e.est));
+  return `<div class="head"><div><h1>Hoja de ruta</h1><div class="sub">El chofer la ve en su celular, en orden, y marca cada entrega en el momento</div></div></div>
+  <div class="chips" style="margin-bottom:12px">${CHOF.map(c => `<button class="chip ${ch === c ? 'on' : ''}" data-act="ch" data-v="${c}">${c}</button>`).join('')}</div>
+  <section class="card list">${ls.map((e, i) => `<div class="stop ${e.est === 'entregado' ? 'done' : ''}"><span class="n">${e.est === 'entregado' ? '✓' : i + 1}</span><div style="flex:1;min-width:0"><b>${D.esc(e.dir)}</b><div class="sm muted">${D.esc(e.n)} · ${e.bultos} bulto${e.bultos > 1 ? 's' : ''} · <span class="cod">${e.cod}</span></div>
+    ${e.cr ? `<div style="margin-top:4px"><span class="cr">Cobrar ${D.money(e.cr)}</span>${e.cobrado ? ' <b class="sm" style="color:var(--ok)">cobrado</b>' : ''}</div>` : ''}
+    ${e.est === 'reparto' ? `<div class="acts" style="margin-top:8px"><button class="btn btn-g btn-s" data-act="falla" data-v="${e.cod}">No estaba</button><button class="btn btn-ok btn-s" data-act="entregar" data-v="${e.cod}">Entregado</button></div>` : e.est === 'fallido' ? '<span class="pill p-bad" style="margin-top:6px">Reprogramado para mañana · se avisó al cliente</span>' : ''}</div></div>`).join('') || '<div class="empty">Sin entregas</div>'}</section>`; };
+D.on('ch', v => { ch = v; D.render(); });
+D.on('entregar', cod => { const e = E(cod);
+  D.modal('Confirmar entrega', `<div class="form"><label class="fld">Recibió (nombre y DNI)<input id="en-n" value="${D.esc(e.n.split(' ')[0])} · 30.123.456"></label>${e.cr ? `<label class="fld">Contrareembolso<select id="en-cr"><option value="1">Cobrado ${D.money(e.cr)}</option><option value="0">No pagó</option></select></label>` : ''}<div class="note" style="margin:0">En la versión real firma en la pantalla y se saca una foto del paquete entregado.</div></div>`,
+    `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="entregarOk" data-v="${cod}">Confirmar</button>`); });
+D.on('entregarOk', cod => { const e = E(cod); e.est = 'entregado'; if (e.cr) e.cobrado = D.val('en-cr') === '1'; e.h.push({ e:'entregado', t:'Entregado · recibió ' + D.val('en-n'), f:'hoy ' + hm() }); D.save(); D.close(); D.render(); D.toast(`Entregado · ${D.esc(e.rem)} y el destinatario reciben el comprobante`); });
+D.on('falla', cod => { const e = E(cod); e.est = 'fallido'; e.h.push({ e:'fallido', t:'No había nadie · se reprograma para mañana', f:'hoy ' + hm() }); D.save(); D.render(); D.toast('Se avisó al cliente para coordinar mañana'); });
+
+/* Cobros */
+APP.views.cob = () => { const rems = [...new Set(D.S.env.map(e => e.rem))];
+  return `<div class="head"><div><h1>Contrareembolsos</h1><div class="sub">Lo que cobraron los choferes, listo para rendir a cada remitente</div></div></div>
+  <div class="kpis"><div class="card kpi hl"><small>Cobrado a rendir</small><span class="num">${D.money(D.S.env.filter(e => e.cobrado && !e.rendido).reduce((s, e) => s + e.cr, 0))}</span></div><div class="card kpi"><small>Pendiente de cobrar</small><span class="num">${D.money(D.S.env.filter(e => e.cr && !e.cobrado).reduce((s, e) => s + e.cr, 0))}</span></div></div>
+  <div class="stack">${rems.map(r => { const es = D.S.env.filter(e => e.rem === r && e.cr), cob = es.filter(e => e.cobrado && !e.rendido); return es.length ? `<section class="card list"><div class="sec-t"><h2>${D.esc(r)}</h2>${cob.length ? `<button class="btn btn-p btn-s" data-act="rendir" data-v="${D.esc(r)}">Rendir ${D.money(cob.reduce((s, e) => s + e.cr, 0))}</button>` : ''}</div>
+    ${es.map(e => `<div class="row"><div class="g"><div class="t">${D.esc(e.n)}</div><div class="s"><span class="cod">${e.cod}</span> · ${est(e.est)[1]}</div></div><div class="r"><b class="amt">${D.money(e.cr)}</b><div class="sm" style="font-weight:700;color:${e.rendido ? 'var(--mu)' : e.cobrado ? 'var(--ok)' : 'var(--warn)'}">${e.rendido ? 'rendido' : e.cobrado ? 'cobrado' : 'pendiente'}</div></div></div>`).join('')}</section>` : ''; }).join('')}</div>`; };
+D.on('rendir', r => { D.S.env.filter(e => e.rem === r && e.cobrado).forEach(e => e.rendido = true); D.save(); D.render(); D.toast(`Rendición enviada a <b>${D.esc(r)}</b> con el detalle de cada envío`); });
+
+D.start(APP);
+</script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Balanza, stock de granos y portal del productor · Demo</title>
+<meta name="description" content="Demo para acopios y cooperativas: descargas de balanza con carta de porte y merma por humedad, stock de granos por productor, fijaciones con liquidación y un portal para que el productor vea todo desde el celular.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Balanza, stock de granos y portal del productor · Demo">
+<meta property="og:description" content="Demo para acopios y cooperativas: descargas de balanza con carta de porte y merma por humedad, stock de granos por productor, fijaciones con liquidación y un portal para que el productor vea todo desde el celular.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@600;700;800&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4efe7;--card:#fffcf7;--ink:#2a2017;--mu:#6c6155;--line:#e4dacb;
+--brand:#5c3d1e;--brand-ink:#f8f1e6;--accent:#f4a261;--accent-ink:#3b260f;--accent-soft:#fbe4cf;
+--ok:#3c7a43;--ok-soft:#e0eedd;--warn:#a96a0b;--warn-soft:#fbecd2;--bad:#b4402e;--bad-soft:#f6ddd7;--info:#3d6392;--info-soft:#e0e8f2;
+--fd:"Rokkitt",Georgia,serif;--fb:"Karla",system-ui,sans-serif}
+h1{font-size:30px}
+.kpi .num{font-size:26px}
+.gr{font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px}
+.g-Soja{background:#efe2b6;color:#6b5410}.g-Trigo{background:#f5dcc0;color:#7a4513}.g-Maíz{background:#fbe9a2;color:#6d5800}
+.cpe{font:600 12px ui-monospace,monospace;color:var(--mu)}
+.tk{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px;font-size:12px;text-align:center}
+.tk div{background:var(--bg);border-radius:8px;padding:6px 2px}
+.tk b{display:block;font:700 16px var(--fd)}
+.silo{display:flex;align-items:flex-end;gap:10px;height:120px;margin-top:6px}
+.silo div{flex:1;border:2px solid var(--line);border-radius:10px 10px 4px 4px;position:relative;height:100%;overflow:hidden;background:var(--card)}
+.silo div i{position:absolute;left:0;right:0;bottom:0}
+.silo div span{position:absolute;inset:auto 0 6px;text-align:center;font:700 14px var(--fd)}
+.phone{max-width:380px;margin:0 auto;border:8px solid var(--ink);border-radius:30px;overflow:hidden;background:var(--bg)}
+.phone .ph-h{background:var(--brand);color:var(--brand-ink);padding:14px}
+.phone .ph-b{padding:12px}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+h1,h2,h3,.num,.fd{font-family:var(--fd)}
+h1{font-size:27px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.1}
+h2{font-size:18px;font-weight:700;margin:0}
+h3{font-size:16px;font-weight:700;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+.muted{color:var(--mu)}
+.sm{font-size:13px}
+
+/* header */
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:20}
+.top-in{max-width:1120px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--brand);display:flex;align-items:center;justify-content:center;font:800 17px var(--fd);flex:none}
+.brand b{font:800 18px/1.05 var(--fd);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-size:12px;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--accent);color:var(--brand);padding:4px 8px;border-radius:99px;flex:none}
+.reset{font-size:12.5px;opacity:.8;text-decoration:underline;text-underline-offset:3px;flex:none}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mu);position:relative;min-width:0}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--brand)}
+.nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.nav .badge{position:absolute;top:7px;left:calc(50% + 5px);background:var(--bad);color:#fff;font-size:10.5px;min-width:18px;height:18px;border-radius:9px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+@media(min-width:860px){
+  body{padding-bottom:0}
+  .nav{position:sticky;top:56px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);justify-content:center;gap:4px}
+  .nav button{flex:none;flex-direction:row;height:48px;padding:0 18px;font-size:14px;gap:8px}
+  .nav button.on::before{top:auto;bottom:0;left:14px;right:14px;border-radius:3px 3px 0 0}
+  .nav .badge{position:static}
+}
+main{max-width:1120px;margin:0 auto;padding:16px 16px 28px}
+
+/* dolores */
+.pains{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:12px 14px;margin-bottom:16px;position:relative}
+.pains b.t{display:block;font:700 15px var(--fd);margin-bottom:6px;padding-right:24px}
+.pains ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:13.5px}
+.pains li{display:flex;gap:8px}
+.pains li i{font-style:normal;flex:none}
+.pains .x{position:absolute;top:8px;right:10px;font-size:20px;opacity:.5;padding:2px 6px}
+.para{display:inline-block;margin:0 0 10px;font-size:12.5px;font-weight:600;background:var(--accent-soft);color:var(--ink);padding:4px 10px;border-radius:99px}
+
+/* comunes */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.pad{padding:14px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.head .sub{color:var(--mu);font-size:14px;margin-top:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13.5px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip b{margin-left:5px;opacity:.65}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;border-radius:11px;font-weight:600;font-size:14.5px;white-space:nowrap}
+.btn-p{background:var(--brand);color:var(--brand-ink)}
+.btn-a{background:var(--accent);color:var(--accent-ink)}
+.btn-g{border:1px solid var(--line);background:var(--card)}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-s{padding:7px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px}
+.w100{width:100%}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-info{background:var(--info-soft);color:var(--info)}
+.p-mu{background:var(--line);color:var(--mu)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:860px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{padding:12px 14px}
+.kpi small{font-size:12px;color:var(--mu);display:block}
+.kpi .num{font-size:22px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:3px}
+.kpi.hl{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.kpi.hl small{color:inherit;opacity:.75}
+.kpi.bad .num{color:var(--bad)}
+.list{overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.row:last-child{border-bottom:0}
+.row .g{flex:1;min-width:0}
+.row .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{font-size:12.5px;color:var(--mu)}
+.row .r{text-align:right;flex:none}
+button.row:active{background:var(--line)}
+.amt{font:800 15.5px var(--fd);white-space:nowrap}
+.stack{display:grid;gap:14px}
+.g2{display:grid;gap:14px}
+@media(min-width:900px){.g2{grid-template-columns:1fr 1fr;align-items:start}.g2 .span{grid-column:1/-1}}
+.sec-t{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 6px}
+.empty{padding:26px;text-align:center;color:var(--mu)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--brand)}
+.bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}.bar i.ok{background:var(--ok)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-weight:700}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl .r{text-align:right;white-space:nowrap}
+.scrollx{overflow-x:auto}
+.note{font-size:12.5px;color:var(--mu);margin-top:8px}
+
+/* formularios */
+.form{display:grid;gap:12px}
+.fld{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--mu)}
+.fld input,.fld select,.fld textarea{font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--brand)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .18s}
+@keyframes fade{from{opacity:0}}
+@media(min-width:700px){.modal{align-items:center;padding:24px}}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.sheet{border-radius:18px}}
+.sheet-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sheet-h .x{font-size:24px;line-height:1;opacity:.55;padding:2px 6px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.acts .btn{flex:1}
+.wa{background:#e7f8ec;border:1px solid #bfe8cb;border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:#1b3a24}
+.okline{display:flex;align-items:center;gap:8px;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:12px}
+.okline svg,.pains svg{width:18px;height:18px;flex:none}
+
+/* toast */
+.toast{position:fixed;left:50%;top:70px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:80;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:.25s;max-width:calc(100% - 32px);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{color:var(--accent)}
+.flash{animation:fl 1.6s ease}
+@keyframes fl{0%,40%{background:var(--accent-soft)}}
+@media(min-width:860px){.pad .acts .btn{flex:0 1 auto}}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<nav class="nav" id="nav"></nav>
+<main id="app"></main>
+<div id="modal"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+const D = (() => {
+  const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
+  const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
+  const ICONS = {
+    box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+    cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+    users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.3 5 2.7 5 5.8"/>',
+    cal:'<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+    wrench:'<path d="M14.5 6.5a4 4 0 0 0 5 5L21 13l-8 8-3-3 8-8-1.5-1.5a4 4 0 0 1-5-5L13 2z" transform="translate(-1 0)"/>',
+    list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+    chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+    home:'<path d="M3 11 12 3l9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+    file:'<path d="M6 2.5h9l4 4V21.5H6z"/><path d="M14.5 2.5v4.5H19M9 12h7M9 16h7"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    tag:'<path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    key:'<circle cx="8" cy="15" r="4.5"/><path d="M11.5 12 21 2.5M17 6.5l3 3M15 8.5l2 2"/>',
+    door:'<path d="M5 21V3h11v18M3 21h18"/><circle cx="13" cy="12" r="1"/>',
+    flame:'<path d="M12 22c4 0 7-2.8 7-7 0-3.5-2.5-6.5-4-8 0 2.5-1.5 4-3 4.5C12 8 10.5 4.5 8 2c.5 3-3 6-3 11 0 5 3 9 7 9z"/>',
+    pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+    bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    car:'<path d="M3 16v-4l2.5-5.5h13L21 12v4z"/><path d="M3 12h18"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+    search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+    wa:'<path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 .8c-1-.4-2.2-1.6-2.6-2.6l.8-1-1-2z"/>'
+  };
+  const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`;
+
+  const qs = new URLSearchParams(location.search);
+  const PARA = (qs.get('para') || '').trim().slice(0, 60);
+
+  let APP, UI = { tab:null }, handlers = {}, inputs = {};
+  const st = { S:null };
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+  const money = n => fmt0.format(Math.round(n || 0));
+  const num = n => fmtN.format(n || 0);
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const day0 = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+  const today = () => day0(new Date());
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const key = d => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+  const fromKey = k => { const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd); };
+  const diffDays = (a, b) => Math.round((day0(a) - day0(b)) / 864e5);
+  const asDate = d => typeof d === 'string' && /^\d{4}-\d\d-\d\d$/.test(d) ? fromKey(d) : new Date(d);
+  const fdate = (d, o = { day:'2-digit', month:'2-digit' }) => asDate(d).toLocaleDateString('es-AR', o);
+  const flong = d => asDate(d).toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+  const fshort = d => asDate(d).toLocaleDateString('es-AR', { weekday:'short', day:'numeric' }).replace('.', '');
+  const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = (r, a) => a[Math.floor(r() * a.length)];
+
+  function save(){ try { localStorage.setItem(APP.key, JSON.stringify(st.S)); } catch(e) {} }
+  function load(){
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(APP.key)); } catch(e) {}
+    if (!s || s._v !== APP.version) { s = APP.seed(); s._v = APP.version; }
+    st.S = s;
+  }
+
+  let tt;
+  function toast(h){ const t = document.getElementById('toast'); t.innerHTML = h; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3400); }
+  function modal(title, body, foot = ''){
+    document.getElementById('modal').innerHTML = `<div class="modal" data-act="_bg"><div class="sheet" role="dialog" aria-label="${esc(title)}"><div class="sheet-h"><h2>${title}</h2><button class="x" data-act="_close" aria-label="Cerrar">×</button></div>${body}${foot ? `<div class="acts">${foot}</div>` : ''}</div></div>`;
+  }
+  function close(){ document.getElementById('modal').innerHTML = ''; }
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const nval = id => parseFloat(val(id).replace(/\./g, '').replace(',', '.')) || 0;
+  function waPreview(title, text, okMsg){
+    modal(title, `<p class="muted sm" style="margin:0 0 8px">Así le llega por WhatsApp:</p><div class="wa">${esc(text)}</div>`,
+      `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="_waSent" data-v="${esc(okMsg || 'Mensaje enviado (simulado)')}">${icon('wa')} Enviar</button>`);
+  }
+
+  function brandName(){ return PARA || APP.brand.name; }
+  function renderNav(){
+    document.getElementById('nav').innerHTML = APP.tabs.map(([id, label, ic]) => {
+      const b = APP.badges && APP.badges[id] ? APP.badges[id]() : 0;
+      return `<button class="${UI.tab === id ? 'on' : ''}" data-act="_tab" data-v="${id}">${icon(ic)}<span>${label}</span>${b ? `<span class="badge">${b}</span>` : ''}</button>`;
+    }).join('');
+  }
+  function painsHtml(){
+    if (st.S._painsOff) return '';
+    return `<div class="pains"><b class="t">${esc(APP.pains.title)}</b><ul>${APP.pains.items.map(p => `<li><i>✕</i><span>${p}</span></li>`).join('')}</ul><div class="sm" style="margin-top:8px;font-weight:600">${APP.pains.fix}</div><button class="x" data-act="_pains" aria-label="Ocultar">×</button></div>`;
+  }
+  function render(){
+    renderNav();
+    const v = APP.views[UI.tab];
+    document.getElementById('app').innerHTML = (PARA ? `<span class="para">Demo preparada para ${esc(PARA)} · datos de ejemplo</span>` : '') + painsHtml() + v();
+    if (APP.after) APP.after();
+  }
+  function header(){
+    const n = brandName();
+    document.getElementById('top').innerHTML = `<div class="top-in"><div class="brand"><span class="logo">${esc(n.trim()[0] || 'D').toUpperCase()}</span><div><b>${esc(n)}</b><small>${esc(APP.brand.sub)}</small></div></div><span class="tag">Demo</span><button class="reset" data-act="_reset">Reiniciar</button></div>`;
+    document.title = `${n} · ${APP.brand.title} (demo)`;
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el) return;
+    const a = el.dataset.act, v = el.dataset.v;
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') return;
+    if (a === '_bg'){ if (e.target === el) close(); return; }
+    if (a === '_close'){ close(); return; }
+    if (a === '_tab'){ UI.tab = v; close(); window.scrollTo(0, 0); render(); return; }
+    if (a === '_pains'){ st.S._painsOff = true; save(); render(); return; }
+    if (a === '_waSent'){ close(); toast(esc(v)); if (APP.onWaSent) APP.onWaSent(); return; }
+    if (a === '_reset'){ if (!confirm('¿Reiniciar la demo con los datos de ejemplo?')) return; try { localStorage.removeItem(APP.key); } catch(_) {} load(); UI.tab = APP.tabs[0][0]; close(); render(); return; }
+    if (handlers[a]){ handlers[a](v, el, e); }
+  });
+  document.addEventListener('input', e => { const k = e.target.dataset.in; if (k && inputs[k]) inputs[k](e.target.value, e.target); });
+  document.addEventListener('change', e => { const k = e.target.dataset.ch; if (k && handlers[k]) handlers[k](e.target.value, e.target); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  function start(app){
+    APP = app; UI.tab = app.tabs[0][0];
+    load(); header(); render();
+  }
+  return {
+    start, render, save, toast, modal, close, val, nval, waPreview, icon, esc, money, num, pad,
+    today, addDays, key, fromKey, diffDays, fdate, flong, fshort, rng, pick, day0, brandName,
+    on:(a, f) => { handlers[a] = f; }, onInput:(k, f) => { inputs[k] = f; },
+    get S(){ return st.S; }, UI, PARA
+  };
+})();
+</script>
+<script>
+const BASE = { Soja:13.5, Trigo:14, Maíz:14.5 };
+const PIZ = { Soja:318, Trigo:212, Maíz:184 };
+const CAP = { Soja:6000, Trigo:4000, Maíz:5000 };
+const T = () => D.today();
+const merma = (g, h) => h > BASE[g] ? Math.round(((h - BASE[g]) * 1.25 + .25) * 100) / 100 : 0;
+const APP = {
+  key:'demo-acopio-v1', version:1,
+  brand:{ name:'Acopio Los Cardos', sub:'Granos y servicios · Tandil', title:'Acopio' },
+  pains:{ title:'¿Te pasa esto?', items:[
+    'El ticket de balanza, la carta de porte y la planilla de humedad se cargan a mano en lugares distintos.',
+    'El productor llama para preguntar cuántas toneladas tiene, cuánto le descontaron y cuándo cobra.',
+    'Saber el stock de cada productor y de la planta lleva una tarde de Excel.',
+    'Desde febrero de 2026 ARCA controla más fuerte las cartas de porte: un dato mal cargado es un problema.'],
+    fix:'Así se ve con la balanza, el stock y el productor conectados (sin reemplazar tu sistema contable):' },
+  tabs:[['bal','Balanza','truck'],['stock','Stock','chart'],['liq','Fijaciones','cash'],['portal','Productor','users']],
+  badges:{ liq:() => D.S.fij.filter(f => !f.liq).length },
+  seed(){
+    const pr = ['Estancia La Celina','Agropecuaria San Pedro','Los Tres Ombúes','El Retiro SA','Chacra Don Elías'];
+    const st = { 'Estancia La Celina':{ Soja:1240, Trigo:310, Maíz:880 }, 'Agropecuaria San Pedro':{ Soja:420, Trigo:690, Maíz:0 }, 'Los Tres Ombúes':{ Soja:160, Trigo:95, Maíz:210 }, 'El Retiro SA':{ Soja:2100, Trigo:540, Maíz:1650 }, 'Chacra Don Elías':{ Soja:48, Trigo:0, Maíz:62 } };
+    const des = [['07:12','El Retiro SA','Soja','AD 431 PQ',45120,15200,14.8],['07:48','Estancia La Celina','Soja','OKE 208',44380,15050,13.2],['08:30','Los Tres Ombúes','Maíz','AF 902 TL',43700,14800,16.1],['09:05','El Retiro SA','Soja','AC 117 RS',45600,15300,15.4],['09:51','Agropecuaria San Pedro','Soja','NJK 774',42900,14900,13.9]]
+      .map(([h, p, g, pat, br, ta, hu], i) => ({ id:i + 1, h, p, g, pat, br, ta, hu, cpe:`10${D.pad(318700 + i * 13, 7)}` }));
+    const fij = [{ id:1, p:'Estancia La Celina', g:'Soja', t:300, pre:316, f:D.key(D.addDays(T(), -2)), liq:false }, { id:2, p:'El Retiro SA', g:'Maíz', t:500, pre:182, f:D.key(D.addDays(T(), -6)), liq:true }];
+    return { pr, st, des, fij, next:6, prodPortal:'Estancia La Celina' };
+  },
+  views:{}
+};
+const netoSeco = d => { const n = d.br - d.ta; return Math.round(n * (1 - merma(d.g, d.hu) / 100)); };
+
+/* Balanza */
+APP.views.bal = () => {
+  const tot = D.S.des.reduce((s, d) => s + netoSeco(d), 0);
+  return `<div class="head"><div><h1>Balanza de hoy</h1><div class="sub">Cada descarga con su carta de porte, humedad y merma calculada sola</div></div><button class="btn btn-a" data-act="nueva">${D.icon('plus')} Nueva descarga</button></div>
+  <div class="kpis"><div class="card kpi hl"><small>Camiones descargados</small><span class="num">${D.S.des.length}</span></div><div class="card kpi"><small>Toneladas netas secas</small><span class="num">${D.num(tot / 1000)} t</span></div>
+    <div class="card kpi"><small>Con humedad alta</small><span class="num">${D.S.des.filter(d => merma(d.g, d.hu) > 0).length}</span></div><div class="card kpi"><small>CPE cargadas sin error</small><span class="num">${D.S.des.length}/${D.S.des.length}</span></div></div>
+  <div class="stack">${D.S.des.slice().reverse().map(d => { const m = merma(d.g, d.hu); return `<article class="card pad">
+    <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><div><b>${D.esc(d.p)}</b> <span class="gr g-${d.g}">${d.g}</span><div class="sm muted">${d.h} · ${d.pat} · <span class="cpe">CPE ${d.cpe}</span></div></div><b class="amt">${D.num(netoSeco(d) / 1000)} t</b></div>
+    <div class="tk"><div>Bruto<b>${D.num(d.br)}</b></div><div>Tara<b>${D.num(d.ta)}</b></div><div>Humedad<b style="color:${m ? 'var(--warn)' : 'inherit'}">${String(d.hu).replace('.', ',')}%</b></div><div>Merma<b>${String(m).replace('.', ',')}%</b></div></div></article>`; }).join('')}</div>
+  <p class="note">Tabla de merma de ejemplo. En la versión real se usan las tablas oficiales de cada grano.</p>`;
+};
+D.on('nueva', () => {
+  D.modal('Nueva descarga', `<div class="form"><div class="f2"><label class="fld">Productor<select id="nd-p">${D.S.pr.map(p => `<option>${p}</option>`).join('')}</select></label><label class="fld">Grano<select id="nd-g">${Object.keys(BASE).map(g => `<option>${g}</option>`).join('')}</select></label></div>
+    <div class="f2"><label class="fld">Patente<input id="nd-pat" value="AE 552 TR"></label><label class="fld">Carta de porte<input id="nd-cpe" value="10${D.pad(318800 + D.S.next, 7)}"></label></div>
+    <div class="f2"><label class="fld">Bruto (kg)<input id="nd-br" inputmode="numeric" value="44900"></label><label class="fld">Tara (kg)<input id="nd-ta" inputmode="numeric" value="15100"></label></div>
+    <label class="fld">Humedad (%)<input id="nd-hu" inputmode="decimal" value="15,2"></label>
+    <p class="note" style="margin:0">El número de carta de porte se valida contra ARCA antes de guardar (simulado).</p></div>`,
+    `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-p" data-act="guardar">Guardar ticket</button>`);
+});
+D.on('guardar', () => {
+  const d = { id:D.S.next++, h:new Date().toLocaleTimeString('es-AR', { hour:'2-digit', minute:'2-digit', hour12:false }), p:D.val('nd-p'), g:D.val('nd-g'), pat:D.val('nd-pat').toUpperCase(), cpe:D.val('nd-cpe'), br:D.nval('nd-br'), ta:D.nval('nd-ta'), hu:parseFloat(D.val('nd-hu').replace(',', '.')) || 0 };
+  D.S.des.push(d); D.S.st[d.p][d.g] += Math.round(netoSeco(d) / 1000); D.save(); D.close(); D.render();
+  D.toast(`Ticket guardado · <b>${D.num(netoSeco(d) / 1000)} t</b> sumadas al stock de ${D.esc(d.p)} · el productor recibe el aviso`);
+});
+
+/* Stock */
+APP.views.stock = () => {
+  const tg = g => D.S.pr.reduce((s, p) => s + D.S.st[p][g], 0);
+  return `<div class="head"><div><h1>Stock de granos</h1><div class="sub">Por productor y por grano, actualizado con cada descarga</div></div></div>
+  <section class="card pad" style="margin-bottom:14px"><h2>Ocupación de la planta</h2><div class="silo">${Object.keys(BASE).map(g => { const pc = tg(g) / CAP[g] * 100; return `<div title="${g}"><i style="height:${pc}%;background:${{ Soja:'#e7d38f', Trigo:'#e9b98b', Maíz:'#f3d54e' }[g]}"></i><span>${g}<br>${Math.round(pc)}%</span></div>`; }).join('')}</div>
+    <div class="sm muted" style="margin-top:6px">${Object.keys(BASE).map(g => `${g}: ${D.num(tg(g))} de ${D.num(CAP[g])} t`).join(' · ')}</div></section>
+  <section class="card scrollx"><table class="tbl"><thead><tr><th>Productor</th>${Object.keys(BASE).map(g => `<th class="r">${g}</th>`).join('')}<th class="r">Valor (pizarra)</th></tr></thead><tbody>
+    ${D.S.pr.map(p => `<tr><td><b>${D.esc(p)}</b></td>${Object.keys(BASE).map(g => `<td class="r">${D.num(D.S.st[p][g])} t</td>`).join('')}<td class="r">US$ ${D.num(Object.keys(BASE).reduce((s, g) => s + D.S.st[p][g] * PIZ[g], 0))}</td></tr>`).join('')}
+  </tbody></table></section><p class="note">Pizarra de ejemplo: soja US$ ${PIZ.Soja}, trigo US$ ${PIZ.Trigo}, maíz US$ ${PIZ.Maíz} por tonelada.</p>`;
+};
+
+/* Fijaciones */
+APP.views.liq = () => `<div class="head"><div><h1>Fijaciones y liquidaciones</h1><div class="sub">El productor fija precio y la liquidación sale armada</div></div><button class="btn btn-a" data-act="fijar">${D.icon('plus')} Fijar precio</button></div>
+  <div class="stack">${D.S.fij.slice().reverse().map(f => { const b = f.t * f.pre, gas = Math.round(b * .015), sec = f.g === 'Maíz' ? Math.round(f.t * 4) : 0; return `<section class="card pad">
+    <div style="display:flex;justify-content:space-between;gap:10px"><div><b>${D.esc(f.p)}</b> <span class="gr g-${f.g}">${f.g}</span><div class="sm muted">${D.num(f.t)} t a US$ ${f.pre}/t · fijado ${D.fdate(f.f)}</div></div><span class="pill ${f.liq ? 'p-ok' : 'p-warn'}">${f.liq ? 'Liquidado' : 'A liquidar'}</span></div>
+    <div class="sm" style="margin-top:8px"><div style="display:flex;justify-content:space-between"><span>Importe bruto</span><span>US$ ${D.num(b)}</span></div><div style="display:flex;justify-content:space-between;color:var(--mu)"><span>Comisión y gastos (1,5%)</span><span>−US$ ${D.num(gas)}</span></div>${sec ? `<div style="display:flex;justify-content:space-between;color:var(--mu)"><span>Secada</span><span>−US$ ${D.num(sec)}</span></div>` : ''}
+    <div style="display:flex;justify-content:space-between;border-top:1px solid var(--line);margin-top:4px;padding-top:4px"><b>Neto a pagar</b><b>US$ ${D.num(b - gas - sec)}</b></div></div>
+    ${f.liq ? '' : `<div class="acts" style="margin-top:10px"><button class="btn btn-p btn-s" data-act="liquidar" data-v="${f.id}">Generar liquidación y avisar</button></div>`}</section>`; }).join('')}</div>
+  <p class="note">Liquidación preliminar de ejemplo. La liquidación oficial se sigue emitiendo en ARCA o en tu sistema contable: esto la prepara y se la muestra al productor.</p>`;
+D.on('fijar', () => D.modal('Fijar precio', `<div class="form"><div class="f2"><label class="fld">Productor<select id="fj-p">${D.S.pr.map(p => `<option>${p}</option>`).join('')}</select></label><label class="fld">Grano<select id="fj-g">${Object.keys(BASE).map(g => `<option>${g}</option>`).join('')}</select></label></div>
+  <div class="f2"><label class="fld">Toneladas<input id="fj-t" inputmode="numeric" value="200"></label><label class="fld">Precio US$/t<input id="fj-pre" inputmode="numeric" value="${PIZ.Soja}"></label></div></div>`,
+  `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-p" data-act="fijarOk">Fijar</button>`));
+D.on('fijarOk', () => { const f = { id:Date.now(), p:D.val('fj-p'), g:D.val('fj-g'), t:D.nval('fj-t'), pre:D.nval('fj-pre'), f:D.key(T()), liq:false };
+  if (f.t > D.S.st[f.p][f.g]) return D.toast(`⚠ ${D.esc(f.p)} tiene solo ${D.S.st[f.p][f.g]} t de ${f.g.toLowerCase()}`);
+  D.S.st[f.p][f.g] -= f.t; D.S.fij.push(f); D.save(); D.close(); D.render(); D.toast('Precio fijado · stock del productor actualizado'); });
+D.on('liquidar', id => { const f = D.S.fij.find(x => x.id == id); f.liq = true; D.save(); D.render(); D.toast(`Liquidación lista · <b>${D.esc(f.p)}</b> la ve en su celular`); });
+
+/* Portal del productor */
+APP.views.portal = () => {
+  const p = D.S.prodPortal, st = D.S.st[p], des = D.S.des.filter(d => d.p === p), fj = D.S.fij.filter(f => f.p === p);
+  return `<div class="head"><div><h1>Lo que ve el productor</h1><div class="sub">Su stock, sus descargas y sus liquidaciones, desde el celular. Menos llamadas a la oficina.</div></div>
+    <select data-ch="portP" style="padding:9px;border-radius:10px;border:1px solid var(--line)">${D.S.pr.map(x => `<option ${x === p ? 'selected' : ''}>${x}</option>`).join('')}</select></div>
+  <div class="phone"><div class="ph-h"><b style="font:700 20px var(--fd)">${D.esc(D.brandName())}</b><div class="sm" style="opacity:.8">Hola, ${D.esc(p)}</div></div><div class="ph-b">
+    <div class="kpis" style="grid-template-columns:repeat(3,1fr);gap:6px">${Object.keys(BASE).map(g => `<div class="card kpi" style="padding:10px"><small>${g}</small><span class="num" style="font-size:18px">${D.num(st[g])} t</span></div>`).join('')}</div>
+    <div class="card list" style="margin-bottom:10px"><div class="sec-t"><h3>Descargas de hoy</h3></div>${des.map(d => `<div class="row"><div class="g"><div class="t" style="font-size:14px">${d.g} · ${d.pat}</div><div class="s">${d.h} · humedad ${String(d.hu).replace('.', ',')}% · merma ${String(merma(d.g, d.hu)).replace('.', ',')}%</div></div><b>${D.num(netoSeco(d) / 1000)} t</b></div>`).join('') || '<div class="empty" style="padding:14px">Sin descargas hoy</div>'}</div>
+    <div class="card list"><div class="sec-t"><h3>Fijaciones</h3></div>${fj.map(f => `<div class="row"><div class="g"><div class="t" style="font-size:14px">${D.num(f.t)} t ${f.g.toLowerCase()} a US$ ${f.pre}</div><div class="s">${D.fdate(f.f)}</div></div><span class="pill ${f.liq ? 'p-ok' : 'p-warn'}">${f.liq ? 'Liquidado' : 'En proceso'}</span></div>`).join('') || '<div class="empty" style="padding:14px">Sin fijaciones</div>'}</div>
+  </div></div>`;
+};
+D.on('portP', v => { D.S.prodPortal = v; D.save(); D.render(); });
+
+D.start(APP);
+</script>
+</body>
+</html>

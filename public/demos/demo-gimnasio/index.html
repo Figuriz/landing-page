@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Socios, cuotas y asistencia · Demo</title>
+<meta name="description" content="Demo para gimnasios: control de ingreso con cuota al día, cobros y recordatorios, socios que dejaron de venir y caja del mes.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Socios, cuotas y asistencia · Demo">
+<meta property="og:description" content="Demo para gimnasios: control de ingreso con cuota al día, cobros y recordatorios, socios que dejaron de venir y caja del mes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f1f2ee;--card:#ffffff;--ink:#121412;--mu:#5e635c;--line:#e0e2dc;
+--brand:#121412;--brand-ink:#f1f2ee;--accent:#c6f432;--accent-ink:#121412;--accent-soft:#eefbc9;
+--ok:#1f8a4c;--ok-soft:#d9f2e3;--warn:#a96d07;--warn-soft:#fcefd3;--bad:#d1342f;--bad-soft:#fadcdb;--info:#2c62a8;--info-soft:#dfe9f6;
+--fd:"Big Shoulders Display","Arial Narrow",sans-serif;--fb:"Manrope",system-ui,sans-serif}
+h1{font-size:34px;font-weight:900;text-transform:uppercase;letter-spacing:.01em}
+.kpi .num{font-size:28px;font-weight:900}
+.big-in{font-size:22px;padding:16px;border-radius:14px;border:2px solid var(--line);width:100%;outline:none;background:var(--card);font-family:var(--fb);font-weight:700}
+.big-in:focus{border-color:var(--ink)}
+.acc{border-radius:16px;padding:18px;margin-top:12px;color:#fff}
+.acc.ok{background:var(--ok)}.acc.bad{background:var(--bad)}.acc.warn{background:var(--warn)}
+.acc b{font:900 30px/1 var(--fd);display:block;text-transform:uppercase;margin-bottom:4px}
+.acc .n{font-size:18px;font-weight:800}
+.av{width:38px;height:38px;border-radius:50%;background:var(--accent);color:var(--ink);font:900 16px var(--fd);display:flex;align-items:center;justify-content:center;flex:none}
+.dots{display:flex;gap:3px;margin-top:5px}
+.dots i{width:8px;height:8px;border-radius:2px;background:var(--line)}
+.dots i.on{background:var(--ok)}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+h1,h2,h3,.num,.fd{font-family:var(--fd)}
+h1{font-size:27px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.1}
+h2{font-size:18px;font-weight:700;margin:0}
+h3{font-size:16px;font-weight:700;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+.muted{color:var(--mu)}
+.sm{font-size:13px}
+
+/* header */
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:20}
+.top-in{max-width:1120px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--brand);display:flex;align-items:center;justify-content:center;font:800 17px var(--fd);flex:none}
+.brand b{font:800 18px/1.05 var(--fd);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-size:12px;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--accent);color:var(--brand);padding:4px 8px;border-radius:99px;flex:none}
+.reset{font-size:12.5px;opacity:.8;text-decoration:underline;text-underline-offset:3px;flex:none}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mu);position:relative;min-width:0}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--brand)}
+.nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.nav .badge{position:absolute;top:7px;left:calc(50% + 5px);background:var(--bad);color:#fff;font-size:10.5px;min-width:18px;height:18px;border-radius:9px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+@media(min-width:860px){
+  body{padding-bottom:0}
+  .nav{position:sticky;top:56px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);justify-content:center;gap:4px}
+  .nav button{flex:none;flex-direction:row;height:48px;padding:0 18px;font-size:14px;gap:8px}
+  .nav button.on::before{top:auto;bottom:0;left:14px;right:14px;border-radius:3px 3px 0 0}
+  .nav .badge{position:static}
+}
+main{max-width:1120px;margin:0 auto;padding:16px 16px 28px}
+
+/* dolores */
+.pains{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:12px 14px;margin-bottom:16px;position:relative}
+.pains b.t{display:block;font:700 15px var(--fd);margin-bottom:6px;padding-right:24px}
+.pains ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:13.5px}
+.pains li{display:flex;gap:8px}
+.pains li i{font-style:normal;flex:none}
+.pains .x{position:absolute;top:8px;right:10px;font-size:20px;opacity:.5;padding:2px 6px}
+.para{display:inline-block;margin:0 0 10px;font-size:12.5px;font-weight:600;background:var(--accent-soft);color:var(--ink);padding:4px 10px;border-radius:99px}
+
+/* comunes */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.pad{padding:14px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.head .sub{color:var(--mu);font-size:14px;margin-top:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13.5px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip b{margin-left:5px;opacity:.65}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;border-radius:11px;font-weight:600;font-size:14.5px;white-space:nowrap}
+.btn-p{background:var(--brand);color:var(--brand-ink)}
+.btn-a{background:var(--accent);color:var(--accent-ink)}
+.btn-g{border:1px solid var(--line);background:var(--card)}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-s{padding:7px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px}
+.w100{width:100%}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-info{background:var(--info-soft);color:var(--info)}
+.p-mu{background:var(--line);color:var(--mu)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:860px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{padding:12px 14px}
+.kpi small{font-size:12px;color:var(--mu);display:block}
+.kpi .num{font-size:22px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:3px}
+.kpi.hl{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.kpi.hl small{color:inherit;opacity:.75}
+.kpi.bad .num{color:var(--bad)}
+.list{overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.row:last-child{border-bottom:0}
+.row .g{flex:1;min-width:0}
+.row .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{font-size:12.5px;color:var(--mu)}
+.row .r{text-align:right;flex:none}
+button.row:active{background:var(--line)}
+.amt{font:800 15.5px var(--fd);white-space:nowrap}
+.stack{display:grid;gap:14px}
+.g2{display:grid;gap:14px}
+@media(min-width:900px){.g2{grid-template-columns:1fr 1fr;align-items:start}.g2 .span{grid-column:1/-1}}
+.sec-t{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 6px}
+.empty{padding:26px;text-align:center;color:var(--mu)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--brand)}
+.bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}.bar i.ok{background:var(--ok)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-weight:700}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl .r{text-align:right;white-space:nowrap}
+.scrollx{overflow-x:auto}
+.note{font-size:12.5px;color:var(--mu);margin-top:8px}
+
+/* formularios */
+.form{display:grid;gap:12px}
+.fld{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--mu)}
+.fld input,.fld select,.fld textarea{font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--brand)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .18s}
+@keyframes fade{from{opacity:0}}
+@media(min-width:700px){.modal{align-items:center;padding:24px}}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.sheet{border-radius:18px}}
+.sheet-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sheet-h .x{font-size:24px;line-height:1;opacity:.55;padding:2px 6px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.acts .btn{flex:1}
+.wa{background:#e7f8ec;border:1px solid #bfe8cb;border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:#1b3a24}
+.okline{display:flex;align-items:center;gap:8px;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:12px}
+.okline svg,.pains svg{width:18px;height:18px;flex:none}
+
+/* toast */
+.toast{position:fixed;left:50%;top:70px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:80;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:.25s;max-width:calc(100% - 32px);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{color:var(--accent)}
+.flash{animation:fl 1.6s ease}
+@keyframes fl{0%,40%{background:var(--accent-soft)}}
+@media(min-width:860px){.pad .acts .btn{flex:0 1 auto}}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<nav class="nav" id="nav"></nav>
+<main id="app"></main>
+<div id="modal"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+const D = (() => {
+  const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
+  const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
+  const ICONS = {
+    box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+    cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+    users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.3 5 2.7 5 5.8"/>',
+    cal:'<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+    wrench:'<path d="M14.5 6.5a4 4 0 0 0 5 5L21 13l-8 8-3-3 8-8-1.5-1.5a4 4 0 0 1-5-5L13 2z" transform="translate(-1 0)"/>',
+    list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+    chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+    home:'<path d="M3 11 12 3l9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+    file:'<path d="M6 2.5h9l4 4V21.5H6z"/><path d="M14.5 2.5v4.5H19M9 12h7M9 16h7"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    tag:'<path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    key:'<circle cx="8" cy="15" r="4.5"/><path d="M11.5 12 21 2.5M17 6.5l3 3M15 8.5l2 2"/>',
+    door:'<path d="M5 21V3h11v18M3 21h18"/><circle cx="13" cy="12" r="1"/>',
+    flame:'<path d="M12 22c4 0 7-2.8 7-7 0-3.5-2.5-6.5-4-8 0 2.5-1.5 4-3 4.5C12 8 10.5 4.5 8 2c.5 3-3 6-3 11 0 5 3 9 7 9z"/>',
+    pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+    bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    car:'<path d="M3 16v-4l2.5-5.5h13L21 12v4z"/><path d="M3 12h18"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+    search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+    wa:'<path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 .8c-1-.4-2.2-1.6-2.6-2.6l.8-1-1-2z"/>'
+  };
+  const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`;
+
+  const qs = new URLSearchParams(location.search);
+  const PARA = (qs.get('para') || '').trim().slice(0, 60);
+
+  let APP, UI = { tab:null }, handlers = {}, inputs = {};
+  const st = { S:null };
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+  const money = n => fmt0.format(Math.round(n || 0));
+  const num = n => fmtN.format(n || 0);
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const day0 = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+  const today = () => day0(new Date());
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const key = d => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+  const fromKey = k => { const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd); };
+  const diffDays = (a, b) => Math.round((day0(a) - day0(b)) / 864e5);
+  const asDate = d => typeof d === 'string' && /^\d{4}-\d\d-\d\d$/.test(d) ? fromKey(d) : new Date(d);
+  const fdate = (d, o = { day:'2-digit', month:'2-digit' }) => asDate(d).toLocaleDateString('es-AR', o);
+  const flong = d => asDate(d).toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+  const fshort = d => asDate(d).toLocaleDateString('es-AR', { weekday:'short', day:'numeric' }).replace('.', '');
+  const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = (r, a) => a[Math.floor(r() * a.length)];
+
+  function save(){ try { localStorage.setItem(APP.key, JSON.stringify(st.S)); } catch(e) {} }
+  function load(){
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(APP.key)); } catch(e) {}
+    if (!s || s._v !== APP.version) { s = APP.seed(); s._v = APP.version; }
+    st.S = s;
+  }
+
+  let tt;
+  function toast(h){ const t = document.getElementById('toast'); t.innerHTML = h; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3400); }
+  function modal(title, body, foot = ''){
+    document.getElementById('modal').innerHTML = `<div class="modal" data-act="_bg"><div class="sheet" role="dialog" aria-label="${esc(title)}"><div class="sheet-h"><h2>${title}</h2><button class="x" data-act="_close" aria-label="Cerrar">×</button></div>${body}${foot ? `<div class="acts">${foot}</div>` : ''}</div></div>`;
+  }
+  function close(){ document.getElementById('modal').innerHTML = ''; }
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const nval = id => parseFloat(val(id).replace(/\./g, '').replace(',', '.')) || 0;
+  function waPreview(title, text, okMsg){
+    modal(title, `<p class="muted sm" style="margin:0 0 8px">Así le llega por WhatsApp:</p><div class="wa">${esc(text)}</div>`,
+      `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="_waSent" data-v="${esc(okMsg || 'Mensaje enviado (simulado)')}">${icon('wa')} Enviar</button>`);
+  }
+
+  function brandName(){ return PARA || APP.brand.name; }
+  function renderNav(){
+    document.getElementById('nav').innerHTML = APP.tabs.map(([id, label, ic]) => {
+      const b = APP.badges && APP.badges[id] ? APP.badges[id]() : 0;
+      return `<button class="${UI.tab === id ? 'on' : ''}" data-act="_tab" data-v="${id}">${icon(ic)}<span>${label}</span>${b ? `<span class="badge">${b}</span>` : ''}</button>`;
+    }).join('');
+  }
+  function painsHtml(){
+    if (st.S._painsOff) return '';
+    return `<div class="pains"><b class="t">${esc(APP.pains.title)}</b><ul>${APP.pains.items.map(p => `<li><i>✕</i><span>${p}</span></li>`).join('')}</ul><div class="sm" style="margin-top:8px;font-weight:600">${APP.pains.fix}</div><button class="x" data-act="_pains" aria-label="Ocultar">×</button></div>`;
+  }
+  function render(){
+    renderNav();
+    const v = APP.views[UI.tab];
+    document.getElementById('app').innerHTML = (PARA ? `<span class="para">Demo preparada para ${esc(PARA)} · datos de ejemplo</span>` : '') + painsHtml() + v();
+    if (APP.after) APP.after();
+  }
+  function header(){
+    const n = brandName();
+    document.getElementById('top').innerHTML = `<div class="top-in"><div class="brand"><span class="logo">${esc(n.trim()[0] || 'D').toUpperCase()}</span><div><b>${esc(n)}</b><small>${esc(APP.brand.sub)}</small></div></div><span class="tag">Demo</span><button class="reset" data-act="_reset">Reiniciar</button></div>`;
+    document.title = `${n} · ${APP.brand.title} (demo)`;
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el) return;
+    const a = el.dataset.act, v = el.dataset.v;
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') return;
+    if (a === '_bg'){ if (e.target === el) close(); return; }
+    if (a === '_close'){ close(); return; }
+    if (a === '_tab'){ UI.tab = v; close(); window.scrollTo(0, 0); render(); return; }
+    if (a === '_pains'){ st.S._painsOff = true; save(); render(); return; }
+    if (a === '_waSent'){ close(); toast(esc(v)); if (APP.onWaSent) APP.onWaSent(); return; }
+    if (a === '_reset'){ if (!confirm('¿Reiniciar la demo con los datos de ejemplo?')) return; try { localStorage.removeItem(APP.key); } catch(_) {} load(); UI.tab = APP.tabs[0][0]; close(); render(); return; }
+    if (handlers[a]){ handlers[a](v, el, e); }
+  });
+  document.addEventListener('input', e => { const k = e.target.dataset.in; if (k && inputs[k]) inputs[k](e.target.value, e.target); });
+  document.addEventListener('change', e => { const k = e.target.dataset.ch; if (k && handlers[k]) handlers[k](e.target.value, e.target); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  function start(app){
+    APP = app; UI.tab = app.tabs[0][0];
+    load(); header(); render();
+  }
+  return {
+    start, render, save, toast, modal, close, val, nval, waPreview, icon, esc, money, num, pad,
+    today, addDays, key, fromKey, diffDays, fdate, flong, fshort, rng, pick, day0, brandName,
+    on:(a, f) => { handlers[a] = f; }, onInput:(k, f) => { inputs[k] = f; },
+    get S(){ return st.S; }, UI, PARA
+  };
+})();
+</script>
+<script>
+const PLANES = [['Musculación libre',38000],['Musculación 3 veces',32000],['Funcional',30000],['Pase completo',46000]];
+const T = () => D.today();
+const venceEn = s => D.diffDays(D.fromKey(s.vence), T());
+const ultima = s => s.asist.length ? D.diffDays(T(), D.fromKey(s.asist[s.asist.length - 1])) : 99;
+const APP = {
+  key:'demo-gym-v1', version:2,
+  brand:{ name:'Fuerza Serrana', sub:'Gimnasio · Tandil', title:'Gimnasio' },
+  pains:{ title:'¿Te pasa esto?', items:[
+    'Las cuotas están en una planilla y no sabés quién entra con la cuota vencida.',
+    'Cobrar es mandar WhatsApp uno por uno cada principio de mes.',
+    'La gente deja de venir y te enterás cuando ya se dio de baja.',
+    'No sabés cuánto vas a cobrar en el mes hasta que termina.'],
+    fix:'Así se ve con el ingreso, las cuotas y la caja conectados:' },
+  tabs:[['ing','Ingreso','door'],['soc','Socios','users'],['ret','No vienen','bell'],['caja','Caja','cash']],
+  badges:{ soc:() => D.S.soc.filter(s => venceEn(s) < 0).length, ret:() => D.S.soc.filter(s => ultima(s) >= 12 && venceEn(s) > -20 && !s.reac).length },
+  seed(){
+    const r = D.rng(5), t = T();
+    const ns = ['Agustín Pereyra','Belén Castro','Bruno Ledesma','Carolina Vega','Damián Ortiz','Emilia Rojas','Facundo Silva','Gisela Núñez','Hugo Medina','Ivana Ríos','Joaquín Sosa','Karen López','Leandro Paz','Malena Díaz','Nahuel Acosta','Olivia Ferreyra','Pedro Cabrera','Rocío Méndez','Santino Luna','Tamara Godoy','Ulises Ponce','Victoria Arias','Walter Benítez','Ximena Romero'];
+    const soc = ns.map((n, i) => {
+      const pl = Math.floor(r() * 4), off = i < 4 ? -Math.round(2 + r() * 20) : i < 8 ? Math.round(r() * 6) : Math.round(7 + r() * 23);
+      const freq = i % 6 === 5 ? 0 : 2 + Math.floor(r() * 4), asist = [];
+      const desde = i % 6 === 5 ? 18 + Math.floor(r() * 10) : 0;
+      for (let d = 30; d >= 0; d--) if (d >= desde && r() < freq / 7 && d !== 0) asist.push(D.key(D.addDays(t, -d)));
+      if (i % 6 === 5 && !asist.length) asist.push(D.key(D.addDays(t, -desde - 2)));
+      return { id:i + 1, n, dni:String(30000000 + Math.floor(r() * 15000000)), tel:'249 15 4' + (30 + i) + '-' + (4000 + i * 53), pl, vence:D.key(D.addDays(t, off)), asist };
+    });
+    const caja = [];
+    for (let d = 29; d >= 1; d--) { const n = 1 + Math.floor(r() * 4); for (let k = 0; k < n; k++){ const pl = Math.floor(r() * 4); caja.push({ f:D.key(D.addDays(t, -d)), m:PLANES[pl][1], medio:D.pick(r, ['Transferencia','Efectivo','Mercado Pago','Transferencia']), n:D.pick(r, ns) }); } }
+    return { soc, caja, hoy:[] };
+  },
+  views:{}
+};
+
+/* ---------- Ingreso ---------- */
+let qi = '', ult = null;
+APP.views.ing = () => `<div class="head"><div><h1>Ingreso</h1><div class="sub">El socio pone su DNI en la tablet de la entrada (o lo buscás vos)</div></div></div>
+  <input class="big-in" inputmode="numeric" placeholder="DNI o nombre" data-in="qi" value="${D.esc(qi)}" autocomplete="off">
+  <div id="sug">${sugHtml()}</div><div id="accres">${accHtml()}</div>
+  <section class="card list" style="margin-top:16px"><div class="sec-t"><h2>Entraron hoy</h2><span class="muted sm">${D.S.hoy.length}</span></div>${D.S.hoy.slice().reverse().map(h => { const s = D.S.soc.find(x => x.id === h.id); return `<div class="row"><span class="av">${s.n[0]}</span><div class="g"><div class="t">${D.esc(s.n)}</div><div class="s">${h.h} · ${PLANES[s.pl][0]}</div></div>${h.ok ? '<span class="pill p-ok">Al día</span>' : '<span class="pill p-bad">Vencida</span>'}</div>`; }).join('') || '<div class="empty">Probá: escribí "Agus" o "Carolina"</div>'}</section>`;
+function sugHtml(){
+  const s = qi.trim().toLowerCase(); if (s.length < 2) return '';
+  const ls = D.S.soc.filter(x => x.n.toLowerCase().includes(s) || x.dni.includes(s)).slice(0, 4);
+  return `<section class="card list" style="margin-top:8px">${ls.map(x => `<button class="row" data-act="entrar" data-v="${x.id}"><span class="av">${x.n[0]}</span><div class="g"><div class="t">${D.esc(x.n)}</div><div class="s">DNI ${x.dni}</div></div></button>`).join('') || '<div class="empty">No encontrado</div>'}</section>`;
+}
+function accHtml(){
+  if (!ult) return '';
+  const s = D.S.soc.find(x => x.id === ult), v = venceEn(s);
+  if (v < 0) return `<div class="acc bad"><b>Cuota vencida</b><div class="n">${D.esc(s.n)}</div><div>Venció hace ${-v} día${v === -1 ? '' : 's'} · ${PLANES[s.pl][0]}</div><div class="acts"><button class="btn btn-a" data-act="cobrar" data-v="${s.id}">Cobrar ahora ${D.money(PLANES[s.pl][1])}</button></div></div>`;
+  return `<div class="acc ${v <= 5 ? 'warn' : 'ok'}"><b>${v <= 5 ? 'Vence pronto' : 'Adelante'}</b><div class="n">${D.esc(s.n)}</div><div>Cuota al día hasta el ${D.fdate(s.vence, { day:'numeric', month:'long' })}${v <= 5 ? ` · le quedan ${v} días` : ''}</div></div>`;
+}
+D.onInput('qi', v => { qi = v; document.getElementById('sug').innerHTML = sugHtml(); });
+D.on('entrar', id => {
+  const s = D.S.soc.find(x => x.id == id), ok = venceEn(s) >= 0; ult = s.id; qi = '';
+  if (s.asist[s.asist.length - 1] !== D.key(T())) s.asist.push(D.key(T()));
+  D.S.hoy.push({ id:s.id, h:new Date().toLocaleTimeString('es-AR', { hour:'2-digit', minute:'2-digit', hour12:false }), ok }); D.save(); D.render();
+});
+
+/* ---------- Socios ---------- */
+let fs = 'vencidos';
+APP.views.soc = () => {
+  const g = { vencidos:D.S.soc.filter(s => venceEn(s) < 0), semana:D.S.soc.filter(s => venceEn(s) >= 0 && venceEn(s) <= 7), aldia:D.S.soc.filter(s => venceEn(s) > 7) };
+  const list = g[fs].sort((a, b) => venceEn(a) - venceEn(b));
+  return `<div class="head"><div><h1>Socios</h1><div class="sub">${D.S.soc.length} activos · cada uno con su vencimiento</div></div>${fs !== 'aldia' && list.length ? `<button class="btn btn-a" data-act="recTodos">${D.icon('wa')} Recordar a ${list.length}</button>` : ''}</div>
+  <div class="chips" style="margin-bottom:12px">${[['vencidos','Vencidos'],['semana','Vencen esta semana'],['aldia','Al día']].map(([k, l]) => `<button class="chip ${fs === k ? 'on' : ''}" data-act="fs" data-v="${k}">${l}<b>${g[k].length}</b></button>`).join('')}</div>
+  <section class="card list">${list.map(s => { const v = venceEn(s); return `<div class="row"><span class="av">${s.n[0]}</span><div class="g"><div class="t">${D.esc(s.n)}</div><div class="s">${PLANES[s.pl][0]} · ${v < 0 ? `venció hace ${-v} días` : `vence ${D.fdate(s.vence)}`}</div></div>
+    <div class="r">${v < 0 || v <= 7 ? `<button class="btn btn-g btn-s" data-act="rec1" data-v="${s.id}">${D.icon('wa')}</button> ` : ''}<button class="btn btn-ok btn-s" data-act="cobrar" data-v="${s.id}">Cobrar</button></div></div>`; }).join('') || '<div class="empty">Nadie en esta lista 💪</div>'}</section>`;
+};
+D.on('fs', v => { fs = v; D.render(); });
+D.on('rec1', id => { const s = D.S.soc.find(x => x.id == id), v = venceEn(s); D.waPreview('Recordatorio de cuota', `¡Hola ${s.n.split(' ')[0]}! 💪 Te escribimos de ${D.brandName()}: tu cuota de ${PLANES[s.pl][0]} ${v < 0 ? `venció el ${D.fdate(s.vence)}` : `vence el ${D.fdate(s.vence)}`}. Son ${D.money(PLANES[s.pl][1])}; podés pagar por transferencia al alias fuerza.serrana o en recepción. ¡Te esperamos!`, 'Recordatorio enviado'); });
+D.on('recTodos', () => D.toast('Recordatorios enviados, cada uno con su monto y fecha (simulado)'));
+D.on('cobrar', id => {
+  const s = D.S.soc.find(x => x.id == id);
+  D.modal(`Cobrar a ${D.esc(s.n)}`, `<div class="form"><label class="fld">Plan<select id="cb-p">${PLANES.map((p, i) => `<option value="${i}" ${i === s.pl ? 'selected' : ''}>${p[0]} · ${D.money(p[1])}</option>`).join('')}</select></label>
+    <div class="f2"><label class="fld">Meses<select id="cb-m"><option>1</option><option>3</option><option>6</option></select></label><label class="fld">Medio<select id="cb-x"><option>Transferencia</option><option>Efectivo</option><option>Mercado Pago</option></select></label></div></div>`,
+    `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="cobrarOk" data-v="${id}">Cobrar y enviar recibo</button>`);
+});
+D.on('cobrarOk', id => {
+  const s = D.S.soc.find(x => x.id == id), pl = +D.val('cb-p'), m = +D.val('cb-m');
+  const base = venceEn(s) < 0 ? T() : D.fromKey(s.vence), nv = new Date(base); nv.setMonth(nv.getMonth() + m);
+  s.pl = pl; s.vence = D.key(nv); D.S.caja.push({ f:D.key(T()), m:PLANES[pl][1] * m, medio:D.val('cb-x'), n:s.n });
+  D.save(); D.close(); D.render(); D.toast(`<b>${D.money(PLANES[pl][1] * m)}</b> cobrados · cuota al día hasta el ${D.fdate(s.vence)}`);
+});
+
+/* ---------- Retención ---------- */
+APP.views.ret = () => {
+  const ls = D.S.soc.filter(s => ultima(s) >= 12 && venceEn(s) > -20).sort((a, b) => ultima(b) - ultima(a));
+  return `<div class="head"><div><h1>Dejaron de venir</h1><div class="sub">Socios sin entrenar hace 12 días o más. Un mensaje a tiempo evita la baja.</div></div></div>
+  <div class="kpis"><div class="card kpi bad"><small>En riesgo de baja</small><span class="num">${ls.length}</span></div><div class="card kpi"><small>Ingresos en riesgo / mes</small><span class="num">${D.money(ls.reduce((s, x) => s + PLANES[x.pl][1], 0))}</span></div></div>
+  <section class="card list">${ls.map(s => { const u = ultima(s); return `<div class="row"><span class="av">${s.n[0]}</span><div class="g"><div class="t">${D.esc(s.n)}</div><div class="s">Última vez hace ${u} días · ${PLANES[s.pl][0]}</div>
+    <div class="dots">${Array.from({ length:30 }, (_, k) => `<i class="${s.asist.includes(D.key(D.addDays(T(), k - 29))) ? 'on' : ''}"></i>`).join('')}</div></div>
+    <div class="r">${s.reac ? '<span class="pill p-ok">Contactado</span>' : `<button class="btn btn-g btn-s" data-act="reac" data-v="${s.id}">${D.icon('wa')} Escribir</button>`}</div></div>`; }).join('') || '<div class="empty">Todos vienen seguido 💪</div>'}</section>
+  <div class="note">Cada cuadrito es un día del último mes; en verde, los días que vino.</div>`;
+};
+D.on('reac', id => {
+  const s = D.S.soc.find(x => x.id == id);
+  D.waPreview('Escribirle', `¡Hola ${s.n.split(' ')[0]}! Te extrañamos en ${D.brandName()} 😅 Hace ${ultima(s)} días que no venís. ¿Todo bien? Si te sirve, armamos una rutina más corta para que puedas volver de a poco. ¡Te esperamos!`, 'Mensaje enviado');
+  APP.onWaSent = () => { s.reac = true; D.save(); D.render(); APP.onWaSent = null; };
+});
+
+/* ---------- Caja ---------- */
+APP.views.caja = () => {
+  const mes = D.S.caja.filter(c => D.diffDays(T(), D.fromKey(c.f)) < 30), hoy = mes.filter(c => c.f === D.key(T()));
+  const tot = mes.reduce((s, c) => s + c.m, 0), porM = {}; mes.forEach(c => porM[c.medio] = (porM[c.medio] || 0) + c.m);
+  const proy = D.S.soc.filter(s => venceEn(s) < 0 || D.diffDays(D.fromKey(s.vence), T()) <= 30).reduce((s, x) => s + PLANES[x.pl][1], 0);
+  const max = Math.max(...Object.values(porM), 1);
+  return `<div class="head"><div><h1>Caja</h1><div class="sub">${T().toLocaleDateString('es-AR', { month:'long', year:'numeric' }).replace(/^./, c => c.toUpperCase())}</div></div></div>
+  <div class="kpis"><div class="card kpi hl"><small>Cobrado últimos 30 días</small><span class="num">${D.money(tot)}</span></div><div class="card kpi"><small>Cobrado hoy</small><span class="num">${D.money(hoy.reduce((s, c) => s + c.m, 0))}</span></div>
+    <div class="card kpi"><small>A cobrar próximos 30 días</small><span class="num">${D.money(proy)}</span></div><div class="card kpi"><small>Pagos registrados</small><span class="num">${mes.length}</span></div></div>
+  <div class="g2"><section class="card pad"><h2 style="margin-bottom:10px">Por medio de pago</h2>${Object.entries(porM).sort((a, b) => b[1] - a[1]).map(([k, v]) => `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:14px"><span>${k}</span><b>${D.money(v)}</b></div><div class="bar"><i style="width:${v / max * 100}%"></i></div></div>`).join('')}</section>
+  <section class="card list"><div class="sec-t"><h2>Últimos pagos</h2></div>${mes.slice(-8).reverse().map(c => `<div class="row"><div class="g"><div class="t">${D.esc(c.n)}</div><div class="s">${D.fdate(c.f)} · ${c.medio}</div></div><b class="amt">${D.money(c.m)}</b></div>`).join('')}</section></div>`;
+};
+
+D.start(APP);
+</script>
+</body>
+</html>

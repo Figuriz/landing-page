@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mesas, reservas y lista de espera · Demo</title>
+<meta name="description" content="Demo para restaurantes con mucho movimiento: mesas en tiempo real, lista de espera con aviso por WhatsApp y reservas confirmadas para evitar mesas vacías.">
+<meta name="robots" content="noindex">
+<meta property="og:title" content="Mesas, reservas y lista de espera · Demo">
+<meta property="og:description" content="Demo para restaurantes con mucho movimiento: mesas en tiempo real, lista de espera con aviso por WhatsApp y reservas confirmadas para evitar mesas vacías.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800&family=Alegreya+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f0e8;--card:#fffaf3;--ink:#2a1b16;--mu:#6e5b52;--line:#e8dccd;
+--brand:#4a1c14;--brand-ink:#fbefe3;--accent:#f4b942;--accent-ink:#4a1c14;--accent-soft:#fbe9c2;
+--ok:#3d7a4a;--ok-soft:#e0efe2;--warn:#b0700f;--warn-soft:#fbecd3;--bad:#b73b2e;--bad-soft:#f8dfdb;--info:#3f6596;--info-soft:#e1e9f4;
+--fd:"Alegreya",Georgia,serif;--fb:"Alegreya Sans",system-ui,sans-serif}
+body{font-size:16px}
+.mesas{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(min-width:700px){.mesas{grid-template-columns:repeat(8,1fr)}}
+.mesa{aspect-ratio:1;border-radius:14px;border:2px solid var(--line);background:var(--card);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font-weight:800;position:relative}
+.mesa b{font:800 20px var(--fd)}
+.mesa small{font-size:11px;font-weight:700;color:var(--mu)}
+.mesa.oc{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}.mesa.oc small{color:inherit;opacity:.8}
+.mesa.re{background:var(--accent-soft);border-color:var(--accent);border-style:dashed}
+.mesa.lib{border-color:#b9d8bf;background:var(--ok-soft)}
+.mesa.long::after{content:"";position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.zona{font:700 13px var(--fb);text-transform:uppercase;letter-spacing:.08em;color:var(--mu);margin:14px 0 8px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--mu);margin-top:12px}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:4px;vertical-align:-1px}
+.wait{font:800 22px var(--fd);min-width:58px;text-align:center}
+.wait small{display:block;font:700 11px var(--fb);color:var(--mu)}
+.hora{font:800 17px var(--fd);min-width:52px}
+
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:15px/1.45 var(--fb);-webkit-font-smoothing:antialiased;padding-bottom:calc(66px + env(safe-area-inset-bottom))}
+h1,h2,h3,.num,.fd{font-family:var(--fd)}
+h1{font-size:27px;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.1}
+h2{font-size:18px;font-weight:700;margin:0}
+h3{font-size:16px;font-weight:700;margin:0}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none;padding:0}
+input,select,textarea{font:inherit;color:inherit}
+.muted{color:var(--mu)}
+.sm{font-size:13px}
+
+/* header */
+.top{background:var(--brand);color:var(--brand-ink);position:sticky;top:0;z-index:20}
+.top-in{max-width:1120px;margin:0 auto;padding:11px 16px;display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;min-width:0}
+.brand .logo{width:34px;height:34px;border-radius:9px;background:var(--accent);color:var(--brand);display:flex;align-items:center;justify-content:center;font:800 17px var(--fd);flex:none}
+.brand b{font:800 18px/1.05 var(--fd);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand small{font-size:12px;opacity:.75;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--accent);color:var(--brand);padding:4px 8px;border-radius:99px;flex:none}
+.reset{font-size:12.5px;opacity:.8;text-decoration:underline;text-underline-offset:3px;flex:none}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--card);border-top:1px solid var(--line);display:flex;padding-bottom:env(safe-area-inset-bottom)}
+.nav button{flex:1;height:64px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;color:var(--mu);position:relative;min-width:0}
+.nav button svg{width:22px;height:22px}
+.nav button.on{color:var(--brand)}
+.nav button.on::before{content:"";position:absolute;top:0;left:22%;right:22%;height:3px;border-radius:0 0 3px 3px;background:var(--brand)}
+.nav .badge{position:absolute;top:7px;left:calc(50% + 5px);background:var(--bad);color:#fff;font-size:10.5px;min-width:18px;height:18px;border-radius:9px;padding:0 5px;display:flex;align-items:center;justify-content:center}
+@media(min-width:860px){
+  body{padding-bottom:0}
+  .nav{position:sticky;top:56px;bottom:auto;border-top:0;border-bottom:1px solid var(--line);justify-content:center;gap:4px}
+  .nav button{flex:none;flex-direction:row;height:48px;padding:0 18px;font-size:14px;gap:8px}
+  .nav button.on::before{top:auto;bottom:0;left:14px;right:14px;border-radius:3px 3px 0 0}
+  .nav .badge{position:static}
+}
+main{max-width:1120px;margin:0 auto;padding:16px 16px 28px}
+
+/* dolores */
+.pains{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:14px;padding:12px 14px;margin-bottom:16px;position:relative}
+.pains b.t{display:block;font:700 15px var(--fd);margin-bottom:6px;padding-right:24px}
+.pains ul{margin:0;padding:0;list-style:none;display:grid;gap:5px;font-size:13.5px}
+.pains li{display:flex;gap:8px}
+.pains li i{font-style:normal;flex:none}
+.pains .x{position:absolute;top:8px;right:10px;font-size:20px;opacity:.5;padding:2px 6px}
+.para{display:inline-block;margin:0 0 10px;font-size:12.5px;font-weight:600;background:var(--accent-soft);color:var(--ink);padding:4px 10px;border-radius:99px}
+
+/* comunes */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px}
+.pad{padding:14px}
+.head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.head .sub{color:var(--mu);font-size:14px;margin-top:3px}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chips.scroll{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:3px}
+.chips.scroll::-webkit-scrollbar{display:none}
+.chip{padding:7px 12px;border-radius:99px;border:1px solid var(--line);background:var(--card);font-size:13.5px;font-weight:500;white-space:nowrap}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.chip b{margin-left:5px;opacity:.65}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:11px 16px;border-radius:11px;font-weight:600;font-size:14.5px;white-space:nowrap}
+.btn-p{background:var(--brand);color:var(--brand-ink)}
+.btn-a{background:var(--accent);color:var(--accent-ink)}
+.btn-g{border:1px solid var(--line);background:var(--card)}
+.btn-ok{background:var(--ok);color:#fff}
+.btn-s{padding:7px 11px;font-size:13px;border-radius:9px}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn svg{width:16px;height:16px}
+.w100{width:100%}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:99px;white-space:nowrap}
+.pill::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.p-ok{background:var(--ok-soft);color:var(--ok)}
+.p-warn{background:var(--warn-soft);color:var(--warn)}
+.p-bad{background:var(--bad-soft);color:var(--bad)}
+.p-info{background:var(--info-soft);color:var(--info)}
+.p-mu{background:var(--line);color:var(--mu)}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+@media(min-width:860px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{padding:12px 14px}
+.kpi small{font-size:12px;color:var(--mu);display:block}
+.kpi .num{font-size:22px;font-weight:800;letter-spacing:-.02em;display:block;margin-top:3px}
+.kpi.hl{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.kpi.hl small{color:inherit;opacity:.75}
+.kpi.bad .num{color:var(--bad)}
+.list{overflow:hidden}
+.row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);width:100%;text-align:left}
+.row:last-child{border-bottom:0}
+.row .g{flex:1;min-width:0}
+.row .t{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .s{font-size:12.5px;color:var(--mu)}
+.row .r{text-align:right;flex:none}
+button.row:active{background:var(--line)}
+.amt{font:800 15.5px var(--fd);white-space:nowrap}
+.stack{display:grid;gap:14px}
+.g2{display:grid;gap:14px}
+@media(min-width:900px){.g2{grid-template-columns:1fr 1fr;align-items:start}.g2 .span{grid-column:1/-1}}
+.sec-t{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px 6px}
+.empty{padding:26px;text-align:center;color:var(--mu)}
+.bar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--brand)}
+.bar i.warn{background:var(--warn)}.bar i.bad{background:var(--bad)}.bar i.ok{background:var(--ok)}
+.tbl{width:100%;border-collapse:collapse;font-size:14px}
+.tbl th{font-size:11px;text-transform:uppercase;letter-spacing:.05em;color:var(--mu);text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-weight:700}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--line)}
+.tbl .r{text-align:right;white-space:nowrap}
+.scrollx{overflow-x:auto}
+.note{font-size:12.5px;color:var(--mu);margin-top:8px}
+
+/* formularios */
+.form{display:grid;gap:12px}
+.fld{display:grid;gap:5px;font-size:12.5px;font-weight:700;color:var(--mu)}
+.fld input,.fld select,.fld textarea{font-size:15px;font-weight:400;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px 12px;width:100%;outline:none}
+.fld input:focus,.fld select:focus,.fld textarea:focus{border-color:var(--brand)}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:flex-end;justify-content:center;animation:fade .18s}
+@keyframes fade{from{opacity:0}}
+@media(min-width:700px){.modal{align-items:center;padding:24px}}
+.sheet{background:var(--card);width:100%;max-width:560px;max-height:92vh;overflow:auto;border-radius:18px 18px 0 0;padding:16px}
+@media(min-width:700px){.sheet{border-radius:18px}}
+.sheet-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.sheet-h .x{font-size:24px;line-height:1;opacity:.55;padding:2px 6px}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.acts .btn{flex:1}
+.wa{background:#e7f8ec;border:1px solid #bfe8cb;border-radius:12px 12px 12px 3px;padding:10px 12px;font-size:14px;white-space:pre-wrap;color:#1b3a24}
+.okline{display:flex;align-items:center;gap:8px;background:var(--ok-soft);color:var(--ok);border-radius:10px;padding:10px 12px;font-weight:700;font-size:14px;margin-bottom:12px}
+.okline svg,.pains svg{width:18px;height:18px;flex:none}
+
+/* toast */
+.toast{position:fixed;left:50%;top:70px;transform:translateX(-50%) translateY(-16px);opacity:0;z-index:80;background:var(--ink);color:var(--bg);padding:11px 16px;border-radius:12px;font-size:14px;box-shadow:0 12px 30px -10px rgba(0,0,0,.5);transition:.25s;max-width:calc(100% - 32px);pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast b{color:var(--accent)}
+.flash{animation:fl 1.6s ease}
+@keyframes fl{0%,40%{background:var(--accent-soft)}}
+@media(min-width:860px){.pad .acts .btn{flex:0 1 auto}}
+</style>
+</head>
+<body>
+<header class="top" id="top"></header>
+<nav class="nav" id="nav"></nav>
+<main id="app"></main>
+<div id="modal"></div>
+<div class="toast" id="toast" role="status"></div>
+<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+const D = (() => {
+  const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
+  const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
+  const ICONS = {
+    box:'<path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z"/><path d="M3 7.5 12 12l9-4.5M12 12v9"/>',
+    truck:'<path d="M2 6h11v10H2zM13 9h4l4 4v3h-8z"/><circle cx="6" cy="17.5" r="1.8"/><circle cx="17" cy="17.5" r="1.8"/>',
+    cash:'<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.8"/><path d="M6 9.5v5M18 9.5v5"/>',
+    users:'<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="17" cy="9" r="2.4"/><path d="M16 14.2c2.8.3 5 2.7 5 5.8"/>',
+    cal:'<rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.5h18M8 2.5v4M16 2.5v4"/>',
+    wrench:'<path d="M14.5 6.5a4 4 0 0 0 5 5L21 13l-8 8-3-3 8-8-1.5-1.5a4 4 0 0 1-5-5L13 2z" transform="translate(-1 0)"/>',
+    list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="3.5" cy="6" r="1"/><circle cx="3.5" cy="12" r="1"/><circle cx="3.5" cy="18" r="1"/>',
+    chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+    home:'<path d="M3 11 12 3l9 8"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/>',
+    file:'<path d="M6 2.5h9l4 4V21.5H6z"/><path d="M14.5 2.5v4.5H19M9 12h7M9 16h7"/>',
+    clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+    tag:'<path d="M3 12V3h9l9 9-9 9z"/><circle cx="7.5" cy="7.5" r="1.5"/>',
+    key:'<circle cx="8" cy="15" r="4.5"/><path d="M11.5 12 21 2.5M17 6.5l3 3M15 8.5l2 2"/>',
+    door:'<path d="M5 21V3h11v18M3 21h18"/><circle cx="13" cy="12" r="1"/>',
+    flame:'<path d="M12 22c4 0 7-2.8 7-7 0-3.5-2.5-6.5-4-8 0 2.5-1.5 4-3 4.5C12 8 10.5 4.5 8 2c.5 3-3 6-3 11 0 5 3 9 7 9z"/>',
+    pulse:'<path d="M3 12h4l2-5 4 10 2-5h6"/>',
+    bell:'<path d="M6 16V11a6 6 0 1 1 12 0v5l2 2H4z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+    car:'<path d="M3 16v-4l2.5-5.5h13L21 12v4z"/><path d="M3 12h18"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/>',
+    plus:'<path d="M12 5v14M5 12h14"/>',
+    check:'<path d="M5 12.5l4.5 4.5L19 7"/>',
+    search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/>',
+    wa:'<path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c0 3.5 3 6.5 6.5 6.5l1-1.5-2-1-1 .8c-1-.4-2.2-1.6-2.6-2.6l.8-1-1-2z"/>'
+  };
+  const icon = (n, cls = '') => `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONS[n] || ''}</svg>`;
+
+  const qs = new URLSearchParams(location.search);
+  const PARA = (qs.get('para') || '').trim().slice(0, 60);
+
+  let APP, UI = { tab:null }, handlers = {}, inputs = {};
+  const st = { S:null };
+
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[m]));
+  const money = n => fmt0.format(Math.round(n || 0));
+  const num = n => fmtN.format(n || 0);
+  const pad = (n, l = 2) => String(n).padStart(l, '0');
+  const day0 = d => { const x = new Date(d); x.setHours(0, 0, 0, 0); return x; };
+  const today = () => day0(new Date());
+  const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
+  const key = d => { const x = new Date(d); return `${x.getFullYear()}-${pad(x.getMonth() + 1)}-${pad(x.getDate())}`; };
+  const fromKey = k => { const [y, m, dd] = k.split('-').map(Number); return new Date(y, m - 1, dd); };
+  const diffDays = (a, b) => Math.round((day0(a) - day0(b)) / 864e5);
+  const asDate = d => typeof d === 'string' && /^\d{4}-\d\d-\d\d$/.test(d) ? fromKey(d) : new Date(d);
+  const fdate = (d, o = { day:'2-digit', month:'2-digit' }) => asDate(d).toLocaleDateString('es-AR', o);
+  const flong = d => asDate(d).toLocaleDateString('es-AR', { weekday:'long', day:'numeric', month:'long' });
+  const fshort = d => asDate(d).toLocaleDateString('es-AR', { weekday:'short', day:'numeric' }).replace('.', '');
+  const rng = seed => () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const pick = (r, a) => a[Math.floor(r() * a.length)];
+
+  function save(){ try { localStorage.setItem(APP.key, JSON.stringify(st.S)); } catch(e) {} }
+  function load(){
+    let s = null;
+    try { s = JSON.parse(localStorage.getItem(APP.key)); } catch(e) {}
+    if (!s || s._v !== APP.version) { s = APP.seed(); s._v = APP.version; }
+    st.S = s;
+  }
+
+  let tt;
+  function toast(h){ const t = document.getElementById('toast'); t.innerHTML = h; t.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('show'), 3400); }
+  function modal(title, body, foot = ''){
+    document.getElementById('modal').innerHTML = `<div class="modal" data-act="_bg"><div class="sheet" role="dialog" aria-label="${esc(title)}"><div class="sheet-h"><h2>${title}</h2><button class="x" data-act="_close" aria-label="Cerrar">×</button></div>${body}${foot ? `<div class="acts">${foot}</div>` : ''}</div></div>`;
+  }
+  function close(){ document.getElementById('modal').innerHTML = ''; }
+  const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const nval = id => parseFloat(val(id).replace(/\./g, '').replace(',', '.')) || 0;
+  function waPreview(title, text, okMsg){
+    modal(title, `<p class="muted sm" style="margin:0 0 8px">Así le llega por WhatsApp:</p><div class="wa">${esc(text)}</div>`,
+      `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-ok" data-act="_waSent" data-v="${esc(okMsg || 'Mensaje enviado (simulado)')}">${icon('wa')} Enviar</button>`);
+  }
+
+  function brandName(){ return PARA || APP.brand.name; }
+  function renderNav(){
+    document.getElementById('nav').innerHTML = APP.tabs.map(([id, label, ic]) => {
+      const b = APP.badges && APP.badges[id] ? APP.badges[id]() : 0;
+      return `<button class="${UI.tab === id ? 'on' : ''}" data-act="_tab" data-v="${id}">${icon(ic)}<span>${label}</span>${b ? `<span class="badge">${b}</span>` : ''}</button>`;
+    }).join('');
+  }
+  function painsHtml(){
+    if (st.S._painsOff) return '';
+    return `<div class="pains"><b class="t">${esc(APP.pains.title)}</b><ul>${APP.pains.items.map(p => `<li><i>✕</i><span>${p}</span></li>`).join('')}</ul><div class="sm" style="margin-top:8px;font-weight:600">${APP.pains.fix}</div><button class="x" data-act="_pains" aria-label="Ocultar">×</button></div>`;
+  }
+  function render(){
+    renderNav();
+    const v = APP.views[UI.tab];
+    document.getElementById('app').innerHTML = (PARA ? `<span class="para">Demo preparada para ${esc(PARA)} · datos de ejemplo</span>` : '') + painsHtml() + v();
+    if (APP.after) APP.after();
+  }
+  function header(){
+    const n = brandName();
+    document.getElementById('top').innerHTML = `<div class="top-in"><div class="brand"><span class="logo">${esc(n.trim()[0] || 'D').toUpperCase()}</span><div><b>${esc(n)}</b><small>${esc(APP.brand.sub)}</small></div></div><span class="tag">Demo</span><button class="reset" data-act="_reset">Reiniciar</button></div>`;
+    document.title = `${n} · ${APP.brand.title} (demo)`;
+  }
+
+  document.addEventListener('click', e => {
+    const el = e.target.closest('[data-act]'); if (!el) return;
+    const a = el.dataset.act, v = el.dataset.v;
+    if (el.tagName === 'INPUT' || el.tagName === 'SELECT') return;
+    if (a === '_bg'){ if (e.target === el) close(); return; }
+    if (a === '_close'){ close(); return; }
+    if (a === '_tab'){ UI.tab = v; close(); window.scrollTo(0, 0); render(); return; }
+    if (a === '_pains'){ st.S._painsOff = true; save(); render(); return; }
+    if (a === '_waSent'){ close(); toast(esc(v)); if (APP.onWaSent) APP.onWaSent(); return; }
+    if (a === '_reset'){ if (!confirm('¿Reiniciar la demo con los datos de ejemplo?')) return; try { localStorage.removeItem(APP.key); } catch(_) {} load(); UI.tab = APP.tabs[0][0]; close(); render(); return; }
+    if (handlers[a]){ handlers[a](v, el, e); }
+  });
+  document.addEventListener('input', e => { const k = e.target.dataset.in; if (k && inputs[k]) inputs[k](e.target.value, e.target); });
+  document.addEventListener('change', e => { const k = e.target.dataset.ch; if (k && handlers[k]) handlers[k](e.target.value, e.target); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+
+  function start(app){
+    APP = app; UI.tab = app.tabs[0][0];
+    load(); header(); render();
+  }
+  return {
+    start, render, save, toast, modal, close, val, nval, waPreview, icon, esc, money, num, pad,
+    today, addDays, key, fromKey, diffDays, fdate, flong, fshort, rng, pick, day0, brandName,
+    on:(a, f) => { handlers[a] = f; }, onInput:(k, f) => { inputs[k] = f; },
+    get S(){ return st.S; }, UI, PARA
+  };
+})();
+</script>
+<script>
+const MESAS = [...Array.from({ length:10 }, (_, i) => ({ id:i + 1, cap:[2, 2, 4, 4, 4, 4, 6, 6, 2, 8][i], z:'Salón' })), ...Array.from({ length:6 }, (_, i) => ({ id:i + 11, cap:[2, 2, 4, 4, 4, 6][i], z:'Galería' }))];
+const BASE = 21 * 60 + 10, LOAD = Date.now();
+const now = () => BASE + Math.floor((Date.now() - LOAD) / 60000);
+const hm = m => `${Math.floor(m / 60) % 24}:${D.pad(m % 60)}`;
+const APP = {
+  key:'demo-resto-v1', version:1,
+  brand:{ name:'Fonda del Cerro', sub:'Restaurante · Tandil', title:'Salón y reservas' },
+  pains:{ title:'¿Te pasa esto?', items:[
+    'Las reservas llegan por WhatsApp, Instagram y teléfono, y terminan en un cuaderno.',
+    'Los sábados se arma fila en la puerta y hay gente que se va sin avisar.',
+    'Reservas que no vienen: mesas vacías en el mejor horario.',
+    'No sabés cuántos cubiertos hiciste hasta cerrar la caja.'],
+    fix:'Así se ve el servicio de un sábado a la noche, todo desde una tablet o el celular:' },
+  tabs:[['salon','Salón','home'],['espera','Espera','clock'],['res','Reservas','cal'],['hoy','Resumen','chart']],
+  badges:{ espera:() => D.S.esp.length },
+  seed(){
+    const ocup = { 1:[20, 2], 3:[48, 4], 4:[12, 3], 5:[65, 4], 7:[30, 5], 8:[95, 6], 10:[40, 7], 11:[25, 2], 13:[55, 4], 16:[15, 5] };
+    const mesas = {}; Object.entries(ocup).forEach(([id, [hace, pax]]) => mesas[id] = { desde:BASE - hace, pax });
+    const esp = [['Familia Rivas', 4, 18], ['Leo', 2, 11], ['Grupo de amigos', 6, 6]].map(([n, p, h], i) => ({ id:i + 1, n, pax:p, tel:'249 15 4' + (50 + i) + '-' + (1000 + i * 77), desde:BASE - h }));
+    const res = [[20 * 60 + 30,'Camila Torres',4,'sentada',3],[21 * 60,'Martín Gil',2,'sentada',11],[21 * 60 + 15,'Paula y Andrés',2,'confirmada'],[21 * 60 + 30,'Cumple de Vero',8,'confirmada'],[21 * 60 + 30,'Sergio Díaz',4,'pendiente'],[21 * 60 + 45,'Familia Benítez',6,'confirmada'],[22 * 60,'Julia Pérez',2,'pendiente'],[22 * 60,'Nico Álvarez',4,'pendiente'],[22 * 60 + 15,'Lucía Sosa',3,'confirmada']]
+      .map(([h, n, p, e, m], i) => ({ id:i + 1, h, n, pax:p, est:e, mesa:m || null, canal:['WhatsApp','Instagram','Teléfono','Web'][i % 4] }));
+    return { mesas, esp, res, cub:86, next:4, nextR:10, noShowMes:23 };
+  },
+  views:{}
+};
+const mesa = id => MESAS.find(m => m.id == id);
+const proxRes = id => D.S.res.find(r => r.mesa == id && (r.est === 'confirmada' || r.est === 'pendiente') && r.h - now() <= 30);
+
+/* ---------- Salón ---------- */
+APP.views.salon = () => {
+  const oc = Object.keys(D.S.mesas).length, pers = Object.values(D.S.mesas).reduce((s, m) => s + m.pax, 0);
+  const libres = MESAS.filter(m => !D.S.mesas[m.id] && !proxRes(m.id)).length;
+  const zona = z => MESAS.filter(m => m.z === z).map(m => { const o = D.S.mesas[m.id], r = proxRes(m.id);
+    if (o){ const t = now() - o.desde; return `<button class="mesa oc ${t > 75 ? 'long' : ''}" data-act="mesa" data-v="${m.id}"><b>${m.id}</b><small>${o.pax} pers · ${t}′</small></button>`; }
+    if (r) return `<button class="mesa re" data-act="mesa" data-v="${m.id}"><b>${m.id}</b><small>${hm(r.h)} ${D.esc(r.n.split(' ')[0])}</small></button>`;
+    return `<button class="mesa lib" data-act="mesa" data-v="${m.id}"><b>${m.id}</b><small>${m.cap} lug.</small></button>`; }).join('');
+  return `<div class="head"><div><h1>Salón</h1><div class="sub">Servicio de la noche · ${hm(now())} h · simulación de un sábado lleno</div></div></div>
+  <div class="kpis"><div class="card kpi hl"><small>Mesas ocupadas</small><span class="num">${oc} de ${MESAS.length}</span></div><div class="card kpi"><small>Comiendo ahora</small><span class="num">${pers} personas</span></div>
+    <div class="card kpi ${D.S.esp.length ? 'bad' : ''}"><small>Esperando en la puerta</small><span class="num">${D.S.esp.length} grupos</span></div><div class="card kpi"><small>Mesas libres</small><span class="num">${libres}</span></div></div>
+  <section class="card pad"><div class="zona" style="margin-top:0">Salón</div><div class="mesas">${zona('Salón')}</div><div class="zona">Galería</div><div class="mesas">${zona('Galería')}</div>
+    <div class="legend"><span><i style="background:var(--ok-soft);border:1px solid #b9d8bf"></i>Libre</span><span><i style="background:var(--brand)"></i>Ocupada (minutos)</span><span><i style="background:var(--accent-soft);border:1px dashed var(--accent)"></i>Reservada próxima</span><span><i style="background:var(--accent);border-radius:50%"></i>Más de 75 min</span></div></section>`;
+};
+D.on('mesa', id => {
+  const m = mesa(id), o = D.S.mesas[id], r = proxRes(id);
+  if (o) return D.modal(`Mesa ${id}`, `<div class="sm">${o.pax} personas · sentados a las ${hm(o.desde)} · ${now() - o.desde} minutos</div>`, `<button class="btn btn-g" data-act="_close">Cerrar</button><button class="btn btn-p" data-act="liberar" data-v="${id}">Cobrada · liberar mesa</button>`);
+  const fit = D.S.esp.filter(e => e.pax <= m.cap);
+  D.modal(`Mesa ${id} · ${m.cap} lugares`, `${r ? `<div class="sm" style="color:var(--warn);font-weight:800;margin-bottom:8px">Reservada para ${D.esc(r.n)} a las ${hm(r.h)}</div>` : ''}
+    ${fit.length ? `<div class="fld" style="margin-bottom:6px">Sentar a alguien de la lista de espera</div>${fit.map(e => `<button class="row card" style="margin-bottom:6px" data-act="sentarEsp" data-v="${e.id}:${id}"><div class="g"><div class="t">${D.esc(e.n)}</div><div class="s">${e.pax} personas · esperando ${now() - e.desde} min</div></div><span class="btn btn-p btn-s">Sentar</span></button>`).join('')}` : '<div class="sm muted">Nadie en espera entra en esta mesa.</div>'}`,
+    `<button class="btn btn-g" data-act="_close">Cerrar</button><button class="btn btn-a" data-act="walkin" data-v="${id}">Sentar sin reserva</button>`);
+});
+D.on('liberar', id => { const o = D.S.mesas[id]; D.S.cub += 0; delete D.S.mesas[id]; D.save(); D.close(); D.render(); D.toast(`Mesa ${id} libre${D.S.esp.some(e => e.pax <= mesa(id).cap) ? ' · hay gente en espera que entra' : ''}`); });
+D.on('walkin', id => { D.S.mesas[id] = { desde:now(), pax:Math.min(mesa(id).cap, 2) }; D.S.cub += 2; D.save(); D.close(); D.render(); });
+D.on('sentarEsp', v => {
+  const [eid, mid] = v.split(':'), e = D.S.esp.find(x => x.id == eid);
+  D.S.mesas[mid] = { desde:now(), pax:e.pax }; D.S.cub += e.pax; D.S.esp = D.S.esp.filter(x => x.id != eid); D.save(); D.close(); D.render();
+  D.toast(`<b>${D.esc(e.n)}</b> sentados en la mesa ${mid}`);
+});
+
+/* ---------- Espera ---------- */
+APP.views.espera = () => `<div class="head"><div><h1>Lista de espera</h1><div class="sub">Se anotan y se van a dar una vuelta: les llega un WhatsApp cuando la mesa está lista</div></div><button class="btn btn-a" data-act="anotar">${D.icon('plus')} Anotar</button></div>
+  <section class="card list">${D.S.esp.map(e => `<div class="row"><div class="wait">${now() - e.desde}′<small>espera</small></div><div class="g"><div class="t">${D.esc(e.n)}</div><div class="s">${e.pax} personas · ${e.tel}${e.av ? ' · <b style="color:var(--ok)">avisado</b>' : ''}</div></div>
+    <div class="r">${e.av ? '' : `<button class="btn btn-g btn-s" data-act="avisar" data-v="${e.id}">${D.icon('wa')} Mesa lista</button>`}</div></div>`).join('') || '<div class="empty">Nadie esperando</div>'}</section>
+  <div class="note">Tiempo de espera estimado ahora: ~${Math.max(10, D.S.esp.length * 9)} minutos. Se calcula con las mesas que se van liberando.</div>`;
+D.on('anotar', () => {
+  D.modal('Anotar en la lista', `<div class="form"><div class="f2"><label class="fld">Nombre<input id="an-n" value="Romina"></label><label class="fld">Personas<input id="an-p" inputmode="numeric" value="3"></label></div><label class="fld">WhatsApp<input id="an-t" inputmode="tel" value="249 15 466-1234"></label></div>`,
+    `<button class="btn btn-g" data-act="_close">Cancelar</button><button class="btn btn-a" data-act="anotarOk">Anotar y mandar confirmación</button>`);
+});
+D.on('anotarOk', () => { const e = { id:D.S.next++, n:D.val('an-n') || 'Cliente', pax:D.nval('an-p') || 2, tel:D.val('an-t'), desde:now() }; D.S.esp.push(e); D.save(); D.close(); D.render(); D.toast(`<b>${D.esc(e.n)}</b> anotado · espera estimada ~${Math.max(10, D.S.esp.length * 9)} min`); });
+D.on('avisar', id => { const e = D.S.esp.find(x => x.id == id); D.waPreview('Avisar que la mesa está lista', `¡Hola ${e.n.split(' ')[0]}! Tu mesa para ${e.pax} en ${D.brandName()} está lista 🍷 Te la guardamos 10 minutos. ¡Te esperamos!`, 'Aviso enviado');
+  APP.onWaSent = () => { e.av = true; D.save(); D.render(); APP.onWaSent = null; }; });
+
+/* ---------- Reservas ---------- */
+APP.views.res = () => {
+  const rs = [...D.S.res].sort((a, b) => a.h - b.h), pend = rs.filter(r => r.est === 'pendiente');
+  const L = { pendiente:['Sin confirmar','p-warn'], confirmada:['Confirmada','p-ok'], sentada:['Sentados','p-mu'], novino:['No vino','p-bad'], cancelada:['Canceló','p-mu'] };
+  return `<div class="head"><div><h1>Reservas de hoy</h1><div class="sub">Todas juntas, vengan de WhatsApp, Instagram, teléfono o la web</div></div>${pend.length ? `<button class="btn btn-a" data-act="confTodas">${D.icon('wa')} Confirmar ${pend.length}</button>` : ''}</div>
+  <div class="kpis"><div class="card kpi hl"><small>Reservas hoy</small><span class="num">${rs.length} · ${rs.reduce((s, r) => s + r.pax, 0)} pers.</span></div><div class="card kpi bad"><small>No vinieron este mes</small><span class="num">${D.S.noShowMes}</span></div></div>
+  <section class="card list">${rs.map(r => `<div class="row"><div class="hora">${hm(r.h)}</div><div class="g"><div class="t">${D.esc(r.n)}</div><div class="s">${r.pax} personas · por ${r.canal}${r.mesa ? ` · mesa ${r.mesa}` : ''}</div></div>
+    <div class="r"><span class="pill ${L[r.est][1]}">${L[r.est][0]}</span>${r.est === 'confirmada' || r.est === 'pendiente' ? `<div style="margin-top:6px"><button class="btn btn-g btn-s" data-act="noVino" data-v="${r.id}">No vino</button> <button class="btn btn-p btn-s" data-act="sentarRes" data-v="${r.id}">Llegó</button></div>` : ''}</div></div>`).join('')}</section>
+  <div class="note">El sistema manda la confirmación sola 3 horas antes. Si cancelan, la mesa se libera y se ofrece a la lista de espera.</div>`;
+};
+D.on('confTodas', () => {
+  const p = D.S.res.filter(r => r.est === 'pendiente');
+  D.waPreview('Confirmación de reservas', `¡Hola! Te esperamos hoy a las ${hm(p[0].h)} en ${D.brandName()} para ${p[0].pax} personas. ¿Nos confirmás? Respondé SÍ o NO 🙏\n(Así le llega a cada uno, con su horario)`, `${p.length} confirmaciones enviadas`);
+  APP.onWaSent = () => { p.forEach((r, i) => r.est = i === p.length - 1 ? 'cancelada' : 'confirmada'); D.save(); D.render(); setTimeout(() => D.toast(`<b>${D.esc(p[p.length - 1].n)}</b> canceló · la mesa se liberó para la lista de espera`), 600); APP.onWaSent = null; };
+});
+D.on('noVino', id => { const r = D.S.res.find(x => x.id == id); r.est = 'novino'; D.S.noShowMes++; D.save(); D.render(); });
+D.on('sentarRes', id => {
+  const r = D.S.res.find(x => x.id == id), m = MESAS.find(m => m.cap >= r.pax && !D.S.mesas[m.id] && (!r.mesa || m.id == r.mesa)) || MESAS.find(m => m.cap >= r.pax && !D.S.mesas[m.id]);
+  if (!m) return D.toast('No hay mesa libre de ese tamaño ahora');
+  D.S.mesas[m.id] = { desde:now(), pax:r.pax }; r.est = 'sentada'; r.mesa = m.id; D.S.cub += r.pax; D.save(); D.render(); D.toast(`<b>${D.esc(r.n)}</b> en la mesa ${m.id}`);
+});
+
+/* ---------- Resumen ---------- */
+APP.views.hoy = () => {
+  const can = { WhatsApp:31, Instagram:18, Teléfono:22, Web:9 }, max = Math.max(...Object.values(can));
+  const horas = [[20, 18], [20.5, 34], [21, 52], [21.5, 61], [22, 44], [22.5, 25], [23, 10]], mh = Math.max(...horas.map(h => h[1]));
+  return `<div class="head"><div><h1>Resumen</h1><div class="sub">Datos para decidir: cuánta gente, cuándo y por dónde llega</div></div></div>
+  <div class="kpis"><div class="card kpi hl"><small>Cubiertos hoy</small><span class="num">${D.S.cub}</span></div><div class="card kpi"><small>Ticket promedio</small><span class="num">${D.money(24500)}</span></div>
+    <div class="card kpi"><small>Mesas que rotaron</small><span class="num">1,8 veces</span></div><div class="card kpi bad"><small>Se fueron de la fila (mes)</small><span class="num">14</span></div></div>
+  <div class="g2"><section class="card pad"><h2 style="margin-bottom:10px">Reservas por canal (mes)</h2>${Object.entries(can).map(([k, v]) => `<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:14px"><span>${k}</span><b>${v}</b></div><div class="bar"><i style="width:${v / max * 100}%"></i></div></div>`).join('')}</section>
+  <section class="card pad"><h2 style="margin-bottom:10px">Personas por horario (sábados)</h2><div style="display:flex;align-items:flex-end;gap:6px;height:140px">${horas.map(([h, v]) => `<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;height:100%;justify-content:flex-end"><div style="width:100%;height:${v / mh * 100}%;background:${v === mh ? 'var(--accent)' : 'var(--brand)'};border-radius:5px 5px 0 0"></div><small class="muted">${hm(h * 60)}</small></div>`).join('')}</div></section></div>
+  <div class="note">Datos de ejemplo. Con datos reales sabés cuándo reforzar mozos y cuándo conviene una promo.</div>`;
+};
+
+setInterval(() => { if (!document.querySelector('.modal') && ['salon', 'espera'].includes(D.UI.tab)) D.render(); }, 60000);
+D.start(APP);
+</script>
+</body>
+</html>
