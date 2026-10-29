@@ -5,11 +5,11 @@ import Image from "next/image"
 import { Mail, Linkedin, ArrowUpRight, Lock, ShieldCheck, BadgeCheck } from "lucide-react"
 
 const navLinks = [
-  { label: "Servicios", href: "#servicios" },
-  { label: "Nosotros", href: "#nosotros" },
-  { label: "Proceso", href: "#proceso" },
-  { label: "Preguntas frecuentes", href: "#faq" },
-  { label: "Contacto", href: "#contacto" },
+  { label: "Servicios", href: "/#servicios" },
+  { label: "Nosotros", href: "/#nosotros" },
+  { label: "Proceso", href: "/#proceso" },
+  { label: "Preguntas frecuentes", href: "/#faq" },
+  { label: "Contacto", href: "/#contacto" },
 ]
 
 const services = [
@@ -143,7 +143,7 @@ export function Footer() {
               </a>
 
               <Link
-                href="#contacto"
+                href="/#contacto"
                 className="mt-3 inline-flex items-center gap-2 px-4 py-2.5 bg-primary/10 hover:bg-primary/20 border border-primary/25 hover:border-primary/50 text-primary text-sm font-semibold rounded-lg transition-all duration-200 w-fit cursor-pointer"
               >
                 Consulta gratuita

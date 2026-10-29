@@ -41,31 +41,31 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-8">
             <Link
-              href="#servicios"
+              href="/#servicios"
               className="text-foreground/80 hover:text-primary transition-colors font-medium"
             >
               Servicios
             </Link>
             <Link
-              href="#nosotros"
+              href="/#nosotros"
               className="text-foreground/80 hover:text-primary transition-colors font-medium"
             >
               Nosotros
             </Link>
             <Link
-              href="#proceso"
+              href="/#proceso"
               className="text-foreground/80 hover:text-primary transition-colors font-medium"
             >
               Proceso
             </Link>
             <Link
-              href="#faq"
+              href="/#faq"
               className="text-foreground/80 hover:text-primary transition-colors font-medium"
             >
               Preguntas frecuentes
             </Link>
             <Button asChild>
-              <Link href="#contacto">Contactanos</Link>
+              <Link href="/#contacto">Contactanos</Link>
             </Button>
           </nav>
 
@@ -86,35 +86,35 @@ export function Header() {
         >
           <nav className="flex flex-col gap-4 py-4 border-t border-border">
             <Link
-              href="#servicios"
+              href="/#servicios"
               className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
               onClick={() => setIsMenuOpen(false)}
             >
               Servicios
             </Link>
             <Link
-              href="#nosotros"
+              href="/#nosotros"
               className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
               onClick={() => setIsMenuOpen(false)}
             >
               Nosotros
             </Link>
             <Link
-              href="#proceso"
+              href="/#proceso"
               className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
               onClick={() => setIsMenuOpen(false)}
             >
               Proceso
             </Link>
             <Link
-              href="#faq"
+              href="/#faq"
               className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
               onClick={() => setIsMenuOpen(false)}
             >
               Preguntas frecuentes
             </Link>
             <Button asChild className="w-fit">
-              <Link href="#contacto" onClick={() => setIsMenuOpen(false)}>
+              <Link href="/#contacto" onClick={() => setIsMenuOpen(false)}>
                 Contactanos
               </Link>
             </Button>
