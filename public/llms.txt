@@ -1,0 +1,43 @@
+# Figuriz
+
+> Figuriz hace sistemas a medida, asistentes de WhatsApp y páginas web para negocios de Tandil, provincia de Buenos Aires, Argentina.
+
+## Qué hacemos
+
+- Asistente de WhatsApp: responde consultas con los datos del negocio, toma turnos o reservas y deriva a una persona cuando hace falta. Usa la API oficial de WhatsApp. Abono mensual.
+- Sistemas a medida: pedidos, stock, cuentas corrientes, turnos u órdenes de trabajo, pensados para usar desde el celular. Se entregan por etapas.
+- Páginas web: con fotos y reseñas reales del negocio y consultas que llegan armadas por WhatsApp. Listas en una o dos semanas.
+- Integraciones con el sistema de gestión que el negocio ya usa, automatizaciones y lectura de documentos.
+
+## Cómo trabajamos
+
+- Primera charla de 20 minutos, sin costo.
+- Propuesta por escrito, por etapas, con alcance y precio cerrados antes de empezar.
+- El dominio, las cuentas y los datos quedan a nombre del cliente.
+- Te atiende quien lo programa. En Tandil y la zona nos juntamos en persona; con otras ciudades, por videollamada y WhatsApp.
+
+## Demos por rubro
+
+- [Todas las demos](https://figuriz.com/demos)
+- [Distribuidoras](https://figuriz.com/demos/demo-pedidos): pedidos desde el celular, stock y facturación.
+- [Fábricas de quesos y fiambres](https://figuriz.com/demos/demo-fabrica): lotes, vencimientos y stock por local.
+- [Corralones y ferreterías](https://figuriz.com/demos/demo-corralon): presupuestos, cuentas corrientes y entregas.
+- [Talleres mecánicos](https://figuriz.com/demos/demo-taller): órdenes de trabajo e historial por patente.
+- [Cabañas y hoteles](https://figuriz.com/demos/demo-cabanas): reservas de varios canales en una grilla.
+- [Restaurantes](https://figuriz.com/demos/demo-restaurante): mesas en tiempo real y lista de espera.
+- [Salones de eventos](https://figuriz.com/demos/demo-salon): calendario, presupuestos y señas.
+- [Inmobiliarias](https://figuriz.com/demos/demo-inmobiliaria): cobros, ajustes y liquidaciones a propietarios.
+- [Consultorios](https://figuriz.com/demos/demo-consultorio): turnos online y confirmaciones.
+- [Veterinarias](https://figuriz.com/demos/demo-veterinaria): fichas de mascotas y recordatorios de vacunas.
+- [Repuestos y autopartes](https://figuriz.com/demos/demo-repuestos): búsqueda por vehículo y consultas de WhatsApp.
+- [Agencias de usados](https://figuriz.com/demos/demo-usados): stock, consultas y transferencias.
+- [Agronomías](https://figuriz.com/demos/demo-agronomia): cuentas de productores en dólares y pesos.
+- [Acopios y cooperativas](https://figuriz.com/demos/demo-acopio): stock por productor y portal del productor.
+- [Expresos y logística](https://figuriz.com/demos/demo-transporte): seguimiento de envíos y hojas de ruta.
+- [Gimnasios](https://figuriz.com/demos/demo-gimnasio): control de cuotas en la entrada.
+
+## Contacto
+
+- WhatsApp: +54 9 249 449-5524
+- Email: contacto@figuriz.com
+- Web: https://figuriz.com

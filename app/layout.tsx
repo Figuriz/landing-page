@@ -17,6 +17,7 @@ const syne = Syne({
 })
 
 const siteUrl = 'https://figuriz.com'
+const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '').replace(/\D/g, '')
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -88,7 +89,9 @@ export default function RootLayout({
     <html lang="es">
       <body className={`${dmSans.variable} ${syne.variable} font-sans antialiased`}>
         {children}
-        <Script
+        {/* Etiqueta <script> común (no next/script) para que el JSON-LD salga en el HTML del servidor
+            y lo lean también los rastreadores que no ejecutan JavaScript. */}
+        <script
           id="schema-org"
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -96,15 +99,25 @@ export default function RootLayout({
               '@context': 'https://schema.org',
               '@graph': [
                 {
-                  '@type': ['Organization', 'LocalBusiness'],
+                  '@type': ['Organization', 'ProfessionalService'],
                   '@id': 'https://figuriz.com/#organization',
                   name: 'Figuriz',
                   url: 'https://figuriz.com',
                   logo: 'https://figuriz.com/logo-figuriz.png',
                   description: 'Asistentes de WhatsApp, sistemas a medida, páginas web e integraciones para negocios. Tandil, Buenos Aires.',
                   email: 'contacto@figuriz.com',
+                  ...(whatsappNumber ? { telephone: `+${whatsappNumber}` } : {}),
                   sameAs: ['https://linkedin.com/company/figuriz'],
-                  areaServed: { '@type': 'Country', name: 'Argentina' },
+                  address: {
+                    '@type': 'PostalAddress',
+                    addressLocality: 'Tandil',
+                    addressRegion: 'Buenos Aires',
+                    addressCountry: 'AR',
+                  },
+                  areaServed: [
+                    { '@type': 'City', name: 'Tandil' },
+                    { '@type': 'Country', name: 'Argentina' },
+                  ],
                 },
                 {
                   '@type': 'WebSite',
