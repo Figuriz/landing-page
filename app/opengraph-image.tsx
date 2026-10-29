@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import { readFileSync } from 'fs'
 import { join } from 'path'
 
-export const alt = 'Figuriz — Automatización e IA para tu negocio'
+export const alt = 'Figuriz — Sistemas y asistentes de WhatsApp para negocios'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 
@@ -94,7 +94,7 @@ export default async function Image() {
               lineHeight: 1.3,
             }}
           >
-            Automatización e IA para tu negocio
+            Sistemas y asistentes de WhatsApp para negocios
           </div>
 
           {/* Subtitulo */}
@@ -105,7 +105,7 @@ export default async function Image() {
               maxWidth: '700px',
             }}
           >
-            Chatbots · Asistentes de WhatsApp · n8n · Integraciones
+            Asistentes de WhatsApp · Sistemas a medida · Webs · Tandil
           </div>
         </div>
 

@@ -1,28 +1,28 @@
 "use client"
 
-import { Target, Handshake, Clock, Headphones } from "lucide-react"
+import { Users, Layers, ShieldCheck, MapPin } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const features = [
   {
-    icon: Target,
-    title: "Foco en resultados",
-    description: "No vendemos tecnología por vender. Cada solución se diseña para resolver un problema concreto de tu operación.",
+    icon: Users,
+    title: "Te atiende quien lo programa",
+    description: "Sin vendedores ni call center: hablás con quien después arma tu sistema, y te lo explica en criollo.",
   },
   {
-    icon: Handshake,
-    title: "Hablamos tu idioma",
-    description: "Te explicamos todo en términos simples. No necesitás saber de programación para trabajar con nosotros.",
+    icon: Layers,
+    title: "Por etapas y por escrito",
+    description: "Arrancamos por una parte chica con alcance y precio cerrados. Lo que no está en la propuesta no se cobra de sorpresa.",
   },
   {
-    icon: Clock,
-    title: "Entregas rápidas",
-    description: "Trabajamos con sprints cortos para que veas avances reales cada semana, no después de meses.",
+    icon: ShieldCheck,
+    title: "Los datos son tuyos",
+    description: "El dominio, las cuentas y la información quedan a tu nombre. Si un día querés irte, te llevás todo.",
   },
   {
-    icon: Headphones,
-    title: "Soporte real",
-    description: "No desaparecemos después de entregar. Te acompañamos con soporte continuo para que todo siga funcionando.",
+    icon: MapPin,
+    title: "Estamos en Tandil",
+    description: "Si sos de la zona, nos juntamos en persona. Si no, trabajamos por videollamada y WhatsApp.",
   },
 ]
 
@@ -67,12 +67,12 @@ export function About() {
         {/* Header — centrado */}
         <div ref={headerAnimation.ref} className={`text-center max-w-3xl mx-auto mb-14 ${headerAnimation.className}`}>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
-            Por qué elegir <span className="text-primary">Figuriz</span>
+            Quiénes <span className="text-primary">somos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Somos un equipo especializado en automatización e inteligencia artificial.
-            Nos enfocamos en una sola cosa: hacer que tu negocio funcione
-            con menos esfuerzo manual.
+            Figuriz es un equipo chico de desarrolladores de Tandil. Llevamos más de 4 años
+            armando integraciones, sistemas internos y automatizaciones para empresas, y ahora
+            hacemos lo mismo para negocios de la zona, a su medida y a su escala.
           </p>
         </div>
 

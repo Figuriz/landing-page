@@ -1,36 +1,36 @@
 "use client"
 
-import { Search, PenTool, Code2, Rocket } from "lucide-react"
+import { MessageCircle, FileText, Code2, Rocket } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const steps = [
   {
-    icon: Search,
+    icon: MessageCircle,
     number: "01",
-    title: "Descubrimiento",
+    title: "Charlamos",
     description:
-      "Analizamos tu negocio, objetivos y necesidades para entender exactamente qué solución necesitas.",
+      "20 minutos, sin costo. Nos contás cómo trabajan hoy y qué les hace perder tiempo.",
   },
   {
-    icon: PenTool,
+    icon: FileText,
     number: "02",
-    title: "Diseño",
+    title: "Propuesta por escrito",
     description:
-      "Creamos prototipos y definimos la arquitectura de la solución antes de escribir una sola línea de código.",
+      "Te pasamos qué incluye la primera etapa, cuánto sale y cuándo está. Sin letra chica.",
   },
   {
     icon: Code2,
     number: "03",
-    title: "Desarrollo",
+    title: "Primera etapa andando",
     description:
-      "Construimos tu solución con tecnologías modernas, manteniéndote informado en cada paso del proceso.",
+      "En pocas semanas la estás usando. Te mostramos avances y lo ajustamos con tu equipo.",
   },
   {
     icon: Rocket,
     number: "04",
-    title: "Entrega y Soporte",
+    title: "Crece con vos",
     description:
-      "Lanzamos tu proyecto y te acompañamos con soporte continuo para asegurar su éxito a largo plazo.",
+      "Soporte y mejoras cuando las necesites. Sumamos módulos solo si te sirven.",
   },
 ]
 
@@ -75,10 +75,10 @@ export function ProcessSteps() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div ref={headerAnimation.ref} className={`text-center max-w-3xl mx-auto mb-16 ${headerAnimation.className}`}>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
-            Nuestro <span className="text-primary">proceso</span>
+            Cómo <span className="text-primary">trabajamos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Un enfoque claro y estructurado para llevar tu idea de concepto a realidad.
+            De la primera charla a algo que tu equipo usa todos los días.
           </p>
         </div>
 

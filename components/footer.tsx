@@ -2,23 +2,23 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, Linkedin, ArrowUpRight, Lock, ShieldCheck, BadgeCheck } from "lucide-react"
+import { Mail, Linkedin, ArrowUpRight } from "lucide-react"
 
 const navLinks = [
   { label: "Servicios", href: "/#servicios" },
   { label: "Nosotros", href: "/#nosotros" },
   { label: "Proceso", href: "/#proceso" },
   { label: "Preguntas frecuentes", href: "/#faq" },
+  { label: "Demos", href: "/demos" },
   { label: "Contacto", href: "/#contacto" },
 ]
 
 const services = [
-  "Chatbots con IA",
   "Asistentes de WhatsApp",
-  "Automatización de procesos",
-  "Integración de sistemas",
-  "Páginas web y aplicaciones",
-  "Lectura inteligente de archivos",
+  "Sistemas a medida",
+  "Páginas web",
+  "Integraciones",
+  "Automatizaciones",
 ]
 
 export function Footer() {
@@ -70,7 +70,7 @@ export function Footer() {
             <span className="text-primary">trabaje solo.</span>
           </p>
           <p className="mt-2.5 text-sm text-foreground/45 max-w-xs leading-relaxed">
-            Automatización, chatbots e IA — para que vos te enfoques en crecer.
+            Sistemas, asistentes de WhatsApp y webs para negocios. Desde Tandil.
           </p>
         </div>
 
@@ -154,27 +154,13 @@ export function Footer() {
 
         </div>
 
-        {/* Trust badges */}
-        <div className="flex items-center justify-center gap-6 flex-wrap py-4">
-          {[
-            { icon: Lock, label: "SSL Seguro" },
-            { icon: ShieldCheck, label: "Protección de Datos" },
-            { icon: BadgeCheck, label: "Consulta Sin Cargo" },
-          ].map((badge) => (
-            <div key={badge.label} className="flex items-center gap-1.5 text-foreground/40">
-              <badge.icon className="h-3.5 w-3.5" />
-              <span className="text-xs">{badge.label}</span>
-            </div>
-          ))}
-        </div>
-
         {/* Bottom bar */}
         <div className="border-t border-border/25 py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-foreground/35">
             © {new Date().getFullYear()} Figuriz. Todos los derechos reservados.
           </p>
           <div className="hidden sm:flex items-center gap-1.5 flex-wrap justify-center">
-            {["Automatización", "n8n", "IA", "WhatsApp", "APIs"].map((tag) => (
+            {["Tandil", "WhatsApp", ".NET", "Integraciones", "Webs"].map((tag) => (
               <span
                 key={tag}
                 className="text-[10px] px-2 py-0.5 bg-foreground/[0.04] text-foreground/30 rounded-full border border-border/25"

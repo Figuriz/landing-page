@@ -120,15 +120,15 @@ export function CTA() {
             {/* Header */}
             <div className="text-center mb-10">
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold font-[family-name:var(--font-heading)] text-white text-balance">
-                Empezá a ahorrar{" "}
-                <span className="text-white/75">tiempo hoy</span>
+                Contanos qué te hace{" "}
+                <span className="text-white/75">perder tiempo</span>
               </h2>
               <p className="mt-4 text-lg text-white/80 leading-relaxed">
-                Contanos qué procesos querés automatizar y te proponemos una
-                solución concreta.
+                Te respondemos con una idea concreta para tu negocio y, si te
+                interesa, coordinamos una charla corta.
               </p>
               <p className="mt-2 text-sm text-white/60 font-medium">
-                Consultas gratuitas disponibles esta semana
+                La primera charla no tiene costo
               </p>
             </div>
 
@@ -194,12 +194,12 @@ export function CTA() {
                 {/* Message */}
                 <div className="flex flex-col gap-1.5">
                   <label className="text-sm font-semibold text-white/90">
-                    ¿Qué querés automatizar?
+                    ¿Qué te gustaría resolver?
                   </label>
                   <textarea
                     {...register("message")}
                     rows={4}
-                    placeholder="Ej: Tenemos muchas consultas por WhatsApp que respondemos a mano, quisiera automatizar eso..."
+                    placeholder="Ej: Tenemos un taller y nos escriben todo el día por WhatsApp para pedir turno o preguntar si el auto está listo..."
                     className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/40 focus:border-transparent transition-all duration-200 text-sm resize-none"
                   />
                   {errors.message && (
@@ -230,7 +230,7 @@ export function CTA() {
                   ) : (
                     <>
                       <Send className="h-5 w-5" />
-                      Quiero mi consulta gratuita
+                      Enviar consulta
                     </>
                   )}
                 </button>

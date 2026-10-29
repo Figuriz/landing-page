@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Bot, Zap, TrendingUp, Users } from "lucide-react"
+import { ArrowRight, MapPin, MousePointerClick, Layers, Users, ShieldCheck } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 export function Hero() {
@@ -32,22 +32,22 @@ export function Hero() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
         <div className="text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium text-primary mb-4 md:mb-6 animate-fade-in">
-            <Bot className="h-3.5 w-3.5 md:h-4 md:w-4" />
-            Automatización e Inteligencia Artificial para tu negocio
+            <MapPin className="h-3.5 w-3.5 md:h-4 md:w-4" />
+            Software para negocios · Tandil, Buenos Aires
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold font-[family-name:var(--font-heading)] text-foreground leading-tight text-balance animate-fade-in-up">
-            Tu negocio en{" "}
+            Tu WhatsApp, tus turnos y tus pedidos,{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent animate-gradient">
-              piloto automático.
+              sin hacerlo todo a mano.
             </span>
           </h1>
 
           <p className="mt-4 md:mt-6 text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed text-pretty animate-fade-in-up animation-delay-200">
-            En <span className="text-primary font-semibold">Figuriz</span> creamos sistemas que{" "}
-            <span className="font-semibold text-foreground">atienden consultas, procesan pedidos y sincronizan tus herramientas</span>{" "}
-            — de forma automática, las 24 horas. Sin que nadie de tu equipo tenga que hacerlo manualmente.
-            También desarrollamos <span className="font-semibold text-foreground">páginas web y aplicaciones</span> a medida.
+            En <span className="text-primary font-semibold">Figuriz</span> armamos{" "}
+            <span className="font-semibold text-foreground">asistentes de WhatsApp</span> que responden y toman turnos,{" "}
+            <span className="font-semibold text-foreground">sistemas a medida</span> para dejar el Excel y el cuaderno, y{" "}
+            <span className="font-semibold text-foreground">páginas web</span> que traen consultas. Probá cómo se vería en tu rubro antes de decidir nada.
           </p>
 
           <div className="mt-6 md:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 animate-fade-in-up animation-delay-400">
@@ -56,8 +56,8 @@ export function Hero() {
               size="lg"
               className="text-sm md:text-base px-6 md:px-8 py-5 md:py-6 shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
             >
-              <Link href="#contacto">
-                Quiero automatizar mi negocio
+              <Link href="/demos">
+                Probá la demo de tu rubro
                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
               </Link>
             </Button>
@@ -67,7 +67,7 @@ export function Hero() {
               size="lg"
               className="text-sm md:text-base px-6 md:px-8 py-5 md:py-6 bg-transparent border-border/60 hover:border-primary/40 hover:scale-105 transition-all duration-300"
             >
-              <Link href="#proceso">Ver cómo funciona</Link>
+              <Link href="#contacto">Contanos tu caso</Link>
             </Button>
           </div>
 
@@ -76,10 +76,10 @@ export function Hero() {
             className={`mt-8 md:mt-12 hidden md:flex flex-wrap items-center justify-center gap-3 pt-6 md:pt-8 border-t border-border ${statsAnimation.className}`}
           >
             {[
-              { label: "Tareas sin trabajo manual", icon: Zap },
-              { label: "Chatbots e IA", icon: Bot },
-              { label: "Tus sistemas conectados", icon: TrendingUp },
-              { label: "Atención 24/7", icon: Users },
+              { label: "16 demos que podés probar", icon: MousePointerClick },
+              { label: "Por etapas, con precio cerrado", icon: Layers },
+              { label: "Te atiende quien lo programa", icon: Users },
+              { label: "Los datos son tuyos", icon: ShieldCheck },
             ].map((item) => (
               <div
                 key={item.label}

@@ -47,6 +47,12 @@ export function Header() {
               Servicios
             </Link>
             <Link
+              href="/demos"
+              className="text-foreground/80 hover:text-primary transition-colors font-medium"
+            >
+              Demos
+            </Link>
+            <Link
               href="/#nosotros"
               className="text-foreground/80 hover:text-primary transition-colors font-medium"
             >
@@ -81,7 +87,7 @@ export function Header() {
 
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
+            isMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <nav className="flex flex-col gap-4 py-4 border-t border-border">
@@ -91,6 +97,13 @@ export function Header() {
               onClick={() => setIsMenuOpen(false)}
             >
               Servicios
+            </Link>
+            <Link
+              href="/demos"
+              className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Demos
             </Link>
             <Link
               href="/#nosotros"

@@ -1,144 +1,113 @@
 "use client"
 
-import { useState } from "react"
-import { Cog, Link2, Bot, MessageCircle, FileSearch, Brain, Globe, ChevronDown } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { MessageCircle, LayoutDashboard, Globe, Link2, Cog, FileSearch, ArrowUpRight } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const mainServices = [
   {
-    icon: Bot,
-    title: "Chatbots Inteligentes",
-    description: "Chatbots con IA que entienden el contexto, responden de forma natural y resuelven consultas sin intervención humana.",
-    example: "Ej: Un bot que responde preguntas frecuentes, califica leads y agenda reuniones — sin que nadie de tu equipo intervenga.",
-    tech: "Funciona 24/7",
+    icon: MessageCircle,
+    title: "Asistente de WhatsApp",
+    description:
+      "Responde precios, horarios y disponibilidad con los datos reales de tu negocio, toma pedidos de turnos o reservas y te pasa la conversación cuando hace falta una persona.",
+    example: "Ej: un cliente le escribe al taller a las 22 h, el asistente le pide patente y problema, y a la mañana tenés el turno anotado para confirmar.",
+    tag: "Abono mensual",
+    link: { href: "#contacto", label: "Quiero uno para mi negocio" },
   },
   {
-    icon: MessageCircle,
-    title: "Asistentes de WhatsApp",
-    description: "Asistentes virtuales en WhatsApp que automatizan la atención al cliente, ventas y soporte las 24 horas del día.",
-    example: "Ej: El cliente pregunta por un producto, recibe disponibilidad y precio al instante, y puede reservar sin esperar.",
-    tech: "Respuesta inmediata",
+    icon: LayoutDashboard,
+    title: "Sistemas a medida",
+    description:
+      "Pedidos, stock, cuentas corrientes, turnos u órdenes de trabajo en un solo lugar, pensados para usar desde el celular. Para dejar el Excel, el cuaderno y el ir y venir de mensajes.",
+    example: "Ej: el vendedor carga el pedido en la calle, llega solo a la oficina, se descuenta el stock y la factura sale con un toque.",
+    tag: "Por etapas, precio cerrado",
+    link: { href: "/demos", label: "Ver demos por rubro" },
   },
   {
     icon: Globe,
-    title: "Páginas Web y Aplicaciones",
-    description: "Desarrollo de sitios web y aplicaciones a medida con diseño moderno y tecnología de punta.",
-    example: "Ej: Landing pages, e-commerce, dashboards internos o apps móviles — diseñados para tu marca y objetivos.",
-    tech: "Diseño a medida",
-  },
-  {
-    icon: Cog,
-    title: "Automatización de Procesos",
-    description: "Automatizamos flujos de trabajo complejos, eliminando tareas manuales y repetitivas de tu operación diaria.",
-    example: "Ej: Cuando se cierra una venta, se genera la factura, se envía por email y se notifica al equipo de despacho.",
-    tech: "Sin intervención manual",
-  },
-  {
-    icon: FileSearch,
-    title: "Lectura Inteligente de Archivos",
-    description: "Procesamos documentos, PDFs e imágenes con IA para extraer información y automatizar la carga de datos.",
-    example: "Ej: Subís una factura en PDF y el sistema extrae proveedor, monto e impuestos directo a tu planilla o sistema contable.",
-    tech: "Sin carga manual",
-  },
-  {
-    icon: Link2,
-    title: "Integraciones",
-    description: "Conectamos tus sistemas para que todas tus herramientas trabajen juntas en tiempo real, sin copiar datos a mano.",
-    example: "Ej: Tu tienda online, tu CRM, tu sistema de stock y tu WhatsApp sincronizados automáticamente.",
-    tech: "Todo conectado",
+    title: "Páginas web",
+    description:
+      "Con tus fotos, tus reseñas reales de Google y un formulario que te deja la consulta armada en WhatsApp. Rápidas en el celular y con el dominio a tu nombre.",
+    example: "Ej: un salón de eventos recibe la consulta con tipo de evento, fecha e invitados, sin preguntar tres veces lo mismo.",
+    tag: "Lista en 1 o 2 semanas",
+    link: { href: "/demos/barrika", label: "Ver un boceto" },
   },
 ]
 
+const otherServices = [
+  { icon: Link2, title: "Integraciones", text: "Conectamos tu sistema de gestión, tu tienda, tus planillas y tu WhatsApp para no copiar datos a mano." },
+  { icon: Cog, title: "Automatizaciones", text: "Avisos, recordatorios, reportes y mails que salen solos cuando pasa algo en tu negocio." },
+  { icon: FileSearch, title: "Lectura de documentos", text: "Facturas, remitos o PDFs que se leen solos y se cargan donde los necesitás." },
+]
 
-function ServiceCard({ service, index }: { service: typeof mainServices[0]; index: number }) {
+function ServiceCard({ service, index }: { service: (typeof mainServices)[0]; index: number }) {
   const animation = useScrollAnimation({ delay: index * 100, animation: "fade-in-up" })
+  const Icon = service.icon
 
   return (
     <div ref={animation.ref} className={animation.className}>
-      <Card
-        className="group bg-card border-border hover:border-primary/30 hover:shadow-lg hover:shadow-primary/10 hover:scale-[1.02] transition-all duration-300 h-full relative overflow-hidden"
-      >
-        {/* Left accent bar — visible on hover */}
-        <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-bl-full" />
-        <CardHeader>
-          <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-            <service.icon className="h-6 w-6 text-primary" />
+      <div className="group h-full flex flex-col gap-5 p-6 md:p-7 rounded-xl border border-border bg-card hover:border-primary/40 transition-colors duration-300">
+        <div className="flex items-center justify-between">
+          <div className="h-12 w-12 rounded-lg bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors">
+            <Icon className="h-6 w-6 text-primary" />
           </div>
-          <CardTitle className="text-xl font-[family-name:var(--font-heading)]">
-            {service.title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <CardDescription className="text-muted-foreground leading-relaxed">
-            {service.description}
-          </CardDescription>
-          <p className="mt-3 text-xs text-muted-foreground/70 italic leading-relaxed">
-            {service.example}
-          </p>
-          <div className="mt-4">
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
-              {service.tech}
-            </span>
-          </div>
-        </CardContent>
-      </Card>
+          <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary">
+            {service.tag}
+          </span>
+        </div>
+        <div className="flex-1">
+          <h3 className="text-xl font-bold font-[family-name:var(--font-heading)] text-foreground">{service.title}</h3>
+          <p className="mt-3 text-muted-foreground leading-relaxed">{service.description}</p>
+          <p className="mt-3 text-sm text-muted-foreground/80 italic leading-relaxed">{service.example}</p>
+        </div>
+        <Link
+          href={service.link.href}
+          className="inline-flex items-center gap-1.5 text-sm font-semibold text-primary w-fit"
+        >
+          {service.link.label}
+          <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+        </Link>
+      </div>
     </div>
   )
 }
 
-
 export function Services() {
   const headerAnimation = useScrollAnimation({ animation: "fade-in-up" })
-  const [showAll, setShowAll] = useState(false)
+  const otherAnimation = useScrollAnimation({ animation: "fade-in-up", delay: 150 })
 
   return (
     <section id="servicios" className="py-20 md:py-32 bg-muted/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Main section header */}
-        <div ref={headerAnimation.ref} className={`text-center max-w-3xl mx-auto mb-16 ${headerAnimation.className}`}>
-          <div className="inline-flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full text-sm font-semibold text-primary mb-4">
-            <Brain className="h-4 w-4" />
-            Soluciones para tu negocio
-          </div>
+        <div ref={headerAnimation.ref} className={`max-w-3xl mb-14 ${headerAnimation.className}`}>
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance">
-            ¿Qué puede hacer <span className="text-primary">Figuriz</span> por vos?
+            Qué hacemos <span className="text-primary">por tu negocio</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Automatizamos las tareas que te quitan tiempo: atención al cliente, procesamiento de datos,
-            comunicaciones y más — para que vos puedas enfocarte en hacer crecer tu negocio.
+            Tres cosas, bien hechas. Empezamos por la que más te sirva y la vamos ampliando cuando lo necesites.
           </p>
         </div>
 
-        {/* Main services grid - show first 3 on mobile, all on desktop */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mainServices.slice(0, 3).map((service, index) => (
+        <div className="grid md:grid-cols-3 gap-6">
+          {mainServices.map((service, index) => (
             <ServiceCard key={service.title} service={service} index={index} />
-          ))}
-          {/* Remaining services: hidden on mobile unless expanded, always visible on desktop */}
-          {mainServices.slice(3).map((service, index) => (
-            <div key={service.title} className={`${showAll ? "block" : "hidden"} md:block`}>
-              <ServiceCard service={service} index={index + 3} />
-            </div>
           ))}
         </div>
 
-        {/* "Ver todos" button — only on mobile */}
-        {!showAll && (
-          <div className="mt-8 flex justify-center md:hidden">
-            <Button
-              variant="outline"
-              onClick={() => setShowAll(true)}
-              className="gap-2"
-            >
-              Ver todos los servicios
-              <ChevronDown className="h-4 w-4" />
-            </Button>
+        <div ref={otherAnimation.ref} className={`mt-14 ${otherAnimation.className}`}>
+          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">También hacemos</p>
+          <div className="grid sm:grid-cols-3 gap-6">
+            {otherServices.map((s) => (
+              <div key={s.title} className="flex gap-3">
+                <s.icon className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="text-sm font-semibold font-[family-name:var(--font-heading)] text-foreground">{s.title}</h3>
+                  <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
+                </div>
+              </div>
+            ))}
           </div>
-        )}
-
+        </div>
       </div>
     </section>
   )

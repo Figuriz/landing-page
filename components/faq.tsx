@@ -10,39 +10,39 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const faqs = [
   {
-    question: "¿Cuánto tarda en implementarse una automatización?",
-    answer:
-      "Depende de la complejidad del flujo. Una automatización simple — como conectar un formulario con un CRM y enviar un email — puede estar lista en pocos días. Flujos más complejos con múltiples sistemas o lógica de negocio avanzada pueden llevar semanas. En la primera consulta te damos una estimación real para tu caso.",
-  },
-  {
-    question: "¿Necesito conocimientos técnicos para usar las soluciones?",
-    answer:
-      "No. Nuestras soluciones están pensadas para que vos y tu equipo puedan usarlas sin saber programar. Nosotros nos encargamos de la implementación y te entregamos algo funcional y fácil de operar. Además incluimos acompañamiento post-entrega.",
-  },
-  {
-    question: "¿Con qué herramientas y sistemas se integra n8n?",
-    answer:
-      "n8n se integra con cientos de aplicaciones: Google Sheets, Gmail, Slack, WhatsApp, Notion, HubSpot, Salesforce, Shopify, sistemas propios vía API, bases de datos, y mucho más. Si ya usás una herramienta, lo más probable es que podamos integrarla.",
-  },
-  {
-    question: "¿Qué pasa si falla una automatización?",
-    answer:
-      "n8n registra cada ejecución con su estado y los datos procesados, por lo que cualquier error queda trazado. Configuramos alertas para que te notifiquen si algo sale mal, y ofrecemos soporte post-implementación para resolver incidentes.",
-  },
-  {
-    question: "¿Cómo es el proceso para empezar a trabajar con Figuriz?",
-    answer:
-      "Primero tenemos una consulta gratuita para entender tu negocio y qué querés automatizar. Luego te proponemos una solución con alcance, tiempos y costo. Una vez que estés de acuerdo, arrancamos el desarrollo con comunicación constante hasta la entrega.",
-  },
-  {
-    question: "¿También desarrollan páginas web y aplicaciones?",
-    answer:
-      "Sí. Además de automatizaciones, diseñamos y desarrollamos sitios web, landing pages y aplicaciones a medida. Trabajamos con tecnologías modernas para que tu negocio tenga presencia digital profesional, rápida y optimizada para convertir visitantes en clientes.",
-  },
-  {
     question: "¿Cuánto cuesta?",
     answer:
-      "Cada proyecto es distinto, por lo que no manejamos precios fijos. El costo depende de la complejidad del proyecto, las integraciones necesarias y el tiempo de desarrollo. Contactanos para una consulta sin cargo y te damos una propuesta concreta.",
+      "Depende de qué necesites, por eso trabajamos por etapas: la primera es chica, con alcance y precio cerrados por escrito antes de empezar. El asistente de WhatsApp se paga con un abono mensual. En la primera charla, que no tiene costo, te decimos cuánto saldría tu caso.",
+  },
+  {
+    question: "¿Cuánto tarda?",
+    answer:
+      "Una página web, una o dos semanas. Un asistente de WhatsApp o la primera etapa de un sistema, unas pocas semanas según lo que incluya. Te damos la fecha en la propuesta.",
+  },
+  {
+    question: "¿El asistente de WhatsApp reemplaza a una persona?",
+    answer:
+      "No. Responde lo que se repite todo el día (precios, horarios, disponibilidad), toma los datos del pedido o del turno y te pasa la conversación cuando hace falta alguien del negocio. Vos confirmás. Usa la API oficial de WhatsApp, así que tu número no corre riesgo.",
+  },
+  {
+    question: "¿Necesito saber de tecnología?",
+    answer:
+      "No. Te entregamos algo que se usa desde el celular o la computadora, le enseñamos a tu equipo y quedamos para lo que necesiten.",
+  },
+  {
+    question: "¿Qué pasa con mis datos?",
+    answer:
+      "Son tuyos. El dominio, las cuentas y la información quedan a tu nombre, y te los podemos exportar cuando quieras.",
+  },
+  {
+    question: "Ya uso un sistema de gestión, ¿tengo que cambiarlo?",
+    answer:
+      "No necesariamente. Muchas veces conviene conectarlo con lo que falta (WhatsApp, la web, una planilla, un portal para tus clientes) en lugar de reemplazarlo. Las integraciones son nuestro fuerte.",
+  },
+  {
+    question: "¿Trabajan solo en Tandil?",
+    answer:
+      "Estamos en Tandil y en la zona nos juntamos en persona. Con negocios de otras ciudades trabajamos por videollamada y WhatsApp.",
   },
 ]
 
@@ -75,7 +75,7 @@ export function FAQ() {
             Preguntas <span className="text-primary">frecuentes</span>
           </h2>
           <p className="mt-4 text-muted-foreground leading-relaxed">
-            Todo lo que necesitás saber antes de empezar.
+            Lo que más nos preguntan antes de arrancar.
           </p>
         </div>
 
