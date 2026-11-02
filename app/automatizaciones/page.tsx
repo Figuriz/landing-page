@@ -107,7 +107,7 @@ const AUTOMATIZACIONES: Automatizacion[] = [
 const PASOS = [
   {
     titulo: "Nos contás qué querés automatizar",
-    texto: "Por WhatsApp o en una llamada corta. Nos mostrás la planilla o la tarea tal como la hacés hoy.",
+    texto: "Por WhatsApp o por mail. Nos mandás la planilla o la tarea tal como la hacés hoy.",
   },
   {
     titulo: "Te pasamos precio cerrado",
