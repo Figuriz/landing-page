@@ -10,6 +10,7 @@ const navLinks = [
   { label: "Proceso", href: "/#proceso" },
   { label: "Preguntas frecuentes", href: "/#faq" },
   { label: "Demos", href: "/demos" },
+  { label: "Automatizaciones", href: "/automatizaciones" },
   { label: "Contacto", href: "/#contacto" },
 ]
 

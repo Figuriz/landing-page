@@ -34,9 +34,9 @@ const mainServices = [
   },
 ]
 
-const otherServices = [
+const otherServices: { icon: typeof Link2; title: string; text: string; link?: { href: string; label: string } }[] = [
   { icon: Link2, title: "Integraciones", text: "Conectamos tu sistema de gestión, tu tienda, tus planillas y tu WhatsApp para no copiar datos a mano." },
-  { icon: Cog, title: "Automatizaciones", text: "Avisos, recordatorios, reportes y mails que salen solos cuando pasa algo en tu negocio." },
+  { icon: Cog, title: "Automatizaciones", text: "Avisos, recordatorios, reportes y mails que salen solos cuando pasa algo en tu negocio.", link: { href: "/automatizaciones", label: "Ver automatizaciones" } },
   { icon: FileSearch, title: "Lectura de documentos", text: "Facturas, remitos o PDFs que se leen solos y se cargan donde los necesitás." },
 ]
 
@@ -103,6 +103,12 @@ export function Services() {
                 <div>
                   <h3 className="text-sm font-semibold font-[family-name:var(--font-heading)] text-foreground">{s.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground leading-relaxed">{s.text}</p>
+                  {s.link && (
+                    <Link href={s.link.href} className="mt-1.5 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline underline-offset-4">
+                      {s.link.label}
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+                  )}
                 </div>
               </div>
             ))}

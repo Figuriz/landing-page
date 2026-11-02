@@ -8,6 +8,7 @@
 - Sistemas a medida: pedidos, stock, cuentas corrientes, turnos u órdenes de trabajo, pensados para usar desde el celular. Se entregan por etapas.
 - Páginas web: con fotos y reseñas reales del negocio y consultas que llegan armadas por WhatsApp. Listas en una o dos semanas.
 - Integraciones con el sistema de gestión que el negocio ya usa, automatizaciones y lectura de documentos.
+- [Automatizaciones a precio cerrado](https://figuriz.com/automatizaciones): cobros de Mercado Pago a la planilla, avisos de deuda y recordatorios por WhatsApp, control de facturas de proveedores con el QR de ARCA, actualización de listas de precios y resumen semanal al celular. Se adaptan a lo que el negocio ya usa.
 
 ## Cómo trabajamos
 
