@@ -555,6 +555,48 @@ export const RUBROS: Rubro[] = [
       },
     ],
   },
+  {
+    slug: "mueblerias-y-tiendas-de-deco",
+    demo: "demo-muebleria",
+    para: "mueblerías y tiendas de deco",
+    negocio: "tu mueblería",
+    title: "Sistema para mueblerías y tiendas de deco",
+    description:
+      "Stock por color, medida y tela en el local y en depósito, pedidos de WhatsApp e Instagram con seña y saldo, encargos a fábrica y entregas. Probá la demo.",
+    intro:
+      "Sabés al toque si tenés el sillón en otro color y dónde está, las señas quedan registradas y cada encargo a fábrica tiene su fecha a la vista. Pensado para usar desde el celular, en el local o en el depósito.",
+    problemas: [
+      "Te preguntan por WhatsApp si hay algo en otro color y tenés que ir al depósito a fijarte.",
+      "Las señas de los encargos están anotadas en un cuaderno.",
+      "No sabés cuándo llega lo que encargaste a fábrica, y el cliente pregunta todos los días.",
+      "Las entregas se arreglan de palabra y el día del flete aparecen las dudas: dirección, horario, si hay que armar.",
+      "No sabés qué se vende y qué está parado ocupando lugar en el local.",
+    ],
+    primeraEtapa: [
+      "Stock por variante (color, medida, tela), separado entre el local y el depósito, con búsqueda rápida.",
+      "Pedidos con seña y saldo, vengan de WhatsApp, de Instagram o del local.",
+      "Encargos a fábrica con la fecha prometida al cliente y la que dio el proveedor, con aviso cuando no coinciden.",
+    ],
+    despues: [
+      "Agenda de entregas y fletes, con franja horaria y si hay que armar.",
+      "Saldos en cuotas y recordatorio por WhatsApp.",
+      "Qué se vende y qué está parado, para decidir qué reponer y qué liquidar.",
+    ],
+    faq: [
+      {
+        q: "¿Tengo que sacarle foto a todo y cargarlo a mano?",
+        a: "No. Si tenés una lista en Excel o el catálogo que mandás por WhatsApp, lo pasamos. Las fotos se pueden ir sumando de a poco.",
+      },
+      {
+        q: "¿Sirve si vendo mucho por Instagram?",
+        a: "Sí. Los pedidos se cargan desde el celular en el momento, con la seña, sin importar por dónde llegó el cliente.",
+      },
+      {
+        q: "Ya facturo con otro sistema. ¿Lo tengo que dejar?",
+        a: "No. Sumamos lo que le falta, como el stock por color y depósito, las señas o los encargos a fábrica.",
+      },
+    ],
+  },
 ]
 
 export function getRubro(slug: string) {

@@ -36,6 +36,7 @@
 - [Acopios y cooperativas](https://figuriz.com/demos/demo-acopio): stock por productor y portal del productor.
 - [Expresos y logística](https://figuriz.com/demos/demo-transporte): seguimiento de envíos y hojas de ruta.
 - [Gimnasios](https://figuriz.com/demos/demo-gimnasio): control de cuotas en la entrada.
+- [Mueblerías y tiendas de deco](https://figuriz.com/demos/demo-muebleria): stock por color y medida, señas, encargos a fábrica y entregas.
 
 ## Contacto
 

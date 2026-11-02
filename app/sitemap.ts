@@ -22,6 +22,7 @@ const DEMOS = [
   'demo-acopio',
   'demo-transporte',
   'demo-gimnasio',
+  'demo-muebleria',
 ]
 
 export default function sitemap(): MetadataRoute.Sitemap {
