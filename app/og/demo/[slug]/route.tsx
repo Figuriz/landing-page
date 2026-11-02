@@ -21,6 +21,7 @@ const DEMOS: Record<string, { rubro: string; detalle: string }> = {
   'demo-acopio': { rubro: 'Acopios y cooperativas', detalle: 'Balanza, stock por productor y portal' },
   'demo-transporte': { rubro: 'Expresos y logística', detalle: 'Seguimiento de envíos y hoja de ruta' },
   'demo-gimnasio': { rubro: 'Gimnasios', detalle: 'Cuotas, ingreso y socios que dejan de venir' },
+  'demo-muebleria': { rubro: 'Mueblerías y deco', detalle: 'Stock por color, señas, encargos y entregas' },
 }
 
 export function generateStaticParams() {

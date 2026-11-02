@@ -27,7 +27,8 @@
     "demo-agronomia": "agronomías",
     "demo-acopio": "acopios y cooperativas",
     "demo-transporte": "expresos y logística",
-    "demo-gimnasio": "gimnasios"
+    "demo-gimnasio": "gimnasios",
+    "demo-muebleria": "mueblerías y tiendas de deco"
   };
 
   var partes = location.pathname.split("/").filter(Boolean);
