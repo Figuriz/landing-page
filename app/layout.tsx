@@ -25,12 +25,13 @@ export const metadata: Metadata = {
     default: 'Figuriz | Sistemas y asistentes de WhatsApp para negocios',
     template: '%s | Figuriz',
   },
-  description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios. Desde Tandil, Buenos Aires. Probá la demo de tu rubro.',
+  description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios de todo el país. Probá la demo de tu rubro.',
   keywords: [
     'asistente de WhatsApp para negocios',
     'sistema a medida',
-    'desarrollo de software Tandil',
-    'páginas web Tandil',
+    'desarrollo de software a medida',
+    'sistema para pymes',
+    'páginas web para negocios',
     'sistema de turnos',
     'integración de sistemas',
     'automatización de procesos',
@@ -55,12 +56,12 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'Figuriz',
     title: 'Figuriz | Sistemas y asistentes de WhatsApp para negocios',
-    description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios. Desde Tandil, Buenos Aires. Probá la demo de tu rubro.',
+    description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios de todo el país. Probá la demo de tu rubro.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Figuriz | Sistemas y asistentes de WhatsApp para negocios',
-    description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios. Desde Tandil, Buenos Aires. Probá la demo de tu rubro.',
+    description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios de todo el país. Probá la demo de tu rubro.',
   },
   icons: {
     icon: [
@@ -104,7 +105,7 @@ export default function RootLayout({
                   name: 'Figuriz',
                   url: 'https://figuriz.com',
                   logo: 'https://figuriz.com/logo-figuriz.png',
-                  description: 'Asistentes de WhatsApp, sistemas a medida, páginas web e integraciones para negocios. Tandil, Buenos Aires.',
+                  description: 'Asistentes de WhatsApp, sistemas a medida, páginas web e integraciones para negocios de toda Argentina.',
                   email: 'contacto@figuriz.com',
                   ...(whatsappNumber ? { telephone: `+${whatsappNumber}` } : {}),
                   sameAs: ['https://linkedin.com/company/figuriz'],
@@ -114,10 +115,7 @@ export default function RootLayout({
                     addressRegion: 'Buenos Aires',
                     addressCountry: 'AR',
                   },
-                  areaServed: [
-                    { '@type': 'City', name: 'Tandil' },
-                    { '@type': 'Country', name: 'Argentina' },
-                  ],
+                  areaServed: { '@type': 'Country', name: 'Argentina' },
                 },
                 {
                   '@type': 'WebSite',

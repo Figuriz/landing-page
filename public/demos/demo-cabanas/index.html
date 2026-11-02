@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema de reservas para cabañas y hoteles · Demo de Figuriz, Tandil</title>
+<title>Sistema de reservas para cabañas y hoteles · Demo de Figuriz</title>
 <meta name="description" content="Demo para cabañas y hoteles: Booking, WhatsApp y reservas directas en una sola grilla, respuesta de disponibilidad en segundos, señas y llegadas del día.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-cabanas">
 <meta property="og:title" content="Reservas y ocupación · Demo">
 <meta property="og:description" content="Demo para cabañas y hoteles: Booking, WhatsApp y reservas directas en una sola grilla, respuesta de disponibilidad en segundos, señas y llegadas del día.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-cabanas">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-cabanas">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gelasio:wght@500;700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -176,7 +182,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -314,7 +320,7 @@ const precio = (u, n) => un(u)[3] * n;
 
 const APP = {
   key:'demo-cabanas-v1', version:1,
-  brand:{ name:'Altos del Valle', sub:'Cabañas · Tandil', title:'Reservas' },
+  brand:{ name:'Altos del Valle', sub:'Cabañas', title:'Reservas' },
   pains:{ title:'¿Te pasa esto?', items:[
     'Las reservas de Booking, WhatsApp y teléfono están en lugares distintos, y el overbooking es un riesgo real.',
     'Respondés "¿tenés lugar del 14 al 16?" veinte veces por día, cabaña por cabaña.',
@@ -445,5 +451,6 @@ APP.views.res = () => {
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

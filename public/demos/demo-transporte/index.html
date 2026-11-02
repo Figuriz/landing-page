@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema de envíos para expresos · Demo de Figuriz, Tandil</title>
+<title>Sistema de envíos para expresos · Demo de Figuriz</title>
 <meta name="description" content="Demo para expresos y empresas de logística: cada envío con su código de seguimiento, página para que el cliente lo siga solo, hoja de ruta del chofer y contrareembolsos a rendir.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-transporte">
 <meta property="og:title" content="Envíos, seguimiento y reparto · Demo">
 <meta property="og:description" content="Demo para expresos y empresas de logística: cada envío con su código de seguimiento, página para que el cliente lo siga solo, hoja de ruta del chofer y contrareembolsos a rendir.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-transporte">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-transporte">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@500;600;700&family=Mulish:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -175,7 +181,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -308,7 +314,7 @@ const T = () => D.today();
 const hm = () => new Date().toLocaleTimeString('es-AR', { hour:'2-digit', minute:'2-digit', hour12:false });
 const APP = {
   key:'demo-transporte-v1', version:1,
-  brand:{ name:'Expreso Serrano', sub:'Cargas y encomiendas · Tandil', title:'Expreso' },
+  brand:{ name:'Expreso Serrano', sub:'Cargas y encomiendas', title:'Expreso' },
   pains:{ title:'¿Te pasa esto?', items:[
     'El teléfono suena todo el día con "¿dónde está mi paquete?".',
     'Los remitos son de papel, y si se pierde uno no hay cómo probar la entrega.',
@@ -396,5 +402,6 @@ D.on('rendir', r => { D.S.env.filter(e => e.rem === r && e.cobrado).forEach(e =>
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

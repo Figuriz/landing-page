@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema de reservas y mesas para restaurantes · Demo de Figuriz, Tandil</title>
+<title>Sistema de reservas y mesas para restaurantes · Demo de Figuriz</title>
 <meta name="description" content="Demo para restaurantes con mucho movimiento: mesas en tiempo real, lista de espera con aviso por WhatsApp y reservas confirmadas para evitar mesas vacías.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-restaurante">
 <meta property="og:title" content="Mesas, reservas y lista de espera · Demo">
 <meta property="og:description" content="Demo para restaurantes con mucho movimiento: mesas en tiempo real, lista de espera con aviso por WhatsApp y reservas confirmadas para evitar mesas vacías.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-restaurante">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-restaurante">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800&family=Alegreya+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -176,7 +182,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -308,7 +314,7 @@ const now = () => BASE + Math.floor((Date.now() - LOAD) / 60000);
 const hm = m => `${Math.floor(m / 60) % 24}:${D.pad(m % 60)}`;
 const APP = {
   key:'demo-resto-v1', version:1,
-  brand:{ name:'Fonda del Cerro', sub:'Restaurante · Tandil', title:'Salón y reservas' },
+  brand:{ name:'Fonda del Cerro', sub:'Restaurante', title:'Salón y reservas' },
   pains:{ title:'¿Te pasa esto?', items:[
     'Las reservas llegan por WhatsApp, Instagram y teléfono, y terminan en un cuaderno.',
     'Los sábados se arma fila en la puerta y hay gente que se va sin avisar.',
@@ -410,5 +416,6 @@ APP.views.hoy = () => {
 setInterval(() => { if (!document.querySelector('.modal') && ['salon', 'espera'].includes(D.UI.tab)) D.render(); }, 60000);
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

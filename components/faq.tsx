@@ -40,9 +40,9 @@ const faqs = [
       "No necesariamente. Muchas veces conviene conectarlo con lo que falta (WhatsApp, la web, una planilla, un portal para tus clientes) en lugar de reemplazarlo. Las integraciones son nuestro fuerte.",
   },
   {
-    question: "¿Trabajan solo en Tandil?",
+    question: "¿Trabajan con negocios de otras ciudades?",
     answer:
-      "Estamos en Tandil y en la zona nos juntamos en persona. Con negocios de otras ciudades trabajamos por videollamada y WhatsApp.",
+      "Sí, con todo el país. Las charlas, las pruebas y las entregas son por videollamada y WhatsApp, así que no importa en qué ciudad estés.",
   },
 ]
 

@@ -5,10 +5,16 @@
 <link rel="canonical" href="https://figuriz.com/demos/demo-pedidos">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema de pedidos para distribuidoras · Demo de Figuriz, Tandil</title>
+<title>Sistema de pedidos para distribuidoras · Demo de Figuriz</title>
 <meta name="description" content="Demo de sistema de pedidos y facturación para distribuidoras: el vendedor carga el pedido en el celular, llega solo a la oficina y se factura con un toque.">
 <meta property="og:title" content="Pedidos y facturación para distribuidoras · Demo">
 <meta property="og:description" content="El vendedor carga el pedido en el celular, llega solo a la oficina, el stock se descuenta solo y la factura sale con un toque.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-pedidos">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-pedidos">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#1f4d3a">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -279,7 +285,7 @@ textarea.search{min-height:64px;resize:vertical}
   <div class="top-in">
     <div class="brand">
       <svg width="34" height="34" viewBox="0 0 34 34" aria-hidden="true"><rect width="34" height="34" rx="9" fill="#f3eee4"/><path d="M4 26 L12 13 L17 20 L22 11 L30 26 Z" fill="#1f4d3a"/><path d="M19.5 15 L22 11 L24.6 15.2 Z" fill="#e0a02f"/></svg>
-      <div><b>La Serrana</b><small>Distribuidora · Tandil</small></div>
+      <div><b>La Serrana</b><small>Distribuidora</small></div>
     </div>
     <span class="demo-tag">Demo</span>
     <button class="reset" data-act="reset">Reiniciar</button>
@@ -782,5 +788,6 @@ setInterval(() => { if (UI.view === 'oficina' && !document.querySelector('.searc
 render();
 scheduleSim(true);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

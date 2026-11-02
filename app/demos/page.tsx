@@ -29,7 +29,7 @@ import { Button } from "@/components/ui/button"
 export const metadata: Metadata = {
   title: "Demos por rubro",
   description:
-    "Sistemas a medida para negocios de Tandil y la zona. Probá una demo de tu rubro: pedidos, stock, turnos, cuentas corrientes y avisos por WhatsApp.",
+    "Sistemas a medida para negocios de todo el país. Probá una demo de tu rubro: pedidos, stock, turnos, cuentas corrientes y avisos por WhatsApp.",
   robots: { index: true, follow: true },
   alternates: { canonical: "https://figuriz.com/demos" },
 }
@@ -116,7 +116,7 @@ export default function DemosPage() {
               </span>
             </h1>
             <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed max-w-2xl animate-fade-in-up animation-delay-200">
-              Armamos sistemas a medida para negocios de Tandil y la zona, pensados para usar desde el celular.
+              Armamos sistemas a medida para negocios de todo el país, pensados para usar desde el celular.
               Elegí tu rubro y probá: tocá, cargá y mirá cómo se vería. No se rompe nada.
             </p>
           </div>

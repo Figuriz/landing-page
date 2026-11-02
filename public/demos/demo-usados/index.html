@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema para agencias de autos usados · Demo de Figuriz, Tandil</title>
+<title>Sistema para agencias de autos usados · Demo de Figuriz</title>
 <meta name="description" content="Demo para agencias de autos usados y concesionarias: stock con días en playa, consultas de MercadoLibre, Instagram y WhatsApp en un solo lugar, transferencias con su checklist y tasador de permutas.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-usados">
 <meta property="og:title" content="Stock, consultas y transferencias · Demo">
 <meta property="og:description" content="Demo para agencias de autos usados y concesionarias: stock con días en playa, consultas de MercadoLibre, Instagram y WhatsApp en un solo lugar, transferencias con su checklist y tasador de permutas.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-usados">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-usados">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -177,7 +183,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -308,7 +314,7 @@ const COLS = ['#c9ced8','#2b2d33','#b3271e','#f2f2f2','#3a5ba0','#7a7f87','#d9cb
 const carSvg = c => `<svg viewBox="0 0 72 34"><path d="M6 24v-6l8-9h34l12 9h6v6z" fill="${c}" stroke="#0003"/><path d="M17 11h12v7H13zM32 11h14l8 7H32z" fill="#cfe3f5"/><circle cx="18" cy="25" r="5" fill="#222"/><circle cx="54" cy="25" r="5" fill="#222"/></svg>`;
 const APP = {
   key:'demo-usados-v1', version:1,
-  brand:{ name:'Automotores del Lago', sub:'Usados seleccionados · Tandil', title:'Agencia de usados' },
+  brand:{ name:'Automotores del Lago', sub:'Usados seleccionados', title:'Agencia de usados' },
   pains:{ title:'¿Te pasa esto?', items:[
     'Las consultas llegan por MercadoLibre, Instagram y WhatsApp, y alguna queda sin responder.',
     'Cada auto se publica a mano en cada lado, y cuando se vende hay que bajarlo de todos.',
@@ -424,5 +430,6 @@ D.on('tsM', v => { TS.m = v; D.render(); }); D.on('tsA', v => { TS.a = +v || 201
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

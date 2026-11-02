@@ -33,7 +33,7 @@ export function Hero() {
         <div className="text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-medium text-primary mb-4 md:mb-6 animate-fade-in">
             <MapPin className="h-3.5 w-3.5 md:h-4 md:w-4" />
-            Software para negocios · Tandil, Buenos Aires
+            Software para negocios de todo el país
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold font-[family-name:var(--font-heading)] text-foreground leading-tight text-balance animate-fade-in-up">
