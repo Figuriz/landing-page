@@ -105,7 +105,7 @@ export default async function Image() {
               maxWidth: '700px',
             }}
           >
-            Asistentes de WhatsApp · Sistemas a medida · Webs · Tandil
+            Asistentes de WhatsApp · Sistemas a medida · Webs · Argentina
           </div>
         </div>
 

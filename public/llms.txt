@@ -1,6 +1,6 @@
 # Figuriz
 
-> Figuriz hace sistemas a medida, asistentes de WhatsApp y páginas web para negocios de Tandil, provincia de Buenos Aires, Argentina.
+> Figuriz hace sistemas a medida, asistentes de WhatsApp y páginas web para negocios de toda Argentina.
 
 ## Qué hacemos
 
@@ -14,7 +14,7 @@
 - Primera charla de 20 minutos, sin costo.
 - Propuesta por escrito, por etapas, con alcance y precio cerrados antes de empezar.
 - El dominio, las cuentas y los datos quedan a nombre del cliente.
-- Te atiende quien lo programa. En Tandil y la zona nos juntamos en persona; con otras ciudades, por videollamada y WhatsApp.
+- Te atiende quien lo programa. Trabajamos con todo el país por videollamada y WhatsApp.
 
 ## Demos por rubro
 

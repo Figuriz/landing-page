@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema para fábricas de quesos y fiambres · Demo de Figuriz, Tandil</title>
+<title>Sistema para fábricas de quesos y fiambres · Demo de Figuriz</title>
 <meta name="description" content="Demo para fábricas de quesos y fiambres: lotes en maduración, vencimientos, stock de fábrica y locales, pedidos de revendedores y trazabilidad.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-fabrica">
 <meta property="og:title" content="Producción, lotes y stock · Demo">
 <meta property="og:description" content="Demo para fábricas de quesos y fiambres: lotes en maduración, vencimientos, stock de fábrica y locales, pedidos de revendedores y trazabilidad.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-fabrica">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-fabrica">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -176,7 +182,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -325,7 +331,7 @@ function code(pid, d, n){ return `${pid.slice(0, 3).toUpperCase()}-${D.key(d).sl
 
 const APP = {
   key:'demo-fabrica-v1', version:1,
-  brand:{ name:'La Tranquera', sub:'Quesos y fiambres · Tandil', title:'Producción y stock' },
+  brand:{ name:'La Tranquera', sub:'Quesos y fiambres', title:'Producción y stock' },
   pains:{ title:'¿Te pasa esto?', items:[
     'Los lotes se anotan en un cuaderno o en un Excel que entiende una sola persona.',
     'No sabés qué horma vence primero, y alguna se termina tirando o rematando.',
@@ -513,5 +519,6 @@ D.onInput('q', v => { q = v; document.getElementById('qres').innerHTML = trazaRe
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema para gimnasios · Demo de Figuriz, Tandil</title>
+<title>Sistema para gimnasios · Demo de Figuriz</title>
 <meta name="description" content="Demo para gimnasios: control de ingreso con cuota al día, cobros y recordatorios, socios que dejaron de venir y caja del mes.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-gimnasio">
 <meta property="og:title" content="Socios, cuotas y asistencia · Demo">
 <meta property="og:description" content="Demo para gimnasios: control de ingreso con cuota al día, cobros y recordatorios, socios que dejaron de venir y caja del mes.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-gimnasio">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-gimnasio">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -172,7 +178,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -304,7 +310,7 @@ const venceEn = s => D.diffDays(D.fromKey(s.vence), T());
 const ultima = s => s.asist.length ? D.diffDays(T(), D.fromKey(s.asist[s.asist.length - 1])) : 99;
 const APP = {
   key:'demo-gym-v1', version:2,
-  brand:{ name:'Fuerza Serrana', sub:'Gimnasio · Tandil', title:'Gimnasio' },
+  brand:{ name:'Fuerza Serrana', sub:'Gimnasio', title:'Gimnasio' },
   pains:{ title:'¿Te pasa esto?', items:[
     'Las cuotas están en una planilla y no sabés quién entra con la cuota vencida.',
     'Cobrar es mandar WhatsApp uno por uno cada principio de mes.',
@@ -412,5 +418,6 @@ APP.views.caja = () => {
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

@@ -21,8 +21,8 @@ const features = [
   },
   {
     icon: MapPin,
-    title: "Estamos en Tandil",
-    description: "Si sos de la zona, nos juntamos en persona. Si no, trabajamos por videollamada y WhatsApp.",
+    title: "Estés donde estés",
+    description: "Trabajamos con negocios de todo el país por videollamada y WhatsApp. No hace falta que nos juntemos para arrancar.",
   },
 ]
 
@@ -70,9 +70,9 @@ export function About() {
             Quiénes <span className="text-primary">somos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Figuriz es un equipo chico de desarrolladores de Tandil. Llevamos más de 4 años
+            Figuriz es un equipo chico de desarrolladores. Llevamos más de 4 años
             armando integraciones, sistemas internos y automatizaciones para empresas, y ahora
-            hacemos lo mismo para negocios de la zona, a su medida y a su escala.
+            hacemos lo mismo para negocios de todo el país, a su medida y a su escala.
           </p>
         </div>
 

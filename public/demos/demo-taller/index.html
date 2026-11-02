@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema para talleres mecánicos · Demo de Figuriz, Tandil</title>
+<title>Sistema para talleres mecánicos · Demo de Figuriz</title>
 <meta name="description" content="Demo para talleres mecánicos: órdenes de trabajo, presupuesto aprobado por WhatsApp, aviso de auto listo, historial por patente y recordatorios de service.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-taller">
 <meta property="og:title" content="Órdenes de trabajo e historial · Demo">
 <meta property="og:description" content="Demo para talleres mecánicos: órdenes de trabajo, presupuesto aprobado por WhatsApp, aviso de auto listo, historial por patente y recordatorios de service.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-taller">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-taller">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -175,7 +181,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -310,7 +316,7 @@ const tot = o => o.items.reduce((s, i) => s + i.p, 0);
 
 const APP = {
   key:'demo-taller-v1', version:1,
-  brand:{ name:'Taller Rueda Sur', sub:'Mecánica general · Tandil', title:'Taller' },
+  brand:{ name:'Taller Rueda Sur', sub:'Mecánica general', title:'Taller' },
   pains:{ title:'¿Te pasa esto?', items:[
     'Las órdenes están en papelitos y nadie sabe bien en qué quedó cada auto.',
     'El cliente aprueba el presupuesto por teléfono y después discute lo que dijo.',
@@ -474,5 +480,6 @@ D.on('recTodos', () => { recordatorios().forEach(r => D.S.rec[r.h.pat] = true); 
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

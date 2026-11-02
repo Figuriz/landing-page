@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema para acopios y cooperativas · Demo de Figuriz, Tandil</title>
+<title>Sistema para acopios y cooperativas · Demo de Figuriz</title>
 <meta name="description" content="Demo para acopios y cooperativas: descargas de balanza con carta de porte y merma por humedad, stock de granos por productor, fijaciones con liquidación y un portal para que el productor vea todo desde el celular.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-acopio">
 <meta property="og:title" content="Balanza, stock de granos y portal del productor · Demo">
 <meta property="og:description" content="Demo para acopios y cooperativas: descargas de balanza con carta de porte y merma por humedad, stock de granos por productor, fijaciones con liquidación y un portal para que el productor vea todo desde el celular.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-acopio">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-acopio">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Rokkitt:wght@600;700;800&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -175,7 +181,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -308,7 +314,7 @@ const T = () => D.today();
 const merma = (g, h) => h > BASE[g] ? Math.round(((h - BASE[g]) * 1.25 + .25) * 100) / 100 : 0;
 const APP = {
   key:'demo-acopio-v1', version:1,
-  brand:{ name:'Acopio Los Cardos', sub:'Granos y servicios · Tandil', title:'Acopio' },
+  brand:{ name:'Acopio Los Cardos', sub:'Granos y servicios', title:'Acopio' },
   pains:{ title:'¿Te pasa esto?', items:[
     'El ticket de balanza, la carta de porte y la planilla de humedad se cargan a mano en lugares distintos.',
     'El productor llama para preguntar cuántas toneladas tiene, cuánto le descontaron y cuándo cobra.',
@@ -396,5 +402,6 @@ D.on('portP', v => { D.S.prodPortal = v; D.save(); D.render(); });
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

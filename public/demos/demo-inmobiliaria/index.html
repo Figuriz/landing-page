@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema para inmobiliarias · Demo de Figuriz, Tandil</title>
+<title>Sistema para inmobiliarias · Demo de Figuriz</title>
 <meta name="description" content="Demo para inmobiliarias: cobro de alquileres con recordatorios, ajustes por índice calculados solos, liquidaciones a propietarios y vencimientos de contratos.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-inmobiliaria">
 <meta property="og:title" content="Alquileres, ajustes y liquidaciones · Demo">
 <meta property="og:description" content="Demo para inmobiliarias: cobro de alquileres con recordatorios, ajustes por índice calculados solos, liquidaciones a propietarios y vencimientos de contratos.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-inmobiliaria">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-inmobiliaria">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
@@ -169,7 +175,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -300,7 +306,7 @@ const MES = () => D.key(T()).slice(0, 7);
 const VTO = 10, MORA = .003;
 const APP = {
   key:'demo-inmo-v1', version:2,
-  brand:{ name:'Inmobiliaria Plaza', sub:'Alquileres · Tandil', title:'Administración de alquileres' },
+  brand:{ name:'Inmobiliaria Plaza', sub:'Alquileres', title:'Administración de alquileres' },
   pains:{ title:'¿Te pasa esto?', items:[
     'Los ajustes por IPC o ICL se calculan a mano en Excel, contrato por contrato.',
     'Cobrar es perseguir a cada inquilino por WhatsApp y hacer los recibos uno por uno.',
@@ -410,5 +416,6 @@ D.on('renov', id => { const c = D.S.ctr.find(x => x.id == id); D.waPreview('Cons
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>

@@ -70,7 +70,7 @@ export function Footer() {
             <span className="text-primary">trabaje solo.</span>
           </p>
           <p className="mt-2.5 text-sm text-foreground/45 max-w-xs leading-relaxed">
-            Sistemas, asistentes de WhatsApp y webs para negocios. Desde Tandil.
+            Sistemas, asistentes de WhatsApp y webs para negocios de todo el país.
           </p>
         </div>
 
@@ -160,7 +160,7 @@ export function Footer() {
             © {new Date().getFullYear()} Figuriz. Todos los derechos reservados.
           </p>
           <div className="hidden sm:flex items-center gap-1.5 flex-wrap justify-center">
-            {["Tandil", "WhatsApp", ".NET", "Integraciones", "Webs"].map((tag) => (
+            {["Argentina", "WhatsApp", ".NET", "Integraciones", "Webs"].map((tag) => (
               <span
                 key={tag}
                 className="text-[10px] px-2 py-0.5 bg-foreground/[0.04] text-foreground/30 rounded-full border border-border/25"

@@ -3,12 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Sistema de turnos para consultorios · Demo de Figuriz, Tandil</title>
+<title>Sistema de turnos para consultorios · Demo de Figuriz</title>
 <meta name="description" content="Demo para consultorios y centros médicos: agenda por profesional, confirmación automática de turnos, huecos ofrecidos a la lista de espera y turnos online.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://figuriz.com/demos/demo-consultorio">
 <meta property="og:title" content="Turnos, confirmaciones y ausentismo · Demo">
 <meta property="og:description" content="Demo para consultorios y centros médicos: agenda por profesional, confirmación automática de turnos, huecos ofrecidos a la lista de espera y turnos online.">
+<meta property="og:image" content="https://figuriz.com/og/demo/demo-consultorio">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://figuriz.com/demos/demo-consultorio">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -174,7 +180,7 @@ button.row:active{background:var(--line)}
 <main id="app"></main>
 <div id="modal"></div>
 <div class="toast" id="toast" role="status"></div>
-<script>/* Base común de las demos (Figuriz · Tandil). Cada demo define APP y llama D.start(APP). */
+<script>/* Base común de las demos (Figuriz). Cada demo define APP y llama D.start(APP). */
 const D = (() => {
   const fmt0 = new Intl.NumberFormat('es-AR', { style:'currency', currency:'ARS', maximumFractionDigits:0 });
   const fmtN = new Intl.NumberFormat('es-AR', { maximumFractionDigits:1 });
@@ -309,7 +315,7 @@ const T = () => { let d = T0(); while (d.getDay() === 0 || d.getDay() === 6) d =
 const prof = id => PROF.find(p => p[0] === id);
 const APP = {
   key:'demo-consultorio-v1', version:1,
-  brand:{ name:'Centro Médico Sierra', sub:'Consultorios · Tandil', title:'Turnos' },
+  brand:{ name:'Centro Médico Sierra', sub:'Consultorios', title:'Turnos' },
   pains:{ title:'¿Te pasa esto?', items:[
     'El teléfono no para: la secretaria se pasa la mañana dando turnos.',
     'Uno de cada seis pacientes no viene y no avisa.',
@@ -421,5 +427,6 @@ APP.views.panel = () => `<div class="head"><div><h1>Resultados</h1><div class="s
 
 D.start(APP);
 </script>
+<script src="/demos/figuriz-cta.js" defer></script>
 </body>
 </html>
