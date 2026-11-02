@@ -1,4 +1,5 @@
 import { MetadataRoute } from 'next'
+import { RUBROS } from '@/lib/rubros'
 
 const BASE = 'https://figuriz.com'
 
@@ -33,6 +34,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
+    })),
+    ...RUBROS.map((r) => ({
+      url: `${BASE}/sistema-para/${r.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.7,
     })),
   ]
 }

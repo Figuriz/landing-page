@@ -25,6 +25,7 @@ import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { Button } from "@/components/ui/button"
+import { RUBROS } from "@/lib/rubros"
 
 export const metadata: Metadata = {
   title: "Demos por rubro",
@@ -159,6 +160,20 @@ export default function DemosPage() {
               </div>
             </div>
           ))}
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-muted-foreground mb-4">Más sobre cada rubro</p>
+            <div className="flex flex-wrap gap-2">
+              {RUBROS.map((r) => (
+                <Link
+                  key={r.slug}
+                  href={`/sistema-para/${r.slug}`}
+                  className="text-sm px-3 py-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+                >
+                  Sistema para {r.para}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
