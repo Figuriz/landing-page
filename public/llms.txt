@@ -9,6 +9,7 @@
 - Páginas web: con fotos y reseñas reales del negocio y consultas que llegan armadas por WhatsApp. Listas en una o dos semanas.
 - Integraciones con el sistema de gestión que el negocio ya usa, automatizaciones y lectura de documentos.
 - [Automatizaciones a precio cerrado](https://figuriz.com/automatizaciones): cobros de Mercado Pago a la planilla, avisos de deuda y recordatorios por WhatsApp, control de facturas de proveedores con el QR de ARCA, actualización de listas de precios y resumen semanal al celular. Se adaptan a lo que el negocio ya usa.
+- [Mostrador](https://figuriz.com/mostrador): app para comercios de barrio (almacenes, carnicerías, verdulerías, ferreterías, pet shops) que se usa desde el celular: ventas, fiado con detalle y fecha, cobros de Mercado Pago que aparecen solos y caja del día. Figuriz la deja cargada y andando, con una cuota mensual. Demo: https://figuriz.com/demos/mostrador
 
 ## Cómo trabajamos
 

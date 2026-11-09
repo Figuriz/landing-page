@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Preguntas frecuentes", href: "/#faq" },
   { label: "Demos", href: "/demos" },
   { label: "Automatizaciones", href: "/automatizaciones" },
+  { label: "Mostrador para comercios", href: "/mostrador" },
   { label: "Contacto", href: "/#contacto" },
 ]
 
