@@ -12,12 +12,17 @@ const faqs = [
   {
     question: "¿Cuánto cuesta?",
     answer:
-      "Depende de qué necesites, por eso trabajamos por etapas: la primera es chica, con alcance y precio cerrados por escrito antes de empezar. El asistente de WhatsApp se paga con un abono mensual. En la primera charla, que no tiene costo, te decimos cuánto saldría tu caso.",
+      "Depende de qué necesites. Mostrador es una cuota mensual fija, y lo probás gratis en tu local antes de pagar. Los sistemas a medida y las automatizaciones van por etapas: la primera es chica, con alcance y precio cerrados por escrito antes de empezar. En la primera charla, que no tiene costo, te decimos cuánto saldría tu caso.",
   },
   {
     question: "¿Cuánto tarda?",
     answer:
-      "Una página web, una o dos semanas. Un asistente de WhatsApp o la primera etapa de un sistema, unas pocas semanas según lo que incluya. Te damos la fecha en la propuesta.",
+      "Mostrador, unos días. Una página web, una o dos semanas. La primera etapa de un sistema, unas pocas semanas según lo que incluya. Te damos la fecha en la propuesta.",
+  },
+  {
+    question: "Tengo un comercio chico, ¿esto es para mí?",
+    answer:
+      "Sí. Para almacenes, kioscos, carnicerías, verdulerías, ferreterías o pet shops armamos Mostrador: el fiado, los cobros y la caja del día en el celular, sin instalar nada ni saber de computadoras.",
   },
   {
     question: "¿El asistente de WhatsApp reemplaza a una persona?",

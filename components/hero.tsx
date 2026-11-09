@@ -1,8 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { ArrowRight, MapPin, MousePointerClick, Layers, Users, ShieldCheck } from "lucide-react"
+import { ArrowRight, MapPin, MousePointerClick, Layers, Smartphone, ShieldCheck, Store, LayoutGrid } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 export function Hero() {
@@ -37,48 +36,64 @@ export function Hero() {
           </div>
 
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold font-[family-name:var(--font-heading)] text-foreground leading-tight text-balance animate-fade-in-up">
-            Tu WhatsApp, tus turnos y tus pedidos,{" "}
+            Tu negocio ordenado,{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent animate-gradient">
-              sin hacerlo todo a mano.
+              desde el celular.
             </span>
           </h1>
 
           <p className="mt-4 md:mt-6 text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed text-pretty animate-fade-in-up animation-delay-200">
             En <span className="text-primary font-semibold">Figuriz</span> armamos{" "}
-            <span className="font-semibold text-foreground">asistentes de WhatsApp</span> que responden y toman turnos,{" "}
-            <span className="font-semibold text-foreground">sistemas a medida</span> para dejar el Excel y el cuaderno, y{" "}
-            <span className="font-semibold text-foreground">páginas web</span> que traen consultas. Probá cómo se vería en tu rubro antes de decidir nada.
+            <span className="font-semibold text-foreground">Mostrador</span> para comercios,{" "}
+            <span className="font-semibold text-foreground">sistemas a medida</span> para tu rubro y{" "}
+            <span className="font-semibold text-foreground">automatizaciones</span> para lo que hoy hacés a mano. Probalo con datos de ejemplo antes de decidir nada.
           </p>
 
-          <div className="mt-6 md:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 animate-fade-in-up animation-delay-400">
-            <Button
-              asChild
-              size="lg"
-              className="text-sm md:text-base px-6 md:px-8 py-5 md:py-6 shadow-lg shadow-primary/20 hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
+          <div className="mt-6 md:mt-10 grid sm:grid-cols-2 gap-3 md:gap-4 max-w-3xl mx-auto text-left animate-fade-in-up animation-delay-400">
+            <Link
+              href="/mostrador"
+              className="group flex items-start gap-4 rounded-xl bg-primary px-5 py-4 md:px-6 md:py-5 text-primary-foreground shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow duration-300"
             >
-              <Link href="/demos">
-                Probá la demo de tu rubro
-                <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
-              </Link>
-            </Button>
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="text-sm md:text-base px-6 md:px-8 py-5 md:py-6 bg-transparent border-border/60 hover:border-primary/40 hover:scale-105 transition-all duration-300"
+              <Store className="h-6 w-6 flex-none mt-0.5" aria-hidden="true" />
+              <span className="flex-1">
+                <span className="flex items-center gap-2 text-base md:text-lg font-bold font-[family-name:var(--font-heading)]">
+                  Vendo en un mostrador
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </span>
+                <span className="mt-1 block text-sm text-primary-foreground/85 leading-snug">
+                  Almacén, kiosco, carnicería, verdulería, ferretería, pet shop. Fiado, cobros y caja.
+                </span>
+              </span>
+            </Link>
+            <Link
+              href="/demos"
+              className="group flex items-start gap-4 rounded-xl border border-border/60 bg-card/40 px-5 py-4 md:px-6 md:py-5 hover:border-primary/40 transition-colors duration-300"
             >
-              <Link href="#contacto">Contanos tu caso</Link>
-            </Button>
+              <LayoutGrid className="h-6 w-6 flex-none mt-0.5 text-primary" aria-hidden="true" />
+              <span className="flex-1">
+                <span className="flex items-center gap-2 text-base md:text-lg font-bold font-[family-name:var(--font-heading)] text-foreground">
+                  Busco mi rubro
+                  <ArrowRight className="h-4 w-4 text-primary transition-transform group-hover:translate-x-1" aria-hidden="true" />
+                </span>
+                <span className="mt-1 block text-sm text-muted-foreground leading-snug">
+                  Talleres, veterinarias, consultorios, distribuidoras y más: 17 demos para probar.
+                </span>
+              </span>
+            </Link>
           </div>
+          <p className="mt-4 text-sm text-muted-foreground animate-fade-in-up animation-delay-400">
+            ¿Lo tuyo es otra cosa?{" "}
+            <Link href="#contacto" className="font-semibold text-primary hover:underline underline-offset-4">Contanos tu caso</Link>
+          </p>
 
           <div
             ref={statsAnimation.ref}
             className={`mt-8 md:mt-12 hidden md:flex flex-wrap items-center justify-center gap-3 pt-6 md:pt-8 border-t border-border ${statsAnimation.className}`}
           >
             {[
-              { label: "16 demos que podés probar", icon: MousePointerClick },
+              { label: "18 demos que podés probar", icon: MousePointerClick },
               { label: "Por etapas, con precio cerrado", icon: Layers },
-              { label: "Te atiende quien lo programa", icon: Users },
+              { label: "Pensado para el celular", icon: Smartphone },
               { label: "Los datos son tuyos", icon: ShieldCheck },
             ].map((item) => (
               <div

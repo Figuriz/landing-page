@@ -62,8 +62,8 @@ const PASOS = [
     texto: "Por WhatsApp. Nos contás qué vendés y cómo llevás hoy el fiado y la caja.",
   },
   {
-    titulo: "Te lo dejamos cargado",
-    texto: "Cargamos tus productos y lo que te deben hoy, tal como está en tu cuaderno. Vos no tenés que configurar nada.",
+    titulo: "Le sacás una foto al cuaderno",
+    texto: "Nos mandás las hojas del fiado por WhatsApp y te las pasamos a la app. Revisás que esté bien, y listo: no tipeás nada.",
   },
   {
     titulo: "Lo probás gratis",
@@ -82,7 +82,7 @@ const FAQ = [
   },
   {
     q: "¿Tengo que cargar todo yo?",
-    a: "No. Al arrancar cargamos nosotros tus productos y las cuentas de fiado que ya tenés anotadas. Después sumar un producto o un cliente es cuestión de segundos.",
+    a: "No. Le sacás una foto a las hojas de tu cuaderno y pasamos a la app lo que te debe cada cliente; vos solo revisás que esté bien. Los productos son opcionales: el fiado, los cobros y la caja funcionan sin cargarlos.",
   },
   {
     q: "¿Qué cobros aparecen solos?",
@@ -155,8 +155,8 @@ export default function MostradorPage() {
             </h1>
             <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed">
               Mostrador reemplaza el cuaderno del fiado y el “¿te llegó la transferencia?”. Sabés quién te debe y qué se
-              llevó, ves cada cobro cuando entra y cerrás el día con la caja ya hecha. Te lo dejamos cargado y andando:
-              vos solo lo usás.
+              llevó, ves cada cobro cuando entra y cerrás el día con la caja ya hecha. Sin instalar nada y sin pasar el
+              cuaderno a mano.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="px-8 py-6 shadow-lg shadow-primary/20">
@@ -244,7 +244,7 @@ export default function MostradorPage() {
               ¿Lo probamos en tu local?
             </h2>
             <p className="mt-2 text-muted-foreground leading-relaxed">
-              Escribinos y contanos qué vendés. Te lo dejamos cargado con tus productos y tus cuentas de fiado para que lo pruebes.
+              Escribinos y contanos qué vendés. Con una foto de tu cuaderno te lo dejamos listo para que lo pruebes.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg">

@@ -1,18 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { MessageCircle, LayoutDashboard, Globe, Link2, Cog, FileSearch, ArrowUpRight } from "lucide-react"
+import { MessageCircle, LayoutDashboard, Globe, Link2, Cog, FileSearch, ArrowUpRight, Store } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const mainServices = [
   {
-    icon: MessageCircle,
-    title: "Asistente de WhatsApp",
+    icon: Store,
+    title: "Mostrador",
     description:
-      "Responde precios, horarios y disponibilidad con los datos reales de tu negocio, toma pedidos de turnos o reservas y te pasa la conversación cuando hace falta una persona.",
-    example: "Ej: un cliente le escribe al taller a las 22 h, el asistente le pide patente y problema, y a la mañana tenés el turno anotado para confirmar.",
-    tag: "Abono mensual",
-    link: { href: "#contacto", label: "Quiero uno para mi negocio" },
+      "La app para comercios que venden en un mostrador: anotás el fiado con qué se llevó y qué día, ves cada cobro cuando entra y cerrás el día con la caja ya hecha. Todo desde el celular.",
+    example: "Ej: un cliente pregunta cuánto debe, y en dos toques le mostrás el total, lo que se llevó y lo que dejó a cuenta.",
+    tag: "Cuota mensual",
+    link: { href: "/mostrador", label: "Conocé Mostrador" },
   },
   {
     icon: LayoutDashboard,
@@ -24,19 +24,20 @@ const mainServices = [
     link: { href: "/demos", label: "Ver demos por rubro" },
   },
   {
-    icon: Globe,
-    title: "Páginas web",
+    icon: Cog,
+    title: "Automatizaciones",
     description:
-      "Con tus fotos, tus reseñas reales de Google y un formulario que te deja la consulta armada en WhatsApp. Rápidas en el celular y con el dominio a tu nombre.",
-    example: "Ej: un salón de eventos recibe la consulta con tipo de evento, fecha e invitados, sin preguntar tres veces lo mismo.",
-    tag: "Lista en 1 o 2 semanas",
-    link: { href: "/demos/barrika", label: "Ver un boceto" },
+      "Cuando no necesitás un sistema entero: avisos de deuda, recordatorios de turnos, cobros que se anotan solos en tu planilla y resúmenes que te llegan al celular.",
+    example: "Ej: el día antes del turno, tu cliente recibe un WhatsApp con los datos y cómo confirmar.",
+    tag: "Precio cerrado",
+    link: { href: "/automatizaciones", label: "Ver automatizaciones" },
   },
 ]
 
 const otherServices: { icon: typeof Link2; title: string; text: string; link?: { href: string; label: string } }[] = [
+  { icon: Globe, title: "Páginas web", text: "Con tus fotos, tus reseñas reales de Google y un formulario que te deja la consulta armada en WhatsApp.", link: { href: "/demos/barrika", label: "Ver un boceto" } },
+  { icon: MessageCircle, title: "Asistente de WhatsApp", text: "Responde lo que te preguntan todo el día con los datos de tu negocio, toma turnos y te pasa la conversación cuando hace falta." },
   { icon: Link2, title: "Integraciones", text: "Conectamos tu sistema de gestión, tu tienda, tus planillas y tu WhatsApp para no copiar datos a mano." },
-  { icon: Cog, title: "Automatizaciones", text: "Avisos, recordatorios, reportes y mails que salen solos cuando pasa algo en tu negocio.", link: { href: "/automatizaciones", label: "Ver automatizaciones" } },
   { icon: FileSearch, title: "Lectura de documentos", text: "Facturas, remitos o PDFs que se leen solos y se cargan donde los necesitás." },
 ]
 
@@ -84,7 +85,7 @@ export function Services() {
             Qué hacemos <span className="text-primary">por tu negocio</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            Tres cosas, bien hechas. Empezamos por la que más te sirva y la vamos ampliando cuando lo necesites.
+            Empezamos por lo que más te sirva y lo vamos ampliando cuando lo necesites.
           </p>
         </div>
 
@@ -96,7 +97,7 @@ export function Services() {
 
         <div ref={otherAnimation.ref} className={`mt-14 ${otherAnimation.className}`}>
           <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">También hacemos</p>
-          <div className="grid sm:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {otherServices.map((s) => (
               <div key={s.title} className="flex gap-3">
                 <s.icon className="h-5 w-5 text-primary flex-shrink-0 mt-0.5" />

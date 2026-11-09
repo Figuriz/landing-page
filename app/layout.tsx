@@ -22,13 +22,16 @@ const whatsappNumber = (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '').replace(/
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'Figuriz | Sistemas y asistentes de WhatsApp para negocios',
+    default: 'Figuriz | Sistemas simples para comercios y negocios',
     template: '%s | Figuriz',
   },
-  description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios de todo el país. Probá la demo de tu rubro.',
+  description: 'Mostrador para comercios (fiado, cobros y caja en el celular), sistemas a medida por rubro y automatizaciones para negocios de todo el país. Probá la demo de tu rubro.',
   keywords: [
-    'asistente de WhatsApp para negocios',
+    'sistema para comercios',
+    'app para anotar fiado',
+    'control de caja para almacén',
     'sistema a medida',
+    'asistente de WhatsApp para negocios',
     'desarrollo de software a medida',
     'sistema para pymes',
     'páginas web para negocios',
@@ -55,13 +58,13 @@ export const metadata: Metadata = {
     locale: 'es_AR',
     url: siteUrl,
     siteName: 'Figuriz',
-    title: 'Figuriz | Sistemas y asistentes de WhatsApp para negocios',
-    description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios de todo el país. Probá la demo de tu rubro.',
+    title: 'Figuriz | Sistemas simples para comercios y negocios',
+    description: 'Mostrador para comercios (fiado, cobros y caja en el celular), sistemas a medida por rubro y automatizaciones para negocios de todo el país. Probá la demo de tu rubro.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Figuriz | Sistemas y asistentes de WhatsApp para negocios',
-    description: 'Asistentes de WhatsApp que responden y toman turnos, sistemas a medida y páginas web para negocios de todo el país. Probá la demo de tu rubro.',
+    title: 'Figuriz | Sistemas simples para comercios y negocios',
+    description: 'Mostrador para comercios (fiado, cobros y caja en el celular), sistemas a medida por rubro y automatizaciones para negocios de todo el país. Probá la demo de tu rubro.',
   },
   icons: {
     icon: [
@@ -105,7 +108,7 @@ export default function RootLayout({
                   name: 'Figuriz',
                   url: 'https://figuriz.com',
                   logo: 'https://figuriz.com/logo-figuriz.png',
-                  description: 'Asistentes de WhatsApp, sistemas a medida, páginas web e integraciones para negocios de toda Argentina.',
+                  description: 'Mostrador para comercios, sistemas a medida, automatizaciones y páginas web para negocios de toda Argentina.',
                   email: 'contacto@figuriz.com',
                   ...(whatsappNumber ? { telephone: `+${whatsappNumber}` } : {}),
                   sameAs: ['https://linkedin.com/company/figuriz'],
@@ -123,6 +126,13 @@ export default function RootLayout({
                   url: 'https://figuriz.com',
                   name: 'Figuriz',
                   publisher: { '@id': 'https://figuriz.com/#organization' },
+                },
+                {
+                  '@type': 'Service',
+                  name: 'Mostrador',
+                  description: 'App para comercios que se usa desde el celular: fiado con detalle y fecha, cobros que aparecen solos y caja del día.',
+                  url: 'https://figuriz.com/mostrador',
+                  provider: { '@id': 'https://figuriz.com/#organization' },
                 },
                 {
                   '@type': 'Service',
