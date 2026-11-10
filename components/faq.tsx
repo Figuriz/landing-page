@@ -12,17 +12,17 @@ const faqs = [
   {
     question: "¿Cuánto cuesta?",
     answer:
-      "Depende de qué necesites, por eso trabajamos por etapas: la primera es chica, con alcance y precio cerrados por escrito antes de empezar. El asistente de WhatsApp se paga con un abono mensual. En la primera charla, que no tiene costo, te decimos cuánto saldría tu caso.",
+      "Depende de qué necesites. Mostrador es una cuota mensual fija, y lo probás gratis en tu local antes de pagar. Los sistemas a medida y las automatizaciones van por etapas: la primera es chica, con alcance y precio cerrados por escrito antes de empezar. En la primera charla, que no tiene costo, te decimos cuánto saldría tu caso.",
   },
   {
     question: "¿Cuánto tarda?",
     answer:
-      "Una página web, una o dos semanas. Un asistente de WhatsApp o la primera etapa de un sistema, unas pocas semanas según lo que incluya. Te damos la fecha en la propuesta.",
+      "Mostrador, unos días. Una página web, una o dos semanas. La primera etapa de un sistema, unas pocas semanas según lo que incluya. Te damos la fecha en la propuesta.",
   },
   {
-    question: "¿El asistente de WhatsApp reemplaza a una persona?",
+    question: "Tengo un comercio chico, ¿esto es para mí?",
     answer:
-      "No. Responde lo que se repite todo el día (precios, horarios, disponibilidad), toma los datos del pedido o del turno y te pasa la conversación cuando hace falta alguien del negocio. Vos confirmás. Usa la API oficial de WhatsApp, así que tu número no corre riesgo.",
+      "Sí. Para almacenes, kioscos, carnicerías, verdulerías, ferreterías o pet shops armamos Mostrador: el fiado, los cobros y la caja del día en el celular, sin instalar nada ni saber de computadoras.",
   },
   {
     question: "¿Necesito saber de tecnología?",
@@ -30,19 +30,9 @@ const faqs = [
       "No. Te entregamos algo que se usa desde el celular o la computadora, le enseñamos a tu equipo y quedamos para lo que necesiten.",
   },
   {
-    question: "¿Qué pasa con mis datos?",
-    answer:
-      "Son tuyos. El dominio, las cuentas y la información quedan a tu nombre, y te los podemos exportar cuando quieras.",
-  },
-  {
     question: "Ya uso un sistema de gestión, ¿tengo que cambiarlo?",
     answer:
       "No necesariamente. Muchas veces conviene conectarlo con lo que falta (WhatsApp, la web, una planilla, un portal para tus clientes) en lugar de reemplazarlo. Las integraciones son nuestro fuerte.",
-  },
-  {
-    question: "¿Trabajan con negocios de otras ciudades?",
-    answer:
-      "Sí, con todo el país. Las charlas, las pruebas y las entregas son por videollamada y WhatsApp, así que no importa en qué ciudad estés.",
   },
 ]
 

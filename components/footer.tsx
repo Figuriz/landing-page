@@ -5,21 +5,20 @@ import Image from "next/image"
 import { Mail, Linkedin, ArrowUpRight } from "lucide-react"
 
 const navLinks = [
-  { label: "Servicios", href: "/#servicios" },
-  { label: "Nosotros", href: "/#nosotros" },
-  { label: "Proceso", href: "/#proceso" },
-  { label: "Preguntas frecuentes", href: "/#faq" },
-  { label: "Demos", href: "/demos" },
+  { label: "Mostrador para comercios", href: "/mostrador" },
+  { label: "Demos por rubro", href: "/demos" },
   { label: "Automatizaciones", href: "/automatizaciones" },
+  { label: "Cómo trabajamos", href: "/#proceso" },
+  { label: "Preguntas frecuentes", href: "/#faq" },
   { label: "Contacto", href: "/#contacto" },
 ]
 
 const services = [
-  "Asistentes de WhatsApp",
+  "Mostrador para comercios",
   "Sistemas a medida",
+  "Automatizaciones",
   "Páginas web",
   "Integraciones",
-  "Automatizaciones",
 ]
 
 export function Footer() {
@@ -71,7 +70,7 @@ export function Footer() {
             <span className="text-primary">trabaje solo.</span>
           </p>
           <p className="mt-2.5 text-sm text-foreground/45 max-w-xs leading-relaxed">
-            Sistemas, asistentes de WhatsApp y webs para negocios de todo el país.
+            Mostrador para comercios, sistemas a medida y automatizaciones para negocios de todo el país.
           </p>
         </div>
 

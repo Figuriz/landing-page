@@ -1,5 +1,6 @@
 "use client";
 
+import { FaWhatsapp } from "react-icons/fa"
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -87,6 +88,11 @@ export function CTA() {
     }
   }
 
+  const waPhone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ""
+  const waHref = waPhone
+    ? `https://wa.me/${waPhone}?text=${encodeURIComponent("Hola, vi figuriz.com y quería consultar.")}`
+    : ""
+
   return (
     <>
       {RECAPTCHA_SITE_KEY && (
@@ -124,12 +130,23 @@ export function CTA() {
                 <span className="text-white/75">perder tiempo</span>
               </h2>
               <p className="mt-4 text-lg text-white/80 leading-relaxed">
-                Te respondemos con una idea concreta para tu negocio y, si te
-                interesa, coordinamos una charla corta.
+                Escribinos y te respondemos con una idea concreta para tu negocio.
+                La primera charla no tiene costo.
               </p>
-              <p className="mt-2 text-sm text-white/60 font-medium">
-                La primera charla no tiene costo
-              </p>
+              {waHref && (
+                <div className="mt-7 flex flex-col items-center gap-4">
+                  <a
+                    href={waHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 rounded-xl bg-white px-7 py-4 text-base font-bold text-primary shadow-lg hover:bg-white/90 transition-colors"
+                  >
+                    <FaWhatsapp className="h-5 w-5" aria-hidden="true" />
+                    Escribinos por WhatsApp
+                  </a>
+                  <p className="text-sm text-white/70">o dejanos tu consulta acá y te escribimos nosotros:</p>
+                </div>
+              )}
             </div>
 
             {/* Success state */}

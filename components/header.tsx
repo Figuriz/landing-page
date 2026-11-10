@@ -41,10 +41,10 @@ export function Header() {
 
           <nav className="hidden md:flex items-center gap-8">
             <Link
-              href="/#servicios"
+              href="/mostrador"
               className="text-foreground/80 hover:text-primary transition-colors font-medium"
             >
-              Servicios
+              Mostrador
             </Link>
             <Link
               href="/demos"
@@ -53,22 +53,10 @@ export function Header() {
               Demos
             </Link>
             <Link
-              href="/#nosotros"
+              href="/automatizaciones"
               className="text-foreground/80 hover:text-primary transition-colors font-medium"
             >
-              Nosotros
-            </Link>
-            <Link
-              href="/#proceso"
-              className="text-foreground/80 hover:text-primary transition-colors font-medium"
-            >
-              Proceso
-            </Link>
-            <Link
-              href="/#faq"
-              className="text-foreground/80 hover:text-primary transition-colors font-medium"
-            >
-              Preguntas frecuentes
+              Automatizaciones
             </Link>
             <Button asChild>
               <Link href="/#contacto">Contactanos</Link>
@@ -87,16 +75,16 @@ export function Header() {
 
         <div
           className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-            isMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
+            isMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
           }`}
         >
           <nav className="flex flex-col gap-4 py-4 border-t border-border">
             <Link
-              href="/#servicios"
+              href="/mostrador"
               className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
               onClick={() => setIsMenuOpen(false)}
             >
-              Servicios
+              Mostrador
             </Link>
             <Link
               href="/demos"
@@ -106,25 +94,11 @@ export function Header() {
               Demos
             </Link>
             <Link
-              href="/#nosotros"
+              href="/automatizaciones"
               className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
               onClick={() => setIsMenuOpen(false)}
             >
-              Nosotros
-            </Link>
-            <Link
-              href="/#proceso"
-              className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Proceso
-            </Link>
-            <Link
-              href="/#faq"
-              className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Preguntas frecuentes
+              Automatizaciones
             </Link>
             <Button asChild className="w-fit">
               <Link href="/#contacto" onClick={() => setIsMenuOpen(false)}>

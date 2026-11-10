@@ -1,6 +1,6 @@
 "use client"
 
-import { MessageCircle, FileText, Code2, Rocket } from "lucide-react"
+import { MessageCircle, FileText, Rocket, ShieldCheck } from "lucide-react"
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const steps = [
@@ -9,28 +9,28 @@ const steps = [
     number: "01",
     title: "Charlamos",
     description:
-      "20 minutos, sin costo. Nos contás cómo trabajan hoy y qué les hace perder tiempo.",
+      "20 minutos, sin costo. Nos contás cómo trabajás hoy y qué te hace perder tiempo.",
   },
   {
     icon: FileText,
     number: "02",
-    title: "Propuesta por escrito",
+    title: "Precio cerrado, por escrito",
     description:
-      "Te pasamos qué incluye la primera etapa, cuánto sale y cuándo está. Sin letra chica.",
-  },
-  {
-    icon: Code2,
-    number: "03",
-    title: "Primera etapa andando",
-    description:
-      "En pocas semanas la estás usando. Te mostramos avances y lo ajustamos con tu equipo.",
+      "Qué incluye, cuánto sale y cuándo está. Lo que no está en la propuesta no se cobra de sorpresa.",
   },
   {
     icon: Rocket,
-    number: "04",
-    title: "Crece con vos",
+    number: "03",
+    title: "Lo usás en pocas semanas",
     description:
-      "Soporte y mejoras cuando las necesites. Sumamos módulos solo si te sirven.",
+      "Arrancamos por una parte chica. Te mostramos avances y lo ajustamos con vos.",
+  },
+  {
+    icon: ShieldCheck,
+    number: "04",
+    title: "Los datos son tuyos",
+    description:
+      "Las cuentas y la información quedan a tu nombre. Si un día querés irte, te llevás todo.",
   },
 ]
 
@@ -78,7 +78,7 @@ export function ProcessSteps() {
             Cómo <span className="text-primary">trabajamos</span>
           </h2>
           <p className="mt-4 text-lg text-muted-foreground leading-relaxed">
-            De la primera charla a algo que tu equipo usa todos los días.
+            Somos un equipo chico de desarrolladores: te atiende quien lo programa, y te lo explica en criollo.
           </p>
         </div>
 

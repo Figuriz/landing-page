@@ -122,6 +122,10 @@ export default function DemosPage() {
               Armamos sistemas a medida para negocios de todo el país, pensados para usar desde el celular.
               Elegí tu rubro y probá: tocá, cargá y mirá cómo se vería. No se rompe nada.
             </p>
+            <p className="mt-4 text-sm text-muted-foreground animate-fade-in-up animation-delay-200">
+              ¿Tenés un almacén, un kiosco, una carnicería o una ferretería?{" "}
+              <Link href="/mostrador" className="font-semibold text-primary hover:underline underline-offset-4">Mirá Mostrador</Link>
+            </p>
           </div>
         </div>
         <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
