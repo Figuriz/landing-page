@@ -16,11 +16,11 @@ const navLinks = [
 ]
 
 const services = [
-  "Asistentes de WhatsApp",
+  "Mostrador para comercios",
   "Sistemas a medida",
+  "Automatizaciones",
   "Páginas web",
   "Integraciones",
-  "Automatizaciones",
 ]
 
 export function Footer() {
@@ -72,7 +72,7 @@ export function Footer() {
             <span className="text-primary">trabaje solo.</span>
           </p>
           <p className="mt-2.5 text-sm text-foreground/45 max-w-xs leading-relaxed">
-            Sistemas, asistentes de WhatsApp y webs para negocios de todo el país.
+            Mostrador para comercios, sistemas a medida y automatizaciones para negocios de todo el país.
           </p>
         </div>
 

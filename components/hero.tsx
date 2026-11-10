@@ -35,10 +35,10 @@ export function Hero() {
             Software para negocios de todo el país
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold font-[family-name:var(--font-heading)] text-foreground leading-tight text-balance animate-fade-in-up">
-            Tu negocio ordenado,{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent animate-gradient">
-              desde el celular.
+          <h1 className="text-[1.75rem] sm:text-4xl md:text-5xl lg:text-6xl font-extrabold font-[family-name:var(--font-heading)] text-foreground leading-tight text-balance animate-fade-in-up">
+            <span className="block">Menos cuaderno y planillas.</span>
+            <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent animate-gradient">
+              Más tiempo para vender.
             </span>
           </h1>
 
