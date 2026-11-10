@@ -254,9 +254,18 @@ const RUBROS = {
   ferreteria:{ nombre:"Ferretería", local:"Ferretería El Tornillo", extraTab:"Precios",
     prods:[["Tornillo 8x1\" (caja)",4200,"u",40],["Cinta aisladora",1600,"u",3],["Silicona",5900,"u",14],["Lija 120",700,"u",60],["Cable 2,5 mm (m)",1350,"u",300],["Pinceleta 2\"",3800,"u",12],["Tarugos 8 (x50)",2900,"u",25],["Llave térmica",11200,"u",5]],
     deudores:[["Pablo el albañil",87400,38],["Constructora Sur",214000,21],["Gustavo pintor",31200,8],["Mirta",6400,60]],
+  },
+  ropa:{ nombre:"Tienda de ropa", chip:"Ropa", local:"Tienda Lola", extraTab:"Señas", extraCorto:true,
+    prods:[["Remera lisa",18000,"u",14],["Jean",52000,"u",9],["Buzo",45000,"u",6],["Campera",89000,"u",3],["Medias (pack x3)",6500,"u",25],["Camisa",38000,"u",8],["Vestido",42000,"u",4],["Zapatillas",95000,"u",5]],
+    deudores:[["Marcela Ibáñez",92000,48],["Carla Méndez",64000,35],["Lucía (la del gimnasio)",28500,14],["Romina",9000,6]],
+  },
+  bazar:{ nombre:"Bazar", local:"Bazar El Hogar", extraTab:"Precios", extraCorto:true,
+    prods:[["Vasos de vidrio (x6)",12500,"u",18],["Juego de cubiertos",28000,"u",7],["Olla 24 cm",39000,"u",4],["Termo 1 litro",32000,"u",9],["Mate",9500,"u",22],["Sartén antiadherente",27000,"u",5],["Tuppers (x3)",8900,"u",30],["Pava eléctrica",36000,"u",3]],
+    deudores:[["Jardín Rayito de Sol",38500,25],["Graciela (regalo de casamiento)",46000,12],["Norma",9500,4]],
   }
 };
-const PROVEEDORES = {ferreteria:["Fischer","Tramontina","3M","Cablesur"]};
+const SENAS = [["Julieta Paz","Jean talle 40 y remera lisa",70000,20000,-2],["Carla Méndez","Campera negra talle M",89000,30000,2],["Sofi Acosta","Vestido verde talle S",42000,15000,6]];
+const PROVEEDORES = {ferreteria:["Fischer","Tramontina","3M","Cablesur"], bazar:["Tramontina","Rigolleau","Colombraro","Lumilagro"]};
 const PEDIDOS = [["Laura · Belgrano 840","2 kg papa, 1 kg tomate, 1 lechuga","Nuevo"],["Bar La Esquina","10 kg cebolla, 5 kg tomate","Preparando"],["Sofía · Sarmiento 210","Bolsón de verduras para 4","Nuevo"]];
 const RECOMPRA = [["Vero (labrador)","Alimento perro 15 kg","se le termina en 2 días"],["Juan Ignacio","Alimento gato 7,5 kg","se le termina esta semana"],["Hugo (campo)","Maíz 25 kg x4","compró hace 28 días"]];
 const NOMBRES = ["Juan Pérez","Ana Ruiz","Carlos Méndez","Florencia Díaz","Martín Sosa","Laura Benítez","Diego Ferreyra","Paula Ríos","Nicolás Vera","Sofía Acosta"];
@@ -277,7 +286,7 @@ function reset(){
     caja:{Efectivo:84500,"Mercado Pago":61200,"Cuenta DNI":33700,Transferencia:47300,Tarjeta:39800},
     movs:[["Efectivo","Venta",8200],["Cuenta DNI","Florencia Díaz",9300],["Mercado Pago","Paula Ríos",12400],["Tarjeta","Venta débito",15600]],
     pagos:[{n:"Florencia Díaz",m:9300,t:Date.now()-240000,via:"Cuenta DNI"},{n:"Carlos Méndez",m:15800,t:Date.now()-720000,via:"Mercado Pago"}],
-    lector:{balanza:"peso", ultimo:"", esperando:null}, selEt:{}, etPrecio:true, borrar:false, pct:8, prov:"Fischer", pedidos:PEDIDOS.map(p=>({c:p[0],d:p[1],e:p[2]}))
+    lector:{balanza:"peso", ultimo:"", esperando:null}, selEt:{}, etPrecio:true, borrar:false, pct:8, prov:(PROVEEDORES[rubro]||PROVEEDORES.ferreteria)[0], senas:SENAS.map(x=>({c:x[0],d:x[1],total:x[2],sena:x[3],vence:hoy(x[4])})), pedidos:PEDIDOS.map(p=>({c:p[0],d:p[1],e:p[2]}))
   };
   S.local = S.local.slice(0,40);
   S.deudores = R.deudores.map((d,i)=>{
@@ -287,7 +296,7 @@ function reset(){
       const partes=[], usados=[]; let m=0;
       for(let z=0;z<2;z++){
         const p=S.prods[(i*3+j*2+z*5)%S.prods.length]; if(usados.includes(p)) continue; usados.push(p);
-        const q = p.u==="kg" ? [1,1.5,2,0.5][(i+j+z)%4] : [1,2,3][(i+j+z)%3];
+        const q = p.u==="kg" ? [1,1.5,2,0.5][(i+j+z)%4] : p.precio>20000 ? 1 : [1,2,3][(i+j+z)%3];
         partes.push(qtyLbl(p,q).replace(" u.","")+" "+p.n); m+=p.precio*q;
       }
       items.push({t:hoy(-dias), d:partes.join(", "), m:Math.round(m/100)*100});
@@ -318,7 +327,7 @@ function tabs(){
   const list = [["vender","Vender"],["fiado","Fiado"],["cobros","Cobros"],["caja","Caja"],["productos","Productos"]];
   if (R.extraTab) list.push(["extra",R.extraTab]);
   const hide = modo==="lado" ? ["vender","productos"] : [];
-  if (vista==="corto") hide.push("productos","extra");
+  if (vista==="corto"){ hide.push("productos"); if(!R.extraCorto) hide.push("extra"); }
   if (hide.includes(tab)) tab = modo==="lado" ? "fiado" : "vender";
   $("#nav").style.gridTemplateColumns = "";
   const vis = list.filter(t=>!hide.includes(t[0]));
@@ -421,6 +430,18 @@ function pagoSheet(n){
   </div>`;
   sh.hidden=false;
 }
+function senaSheet(i){
+  const x=S.senas[i]; S.retirando=i; S.pagoMedio=S.pagoMedio||"Efectivo";
+  const sh=$("#sheet");
+  sh.innerHTML=`<div class="box" role="dialog" aria-label="Retiro de una seña">
+    <h2>${esc(x.c)} retira</h2>
+    <p class="sub">${esc(x.d)}. Había dejado ${fmt(x.sena)} y paga el resto: ${fmt(x.total-x.sena)}.</p>
+    <div class="lbl">¿Cómo paga el resto?</div>
+    <div class="pays">${["Efectivo","Mercado Pago","Cuenta DNI","Transferencia","Tarjeta"].map(m=>`<button class="pay" data-pmed="${m}" aria-pressed="${S.pagoMedio===m}">${m}</button>`).join("")}</div>
+    <div class="row"><button class="ghost" id="snCancel" style="flex:1">Cancelar</button><button class="big" id="snOk" style="flex:1">Cobrar ${fmt(x.total-x.sena)}</button></div>
+  </div>`;
+  sh.hidden=false;
+}
 function hace(t){const s=Math.max(1,Math.round((Date.now()-t)/1000)); if(s<60) return `hace ${s} s`; const m=Math.round(s/60); return m<60?`hace ${m} min`:`hace ${Math.round(m/60)} h`}
 function vCobros(){
   return `
@@ -477,11 +498,30 @@ function vExtra(){
       <button class="mini wa" data-recomp="${esc(r[0])}|${esc(r[1])}">Avisar</button></div>`).join("")}</div>
     <p class="sub">El aviso se calcula con lo que compró y cada cuánto viene.</p>`;
   }
-  // ferreteria
+  if (rubro==="ropa"){
+    return `<div><h2>Señas</h2><p class="sub">Lo que te pidieron que guardes: quién, qué prenda, cuánto dejó y cuánto falta.</p></div>
+    <div class="card">${S.senas.length? S.senas.map((x,i)=>{ const dias=Math.round((x.vence-hoy())/864e5);
+      const pill = dias<0 ? `<span class="pill red">Venció hace ${-dias} ${dias===-1?"día":"días"}</span>` : dias<=2 ? `<span class="pill warn">${dias===0?"Vence hoy":"Vence en "+dias+(dias===1?" día":" días")}</span>` : `<span class="pill ok">Guardada hasta el ${fecha(x.vence)}</span>`;
+      return `<div class="item" style="align-items:flex-start"><div class="n"><b>${esc(x.c)}</b><span style="display:block">${esc(x.d)}</span>
+        <span style="display:block">Dejó ${fmt(x.sena)} · le falta <span class="num" style="color:var(--ink)">${fmt(x.total-x.sena)}</span></span>${pill}</div>
+        <div style="display:flex;flex-direction:column;gap:6px;flex:none"><button class="mini wa" data-savisar="${i}">Avisar</button><button class="mini" data-sretira="${i}">Retiró</button></div></div>`}).join("") : `<div class="empty">No tenés nada señado.</div>`}</div>
+    <div class="card form">
+      <div class="lbl">Anotar una seña</div>
+      <input type="text" id="sNom" placeholder="Nombre del cliente" autocomplete="off" maxlength="40">
+      <input type="text" id="sQue" placeholder="¿Qué te pidió que le guardes?" autocomplete="off" maxlength="80">
+      <div class="fgrid">
+        <label>Precio<input type="number" id="sTot" placeholder="0" inputmode="numeric" min="0"></label>
+        <label>Seña que dejó<input type="number" id="sSen" placeholder="0" inputmode="numeric" min="0"></label>
+      </div>
+      <select id="sMed" aria-label="¿Cómo dejó la seña?">${["Efectivo","Mercado Pago","Cuenta DNI","Transferencia","Tarjeta"].map(m=>`<option>${m}</option>`).join("")}</select>
+      <button class="big" id="sAnotar">Anotar seña</button>
+    </div>`;
+  }
+  // ferretería y bazar
   return `<div><h2>Precios</h2><p class="sub">Llegó la lista nueva: aplicá el aumento de una vez.</p></div>
   <div class="card form">
     <div class="lbl">Proveedor</div>
-    <select id="prov">${PROVEEDORES.ferreteria.map(p=>`<option ${p===S.prov?'selected':''}>${p}</option>`).join("")}</select>
+    <select id="prov">${(PROVEEDORES[rubro]||PROVEEDORES.ferreteria).map(p=>`<option ${p===S.prov?'selected':''}>${p}</option>`).join("")}</select>
     <div class="lbl">Aumento</div>
     <div class="pays">${[5,8,12].map(n=>`<button class="pay" data-pct="${n}" aria-pressed="${S.pct===n}">+${n}%</button>`).join("")}</div>
     <button class="big" id="aplicar">Aplicar a todos los productos</button>
@@ -703,6 +743,20 @@ document.addEventListener("click",e=>{
   }
   if(d.rec){ const dd=S.deudores.find(x=>x.n===d.rec);
     wa(`Hola ${dd.n.split(" ")[0]}, ¿cómo estás? Te escribimos de ${S.local}. Te recordamos que quedó pendiente ${fmt(dd.monto)}:\n${[...dd.items].sort((a,b)=>a.t-b.t).map(x=>`- ${fecha(x.t)}: ${x.d} (${x.m<0?"-"+fmt(-x.m):fmt(x.m)})`).join("\n")}\nPodés pasar cuando quieras o transferir al alias. ¡Gracias!`); return; }
+  if(d.savisar!==undefined){ const x=S.senas[d.savisar];
+    wa(`Hola ${x.c.split(" ")[0]}, ¿cómo estás? Te escribimos de ${S.local}. Te estamos guardando: ${x.d}. Dejaste ${fmt(x.sena)} y te falta ${fmt(x.total-x.sena)}. Te lo guardamos hasta el ${fecha(x.vence)}. ¡Te esperamos!`); return; }
+  if(d.sretira!==undefined){ senaSheet(+d.sretira); return; }
+  if(b.id==="snCancel"){ S.retirando=null; $("#sheet").hidden=true; return; }
+  if(b.id==="snOk"){ const x=S.senas[S.retirando], m=x.total-x.sena;
+    S.caja[S.pagoMedio]+=m; S.movs.unshift([S.pagoMedio,"Retiró lo señado: "+x.c,m]); S.senas.splice(S.retirando,1); S.retirando=null;
+    $("#sheet").hidden=true; toast(`${x.c} retiró y pagó ${fmt(m)}`); render(); return; }
+  if(b.id==="sAnotar"){
+    const n=$("#sNom").value.trim(), q=$("#sQue").value.trim(), tot=Math.round(+$("#sTot").value), sen=Math.round(+$("#sSen").value), med=$("#sMed").value;
+    if(!n||!q){ toast("Poné el nombre y qué le guardás"); return; }
+    if(!(tot>0)||!(sen>0)){ toast("Poné el precio y la seña"); return; }
+    if(sen>=tot){ toast("La seña tiene que ser menor al precio"); return; }
+    S.senas.push({c:n,d:q,total:tot,sena:sen,vence:hoy(7)}); S.caja[med]+=sen; S.movs.unshift([med,"Seña: "+n,sen]);
+    toast(`Anotado: ${n} dejó ${fmt(sen)}. Se lo guardás 7 días`); render(); return; }
   if(d.det){ S.abierto = S.abierto===d.det ? null : d.det; render(); return; }
   if(d.pago){ pagoSheet(d.pago); return; }
   if(d.pmed){ S.pagoMedio=d.pmed; document.querySelectorAll("[data-pmed]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.pmed===S.pagoMedio)); return; }

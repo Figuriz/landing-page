@@ -98,7 +98,7 @@ const FAQ = [
   },
   {
     q: "¿Para qué comercios es?",
-    a: "Almacenes, kioscos, carnicerías, verdulerías, dietéticas, ferreterías, pet shops y forrajerías. Si vendés en un mostrador y fiás, es para vos.",
+    a: "Almacenes, kioscos, carnicerías, verdulerías, dietéticas, ferreterías, pet shops, forrajerías, tiendas de ropa y bazares. Si vendés en un mostrador, es para vos.",
   },
 ]
 
