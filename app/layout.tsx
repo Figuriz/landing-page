@@ -111,7 +111,7 @@ export default function RootLayout({
                   description: 'Mostrador para comercios, sistemas a medida, automatizaciones y páginas web para negocios de toda Argentina.',
                   email: 'contacto@figuriz.com',
                   ...(whatsappNumber ? { telephone: `+${whatsappNumber}` } : {}),
-                  sameAs: ['https://linkedin.com/company/figuriz'],
+                  sameAs: ['https://www.instagram.com/figuriz.web/', 'https://linkedin.com/company/figuriz'],
                   address: {
                     '@type': 'PostalAddress',
                     addressLocality: 'Tandil',

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Mail, Linkedin, ArrowUpRight } from "lucide-react"
+import { Mail, Linkedin, Instagram, ArrowUpRight } from "lucide-react"
 
 const navLinks = [
   { label: "Mostrador para comercios", href: "/mostrador" },
@@ -131,6 +131,18 @@ export function Footer() {
               </a>
 
 <a
+                href="https://www.instagram.com/figuriz.web/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-center gap-3 text-sm text-foreground/55 hover:text-foreground/90 transition-colors duration-150 w-fit"
+              >
+                <div className="h-8 w-8 rounded-lg bg-foreground/[0.05] group-hover:bg-[#E1306C]/15 border border-border/40 group-hover:border-[#E1306C]/30 flex items-center justify-center transition-all duration-200">
+                  <Instagram className="h-3.5 w-3.5 text-foreground/40 group-hover:text-[#E1306C] transition-colors" />
+                </div>
+                @figuriz.web
+              </a>
+
+              <a
                 href="https://linkedin.com/company/figuriz"
                 target="_blank"
                 rel="noopener noreferrer"
