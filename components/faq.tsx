@@ -25,29 +25,14 @@ const faqs = [
       "Sí. Para almacenes, kioscos, carnicerías, verdulerías, ferreterías o pet shops armamos Mostrador: el fiado, los cobros y la caja del día en el celular, sin instalar nada ni saber de computadoras.",
   },
   {
-    question: "¿El asistente de WhatsApp reemplaza a una persona?",
-    answer:
-      "No. Responde lo que se repite todo el día (precios, horarios, disponibilidad), toma los datos del pedido o del turno y te pasa la conversación cuando hace falta alguien del negocio. Vos confirmás. Usa la API oficial de WhatsApp, así que tu número no corre riesgo.",
-  },
-  {
     question: "¿Necesito saber de tecnología?",
     answer:
       "No. Te entregamos algo que se usa desde el celular o la computadora, le enseñamos a tu equipo y quedamos para lo que necesiten.",
   },
   {
-    question: "¿Qué pasa con mis datos?",
-    answer:
-      "Son tuyos. El dominio, las cuentas y la información quedan a tu nombre, y te los podemos exportar cuando quieras.",
-  },
-  {
     question: "Ya uso un sistema de gestión, ¿tengo que cambiarlo?",
     answer:
       "No necesariamente. Muchas veces conviene conectarlo con lo que falta (WhatsApp, la web, una planilla, un portal para tus clientes) en lugar de reemplazarlo. Las integraciones son nuestro fuerte.",
-  },
-  {
-    question: "¿Trabajan con negocios de otras ciudades?",
-    answer:
-      "Sí, con todo el país. Las charlas, las pruebas y las entregas son por videollamada y WhatsApp, así que no importa en qué ciudad estés.",
   },
 ]
 

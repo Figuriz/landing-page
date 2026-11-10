@@ -5,13 +5,11 @@ import Image from "next/image"
 import { Mail, Linkedin, ArrowUpRight } from "lucide-react"
 
 const navLinks = [
-  { label: "Servicios", href: "/#servicios" },
-  { label: "Nosotros", href: "/#nosotros" },
-  { label: "Proceso", href: "/#proceso" },
-  { label: "Preguntas frecuentes", href: "/#faq" },
-  { label: "Demos", href: "/demos" },
-  { label: "Automatizaciones", href: "/automatizaciones" },
   { label: "Mostrador para comercios", href: "/mostrador" },
+  { label: "Demos por rubro", href: "/demos" },
+  { label: "Automatizaciones", href: "/automatizaciones" },
+  { label: "Cómo trabajamos", href: "/#proceso" },
+  { label: "Preguntas frecuentes", href: "/#faq" },
   { label: "Contacto", href: "/#contacto" },
 ]
 

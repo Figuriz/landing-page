@@ -1,7 +1,6 @@
 import { Header } from "@/components/header"
 import { Hero } from "@/components/hero"
 import { Services } from "@/components/services"
-import { About } from "@/components/about"
 import { CTA } from "@/components/cta"
 import { ProcessSteps } from "@/components/process-steps"
 import { FAQ } from "@/components/faq"
@@ -14,10 +13,9 @@ export default function Home() {
       <Header />
       <Hero />
       <Services />
-      <About />
-      <CTA />
       <ProcessSteps />
       <FAQ />
+      <CTA />
       <Footer />
       <WhatsAppButton />
     </main>
