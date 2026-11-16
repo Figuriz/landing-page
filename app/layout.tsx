@@ -130,7 +130,7 @@ export default function RootLayout({
                 {
                   '@type': 'Service',
                   name: 'Mostrador',
-                  description: 'App para comercios que se usa desde el celular: fiado con detalle y fecha, cobros que aparecen solos y caja del día.',
+                  description: 'App para comercios que se usa desde el celular: fiado con detalle y fecha, ventas con cómo te pagaron y caja del día.',
                   url: 'https://figuriz.com/mostrador',
                   provider: { '@id': 'https://figuriz.com/#organization' },
                 },
