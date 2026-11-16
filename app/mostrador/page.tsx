@@ -9,9 +9,9 @@ import { Button } from "@/components/ui/button"
 const BASE = "https://figuriz.com"
 const URL_PAGINA = `${BASE}/mostrador`
 const URL_DEMO = "/demos/mostrador"
-const TITULO = "Mostrador: fiado, cobros y caja de tu comercio en el celular · Figuriz"
+const TITULO = "Mostrador: el fiado y la caja de tu comercio en el celular · Figuriz"
 const DESCRIPCION =
-  "Mostrador es la app de Figuriz para comercios de barrio: anotás el fiado con detalle y fecha, ves los cobros que te entran sin pedir la captura y cerrás la caja del día desde el celular. Te la dejamos cargada y andando."
+  "Mostrador es la app de Figuriz para comercios de barrio: anotás el fiado con qué se llevó y la fecha, registrás cada venta con cómo te pagaron y cerrás la caja del día desde el celular. Se prueba gratis en tu local."
 
 export const metadata: Metadata = {
   title: { absolute: TITULO },
@@ -36,9 +36,9 @@ const FUNCIONES = [
   {
     icon: BellRing,
     titulo: "Cobros",
-    frase: "Entra el cobro, y suena.",
+    frase: "Con Mercado Pago, el cobro entra y suena.",
     texto:
-      "Cada cobro que te entra aparece en la pantalla con el nombre y el monto. Sin mirar el celular del cliente y sin pedir la captura.",
+      "Si cobrás con Mercado Pago podés conectar tu cuenta: cada cobro aparece en la pantalla con el monto, a los pocos segundos. Es opcional y lo estamos habilitando de a un comercio.",
   },
   {
     icon: Wallet,
@@ -50,9 +50,9 @@ const FUNCIONES = [
   {
     icon: ShoppingBasket,
     titulo: "Vender",
-    frase: "Dos toques y listo.",
+    frase: "Tocás, cobrás y listo.",
     texto:
-      "Tocás los productos, elegís cómo te pagan y queda anotado. Si es fiado, se suma solo a la cuenta del cliente con lo que se llevó.",
+      "Ponés el monto o tocás los productos, elegís cómo te pagan y queda anotado. Si es fiado, se suma solo a la cuenta del cliente con lo que se llevó.",
   },
 ]
 
@@ -62,8 +62,8 @@ const PASOS = [
     texto: "Por WhatsApp. Nos contás qué vendés y cómo llevás hoy el fiado y la caja.",
   },
   {
-    titulo: "Le sacás una foto al cuaderno",
-    texto: "Nos mandás las hojas del fiado por WhatsApp y te las pasamos a la app. Revisás que esté bien, y listo: no tipeás nada.",
+    titulo: "Arrancás con lo que te deben hoy",
+    texto: "Anotás a los clientes que te deben, con la fecha de cuando se lo llevaron. Lo viejo puede quedar en el cuaderno: lo pasás a medida que vienen.",
   },
   {
     titulo: "Lo probás gratis",
@@ -71,7 +71,7 @@ const PASOS = [
   },
   {
     titulo: "Si te sirve, seguís",
-    texto: "Con una cuota mensual fija. Te avisamos antes de cada vencimiento.",
+    texto: "Con una cuota mensual fija. La app te avisa unos días antes de cada vencimiento.",
   },
 ]
 
@@ -82,15 +82,15 @@ const FAQ = [
   },
   {
     q: "¿Tengo que cargar todo yo?",
-    a: "No. Le sacás una foto a las hojas de tu cuaderno y pasamos a la app lo que te debe cada cliente; vos solo revisás que esté bien. Los productos son opcionales: el fiado, los cobros y la caja funcionan sin cargarlos.",
+    a: "No hace falta cargar todo para empezar. Anotás a cada cliente que te debe cuando viene, con la fecha de cuando se lo llevó. Los productos son opcionales: podés vender poniendo solo el monto, y el fiado y la caja funcionan igual.",
   },
   {
     q: "¿Qué cobros aparecen solos?",
-    a: "Los de Mercado Pago aparecen solos, al instante. Cuenta DNI y otros medios los vemos con vos cuando lo instalamos. Lo que cobrás en efectivo o con tarjeta queda anotado al hacer la venta.",
+    a: "Los de Mercado Pago, si conectás tu cuenta: aparecen en la pantalla a los pocos segundos, con la app abierta. Lo que cobrás con Cuenta DNI, transferencia, tarjeta o efectivo lo marcás al hacer la venta y queda en la caja.",
   },
   {
     q: "Ya tengo un sistema para facturar, ¿me sirve igual?",
-    a: "Sí. Mostrador puede ir al lado de lo que ya usás, solo con el fiado, los cobros y la caja.",
+    a: "Sí. Mostrador no factura: puede ir al lado de lo que ya usás, solo con el fiado y la caja.",
   },
   {
     q: "¿Cuánto sale?",
@@ -151,12 +151,11 @@ export default function MostradorPage() {
           <div className="max-w-2xl">
             <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">Mostrador · para comercios</p>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-[family-name:var(--font-heading)] text-foreground leading-tight text-balance">
-              El fiado, los cobros y la caja de tu local, <span className="text-primary">en el celular.</span>
+              El fiado y la caja de tu local, <span className="text-primary">en el celular.</span>
             </h1>
             <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed">
-              Mostrador reemplaza el cuaderno del fiado y el “¿te llegó la transferencia?”. Sabés quién te debe y qué se
-              llevó, ves cada cobro cuando entra y cerrás el día con la caja ya hecha. Sin instalar nada y sin pasar el
-              cuaderno a mano.
+              Mostrador reemplaza el cuaderno del fiado. Sabés quién te debe, qué se llevó y desde cuándo, le mandás el
+              recordatorio por WhatsApp y cerrás el día con la caja ya hecha. Sin instalar nada: se abre desde el celular.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="px-8 py-6 shadow-lg shadow-primary/20">
@@ -244,7 +243,7 @@ export default function MostradorPage() {
               ¿Lo probamos en tu local?
             </h2>
             <p className="mt-2 text-muted-foreground leading-relaxed">
-              Escribinos y contanos qué vendés. Con una foto de tu cuaderno te lo dejamos listo para que lo pruebes.
+              Escribinos y contanos qué vendés. Te mandamos el enlace y lo probás gratis en tu local, con tus clientes.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg">
