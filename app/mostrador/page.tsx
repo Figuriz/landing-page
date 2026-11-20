@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Image from "next/image"
 import Link from "next/link"
 import { ShoppingBasket, NotebookPen, CalendarRange, Wallet } from "lucide-react"
 import { Header } from "@/components/header"
@@ -9,7 +10,27 @@ import { BotonProbar } from "@/components/boton-probar"
 
 const BASE = "https://figuriz.com"
 const URL_PAGINA = `${BASE}/mostrador`
-const URL_DEMO = "/demos/mostrador"
+// Capturas de la app real, con un almacén de ejemplo. Si la app cambia, hay que volver a sacarlas.
+const PANTALLAS = [
+  {
+    src: "/mostrador/vender.webp",
+    titulo: "Vender",
+    texto: "Ponés el monto, tocás cómo te pagaron y listo.",
+    alt: "Pantalla Vender de Mostrador: teclado para poner el monto y botones de efectivo, Mercado Pago, transferencia, tarjeta y fiado",
+  },
+  {
+    src: "/mostrador/fiado.webp",
+    titulo: "Fiado",
+    texto: "Quién te debe, qué se llevó y hace cuántos días.",
+    alt: "Pantalla Fiado de Mostrador: lista de clientes con lo que debe cada uno, el detalle de lo que se llevó y botones para anotar un pago o mandar un recordatorio",
+  },
+  {
+    src: "/mostrador/caja.webp",
+    titulo: "Caja",
+    texto: "El total del día, separado por cómo te pagaron.",
+    alt: "Pantalla Caja de Mostrador: total del día separado en efectivo, Mercado Pago, transferencia y tarjeta, y cuánto tendría que haber en el cajón",
+  },
+]
 // A dónde va "Probalo gratis": el registro de la app. El "de" queda guardado en el comercio para saber desde dónde llegó.
 const URL_REGISTRO = "https://mostrador.figuriz.com/Registro?de=web-mostrador"
 const TITULO = "Sistema para kiosco y almacén: ventas, caja y fiado · Mostrador"
@@ -171,19 +192,21 @@ export default function MostradorPage() {
                 Probalo gratis 7 días
               </BotonProbar>
               <Button asChild size="lg" variant="outline" className="px-8 py-6">
-                <a href={URL_DEMO} target="_blank" rel="noopener noreferrer">Ver la demo</a>
+                <a href="#como-se-ve">Ver cómo es</a>
               </Button>
             </div>
             <p className="mt-4 text-sm text-muted-foreground">Sin tarjeta. Te registrás en un minuto con el nombre de tu negocio y tu celular.</p>
           </div>
 
-          <div className="hidden lg:block" aria-label="Demo de Mostrador">
+          <div className="hidden lg:block">
             <div className="rounded-[2.75rem] border-[3px] border-[#45454d] bg-[#0c0c0e] p-3 shadow-2xl shadow-primary/10">
-              <iframe
-                src={URL_DEMO}
-                title="Demo de Mostrador con datos de ejemplo"
-                loading="lazy"
-                className="block w-[360px] h-[700px] rounded-[2rem] bg-[#F3F5F2]"
+              <Image
+                src={PANTALLAS[2].src}
+                alt={PANTALLAS[2].alt}
+                width={780}
+                height={1560}
+                priority
+                className="block w-[340px] h-auto rounded-[2rem]"
               />
             </div>
           </div>
@@ -212,6 +235,28 @@ export default function MostradorPage() {
                 </article>
               )
             })}
+          </div>
+        </div>
+      </section>
+
+      <section id="como-se-ve" className="py-16 md:py-20 border-t border-border scroll-mt-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl md:text-3xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance max-w-3xl">
+            Así se ve <span className="text-primary">en el celular.</span>
+          </h2>
+          <p className="mt-3 text-muted-foreground max-w-2xl">Son pantallas de la app, con un almacén de ejemplo.</p>
+          <div className="mt-10 flex gap-6 overflow-x-auto pb-4 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-10 md:overflow-visible md:pb-0">
+            {PANTALLAS.map((p) => (
+              <figure key={p.titulo} className="flex-none w-[72%] max-w-[300px] snap-center md:w-auto md:max-w-none md:justify-self-center">
+                <div className="rounded-[2rem] border-[3px] border-[#45454d] bg-[#0c0c0e] p-2">
+                  <Image src={p.src} alt={p.alt} width={780} height={1560} className="block w-full h-auto rounded-[1.5rem] md:w-[280px]" />
+                </div>
+                <figcaption className="mt-4">
+                  <span className="block text-[11px] font-bold uppercase tracking-[0.18em] text-primary">{p.titulo}</span>
+                  <span className="mt-1 block text-muted-foreground leading-relaxed">{p.texto}</span>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </div>
       </section>
