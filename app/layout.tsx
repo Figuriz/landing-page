@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     default: 'Figuriz | Sistemas simples para comercios y negocios',
     template: '%s | Figuriz',
   },
-  description: 'Mostrador para comercios (fiado, cobros y caja en el celular), sistemas a medida por rubro y automatizaciones para negocios de todo el país. Probá la demo de tu rubro.',
+  description: 'Mostrador: sistema de ventas, caja y fiado para kioscos, almacenes y comercios, gratis por 7 días. También sistemas a medida por rubro y automatizaciones para negocios de todo el país.',
   keywords: [
     'sistema para comercios',
     'sistema para kiosco',
@@ -62,12 +62,12 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: 'Figuriz',
     title: 'Figuriz | Sistemas simples para comercios y negocios',
-    description: 'Mostrador para comercios (fiado, cobros y caja en el celular), sistemas a medida por rubro y automatizaciones para negocios de todo el país. Probá la demo de tu rubro.',
+    description: 'Mostrador: sistema de ventas, caja y fiado para kioscos, almacenes y comercios, gratis por 7 días. También sistemas a medida por rubro y automatizaciones para negocios de todo el país.',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Figuriz | Sistemas simples para comercios y negocios',
-    description: 'Mostrador para comercios (fiado, cobros y caja en el celular), sistemas a medida por rubro y automatizaciones para negocios de todo el país. Probá la demo de tu rubro.',
+    description: 'Mostrador: sistema de ventas, caja y fiado para kioscos, almacenes y comercios, gratis por 7 días. También sistemas a medida por rubro y automatizaciones para negocios de todo el país.',
   },
   icons: {
     icon: [
