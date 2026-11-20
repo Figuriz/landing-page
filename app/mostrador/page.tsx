@@ -1,17 +1,20 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowRight, ShoppingBasket, NotebookPen, BellRing, Wallet } from "lucide-react"
+import { ShoppingBasket, NotebookPen, CalendarRange, Wallet } from "lucide-react"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
 import { WhatsAppButton } from "@/components/whatsapp-button"
 import { Button } from "@/components/ui/button"
+import { BotonProbar } from "@/components/boton-probar"
 
 const BASE = "https://figuriz.com"
 const URL_PAGINA = `${BASE}/mostrador`
 const URL_DEMO = "/demos/mostrador"
-const TITULO = "Mostrador: fiado, cobros y caja de tu comercio en el celular · Figuriz"
+// A dónde va "Probalo gratis": el registro de la app. El "de" queda guardado en el comercio para saber desde dónde llegó.
+const URL_REGISTRO = "https://mostrador.figuriz.com/Registro?de=web-mostrador"
+const TITULO = "Sistema para kiosco y almacén: ventas, caja y fiado · Mostrador"
 const DESCRIPCION =
-  "Mostrador es la app de Figuriz para comercios de barrio: anotás el fiado con detalle y fecha, ves los cobros que te entran sin pedir la captura y cerrás la caja del día desde el celular. Te la dejamos cargada y andando."
+  "Mostrador es un sistema de ventas, caja diaria y fiado para kioscos, almacenes y comercios chicos. Se usa desde el celular, sin instalar nada. Probalo gratis 7 días, sin tarjeta."
 
 export const metadata: Metadata = {
   title: { absolute: TITULO },
@@ -34,78 +37,82 @@ const FUNCIONES = [
       "Quién te debe, qué se llevó y qué día. Anotás lo que deja a cuenta, ves quién pasó los 30 días y le mandás el recordatorio por WhatsApp con el detalle.",
   },
   {
-    icon: BellRing,
-    titulo: "Cobros",
-    frase: "Entra el cobro, y suena.",
-    texto:
-      "Cada cobro que te entra aparece en la pantalla con el nombre y el monto. Sin mirar el celular del cliente y sin pedir la captura.",
-  },
-  {
     icon: Wallet,
     titulo: "Caja del día",
     frase: "Cerrás, y la caja ya está hecha.",
     texto:
-      "Todo lo que entró, separado por cómo te pagaron: efectivo, transferencia, tarjeta. Y el resumen del día, a tu WhatsApp con un toque.",
+      "Todo lo que entró, separado por cómo te pagaron: efectivo, transferencia, Mercado Pago, tarjeta. Anotás gastos y retiros, contás el efectivo y te dice si sobra o falta.",
   },
   {
     icon: ShoppingBasket,
     titulo: "Vender",
     frase: "Dos toques y listo.",
     texto:
-      "Tocás los productos, elegís cómo te pagan y queda anotado. Si es fiado, se suma solo a la cuenta del cliente con lo que se llevó.",
+      "Ponés solo el monto, o tocás los productos. Elegís cómo te pagan y queda anotado. Si es fiado, se suma solo a la cuenta del cliente con lo que se llevó.",
+  },
+  {
+    icon: CalendarRange,
+    titulo: "Resumen del mes",
+    frase: "Cuánto entró, sin hacer cuentas.",
+    texto:
+      "El total del mes y cómo le fue a cada día. Qué fue lo que más se vendió y qué no salió. Podés volver a mirar la caja de cualquier día.",
   },
 ]
 
 const PASOS = [
   {
-    titulo: "Nos escribís",
-    texto: "Por WhatsApp. Nos contás qué vendés y cómo llevás hoy el fiado y la caja.",
+    titulo: "Te registrás",
+    texto: "El nombre de tu negocio, tu celular y una contraseña. Lleva un minuto y no pedimos tarjeta.",
   },
   {
-    titulo: "Le sacás una foto al cuaderno",
-    texto: "Nos mandás las hojas del fiado por WhatsApp y te las pasamos a la app. Revisás que esté bien, y listo: no tipeás nada.",
+    titulo: "Empezás a anotar",
+    texto: "La primera venta la hacés poniendo solo el monto. Lo que ya te deben lo pasás del cuaderno con su fecha, cliente por cliente, cuando tengas un rato.",
   },
   {
-    titulo: "Lo probás gratis",
-    texto: "Lo usás unos días en tu local, con tus clientes de verdad, antes de pagar nada.",
+    titulo: "Lo usás 7 días gratis",
+    texto: "En tu local, con tus clientes de verdad, antes de pagar nada.",
   },
   {
     titulo: "Si te sirve, seguís",
-    texto: "Con una cuota mensual fija. Te avisamos antes de cada vencimiento.",
+    texto: "Con una cuota mensual fija. La app te avisa unos días antes de que termine la prueba.",
   },
 ]
 
 const FAQ = [
   {
+    q: "¿Es gratis?",
+    a: "Los primeros 7 días son gratis y no pedimos tarjeta. Después es una cuota mensual fija. Si no seguís, tus datos quedan guardados y los podés descargar.",
+  },
+  {
     q: "¿Necesito una computadora?",
-    a: "No. Mostrador se usa desde el celular, en el mostrador. Si tenés computadora o tablet, también funciona ahí.",
+    a: "No. Mostrador se usa desde el celular, en el mostrador, y no hay que instalar nada: se abre desde el navegador. Si tenés computadora o tablet, también funciona ahí.",
   },
   {
-    q: "¿Tengo que cargar todo yo?",
-    a: "No. Le sacás una foto a las hojas de tu cuaderno y pasamos a la app lo que te debe cada cliente; vos solo revisás que esté bien. Los productos son opcionales: el fiado, los cobros y la caja funcionan sin cargarlos.",
+    q: "¿Tengo que cargar todos mis productos?",
+    a: "No. Podés vender poniendo solo el monto y cómo te pagaron. Si querés ver qué se vende más, cargás los productos de a poco.",
   },
   {
-    q: "¿Qué cobros aparecen solos?",
-    a: "Los de Mercado Pago aparecen solos, al instante. Cuenta DNI y otros medios los vemos con vos cuando lo instalamos. Lo que cobrás en efectivo o con tarjeta queda anotado al hacer la venta.",
+    q: "¿Tiene control de stock, código de barras o factura?",
+    a: "Por ahora no. Mostrador lleva las ventas, la caja y el fiado. Si ya tenés un sistema para facturar, puede ir al lado.",
   },
   {
-    q: "Ya tengo un sistema para facturar, ¿me sirve igual?",
-    a: "Sí. Mostrador puede ir al lado de lo que ya usás, solo con el fiado, los cobros y la caja.",
+    q: "¿Funciona sin internet?",
+    a: "No, necesita conexión: con los datos del celular alcanza.",
   },
   {
-    q: "¿Cuánto sale?",
-    a: "Es una cuota mensual fija. Primero lo probás gratis en tu local, y recién si te sirve empezás a pagar.",
+    q: "¿Qué pasa con mis datos?",
+    a: "Son tuyos. Cada negocio ve solo lo suyo, y podés descargar tus clientes, ventas y fiados cuando quieras, en un archivo que se abre con Excel.",
   },
   {
     q: "¿Para qué comercios es?",
-    a: "Almacenes, kioscos, carnicerías, verdulerías, dietéticas, ferreterías, pet shops y forrajerías. Si vendés en un mostrador y fiás, es para vos.",
+    a: "Kioscos, almacenes, despensas, carnicerías, verdulerías, dietéticas, ferreterías, pet shops, tiendas de ropa, bazares, peluquerías y barberías. Si atendés en un mostrador y anotás en un cuaderno, es para vos.",
   },
 ]
 
 export default function MostradorPage() {
   const phone = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || ""
   const waHref = phone
-    ? `https://wa.me/${phone}?text=${encodeURIComponent("Hola, vi Mostrador en figuriz.com y lo quiero probar en mi local.")}`
+    ? `https://wa.me/${phone}?text=${encodeURIComponent("Hola, vi Mostrador en figuriz.com y tengo una consulta.")}`
     : "/#contacto"
 
   const jsonLd = {
@@ -117,6 +124,7 @@ export default function MostradorPage() {
         description: DESCRIPCION,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web, Android, iOS",
+        offers: { "@type": "Offer", description: "Prueba gratis de 7 días, sin tarjeta" },
         provider: { "@id": `${BASE}/#organization` },
         url: URL_PAGINA,
       },
@@ -149,27 +157,24 @@ export default function MostradorPage() {
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_auto] gap-12 lg:gap-16 items-center">
           <div className="max-w-2xl">
-            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">Mostrador · para comercios</p>
+            <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-primary mb-5">Mostrador · sistema para kioscos, almacenes y comercios</p>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold font-[family-name:var(--font-heading)] text-foreground leading-tight text-balance">
-              El fiado, los cobros y la caja de tu local, <span className="text-primary">en el celular.</span>
+              Las ventas, la caja y el fiado de tu negocio, <span className="text-primary">en el celular.</span>
             </h1>
             <p className="mt-6 text-base md:text-lg text-muted-foreground leading-relaxed">
-              Mostrador reemplaza el cuaderno del fiado y el “¿te llegó la transferencia?”. Sabés quién te debe y qué se
-              llevó, ves cada cobro cuando entra y cerrás el día con la caja ya hecha. Sin instalar nada y sin pasar el
-              cuaderno a mano.
+              Mostrador es un sistema simple para kioscos, almacenes y comercios chicos. Anotás cada venta en dos
+              toques, cerrás el día con la caja ya hecha y sabés quién te debe y qué se llevó. Sin instalar nada y sin
+              computadora.
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg" className="px-8 py-6 shadow-lg shadow-primary/20">
-                <a href={waHref} target={phone ? "_blank" : undefined} rel="noopener noreferrer">
-                  Quiero probarlo en mi local
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
+              <BotonProbar href={URL_REGISTRO} lugar="arriba" className="px-8 py-6 shadow-lg shadow-primary/20">
+                Probalo gratis 7 días
+              </BotonProbar>
               <Button asChild size="lg" variant="outline" className="px-8 py-6">
-                <a href={URL_DEMO} target="_blank" rel="noopener noreferrer">Abrir la demo</a>
+                <a href={URL_DEMO} target="_blank" rel="noopener noreferrer">Ver la demo</a>
               </Button>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">La demo tiene datos de ejemplo: tocá, vendé y anotá un fiado sin miedo.</p>
+            <p className="mt-4 text-sm text-muted-foreground">Sin tarjeta. Te registrás en un minuto con el nombre de tu negocio y tu celular.</p>
           </div>
 
           <div className="hidden lg:block" aria-label="Demo de Mostrador">
@@ -189,7 +194,7 @@ export default function MostradorPage() {
       <section className="py-16 md:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-2xl md:text-3xl font-bold font-[family-name:var(--font-heading)] text-foreground text-balance max-w-3xl">
-            Cuatro pantallas. <span className="text-primary">Nada más.</span>
+            Lo que hace. <span className="text-primary">Y nada más.</span>
           </h2>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-10">
             {FUNCIONES.map((f) => {
@@ -241,20 +246,17 @@ export default function MostradorPage() {
           </dl>
           <div className="mt-12 rounded-xl border border-primary/30 bg-primary/5 p-6 md:p-8">
             <h2 className="text-xl md:text-2xl font-bold font-[family-name:var(--font-heading)] text-foreground">
-              ¿Lo probamos en tu local?
+              Probalo hoy en tu negocio
             </h2>
             <p className="mt-2 text-muted-foreground leading-relaxed">
-              Escribinos y contanos qué vendés. Con una foto de tu cuaderno te lo dejamos listo para que lo pruebes.
+              Son 7 días gratis y no pedimos tarjeta. Si tenés una duda antes de empezar, escribinos.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
-              <Button asChild size="lg">
-                <a href={waHref} target={phone ? "_blank" : undefined} rel="noopener noreferrer">
-                  Escribinos por WhatsApp
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Button>
+              <BotonProbar href={URL_REGISTRO} lugar="abajo">
+                Empezar la prueba gratis
+              </BotonProbar>
               <Button asChild size="lg" variant="outline">
-                <a href={URL_DEMO} target="_blank" rel="noopener noreferrer">Abrir la demo</a>
+                <a href={waHref} target={phone ? "_blank" : undefined} rel="noopener noreferrer">Consultar por WhatsApp</a>
               </Button>
             </div>
           </div>

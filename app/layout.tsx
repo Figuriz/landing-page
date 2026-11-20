@@ -28,8 +28,11 @@ export const metadata: Metadata = {
   description: 'Mostrador para comercios (fiado, cobros y caja en el celular), sistemas a medida por rubro y automatizaciones para negocios de todo el país. Probá la demo de tu rubro.',
   keywords: [
     'sistema para comercios',
-    'app para anotar fiado',
-    'control de caja para almacén',
+    'sistema para kiosco',
+    'programa para almacén',
+    'sistema de ventas y caja para negocio',
+    'app para llevar control de ventas',
+    'app para fiado',
     'sistema a medida',
     'asistente de WhatsApp para negocios',
     'desarrollo de software a medida',
