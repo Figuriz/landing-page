@@ -1,10 +1,10 @@
 # Figuriz
 
-> Figuriz hace Mostrador (un sistema de ventas, caja y fiado para kioscos, almacenes y comercios, con 7 días de prueba gratis), sistemas a medida por rubro y automatizaciones para negocios de toda Argentina.
+> Figuriz hace Mostrador (un sistema de ventas, caja y fiado para kioscos, almacenes y comercios, con 14 días de prueba gratis), sistemas a medida por rubro y automatizaciones para negocios de toda Argentina.
 
 ## Qué hacemos
 
-- [Mostrador](https://figuriz.com/mostrador): sistema para kioscos, almacenes, despensas, carnicerías, verdulerías, ferreterías, pet shops, tiendas de ropa, bazares, peluquerías y barberías. Se usa desde el celular, sin instalar nada: ventas en dos toques (solo el monto o tocando productos), caja del día separada por medio de pago (efectivo, Mercado Pago, Cuenta DNI, transferencia, tarjeta), gastos y retiros, cierre de caja, fiado con qué se llevó cada cliente y en qué fecha, recordatorio de deuda por WhatsApp y resumen del mes. El comercio se registra solo en https://mostrador.figuriz.com/Registro y lo prueba gratis 7 días, sin tarjeta; después es una cuota mensual. No tiene control de stock, lector de código de barras ni factura electrónica, y necesita conexión a internet. Los datos se pueden descargar en un archivo que abre Excel.
+- [Mostrador](https://figuriz.com/mostrador): sistema para kioscos, almacenes, despensas, carnicerías, verdulerías, ferreterías, pet shops, tiendas de ropa, bazares, peluquerías y barberías. Se usa desde el celular, sin instalar nada: ventas en dos toques (solo el monto o tocando productos), caja del día separada por medio de pago (efectivo, Mercado Pago, Cuenta DNI, transferencia, tarjeta), gastos y retiros, cierre de caja, fiado con qué se llevó cada cliente y en qué fecha, recordatorio de deuda por WhatsApp y resumen del mes. El comercio se registra solo en https://mostrador.figuriz.com/Registro y lo prueba gratis 14 días, sin tarjeta; después es una cuota mensual. No tiene control de stock, lector de código de barras ni factura electrónica, y necesita conexión a internet. Los datos se pueden descargar en un archivo que abre Excel.
 - Sistemas a medida: pedidos, stock, cuentas corrientes, turnos u órdenes de trabajo, pensados para usar desde el celular. Se entregan por etapas.
 - Páginas web: con fotos y reseñas reales del negocio y consultas que llegan armadas por WhatsApp. Listas en una o dos semanas.
 - Asistente de WhatsApp: responde consultas con los datos del negocio, toma turnos o reservas y deriva a una persona cuando hace falta. Usa la API oficial de WhatsApp. Abono mensual.
@@ -49,7 +49,7 @@
 
 ## Preguntas frecuentes sobre Mostrador
 
-- ¿Es gratis? Los primeros 7 días sí, sin tarjeta. Después es una cuota mensual fija.
+- ¿Es gratis? Los primeros 14 días sí, sin tarjeta. Después es una cuota mensual fija.
 - ¿Hace falta computadora? No. Se usa desde el celular, en el navegador.
 - ¿Hay que cargar todos los productos? No. Se puede vender poniendo solo el monto y cómo pagaron.
 - ¿Sirve para llevar el fiado? Sí: anota qué se llevó cada cliente, qué día, las entregas a cuenta y hace cuántos días debe.
