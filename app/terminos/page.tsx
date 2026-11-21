@@ -29,7 +29,7 @@ export default function TerminosPage() {
 
       <Apartado titulo="Prueba gratis y cuota mensual">
         <ul>
-          <li>Los primeros 7 días son gratis y no pedimos tarjeta.</li>
+          <li>Los primeros 14 días son gratis y no pedimos tarjeta.</li>
           <li>Para seguir después de la prueba se paga una cuota mensual. El monto vigente lo ves dentro de la app antes de pagar.</li>
           <li>Si elegís la suscripción por Mercado Pago, se cobra sola todos los meses hasta que la des de baja.</li>
           <li>Si cambia el precio, te avisamos antes del cobro siguiente, por el celular o el mail de tu cuenta.</li>
