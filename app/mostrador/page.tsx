@@ -306,6 +306,12 @@ export default function MostradorPage() {
             </div>
           </div>
           <p className="mt-12 text-sm text-muted-foreground">
+            Más sobre Mostrador:{" "}
+            <Link href="/mostrador/sistema-para-kiosco" className="text-primary hover:underline underline-offset-4">sistema para kiosco</Link>,{" "}
+            <Link href="/mostrador/programa-para-almacen" className="text-primary hover:underline underline-offset-4">programa para almacén</Link> y{" "}
+            <Link href="/mostrador/como-llevar-la-caja-diaria" className="text-primary hover:underline underline-offset-4">cómo llevar la caja diaria</Link>.
+          </p>
+          <p className="mt-4 text-sm text-muted-foreground">
             ¿Tu negocio es más grande o necesita algo propio? Mirá los{" "}
             <Link href="/demos" className="text-primary hover:underline underline-offset-4">sistemas a medida por rubro</Link>.
           </p>

@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { RUBROS } from '@/lib/rubros'
+import { BUSQUEDAS } from '@/lib/busquedas'
 
 const BASE = 'https://figuriz.com'
 
@@ -32,6 +33,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/demos`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/automatizaciones`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/mostrador`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    ...BUSQUEDAS.map((b) => ({
+      url: `${BASE}/mostrador/${b.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
     ...DEMOS.map((slug) => ({
       url: `${BASE}/demos/${slug}`,
       lastModified: now,
