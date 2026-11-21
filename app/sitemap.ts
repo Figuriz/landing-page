@@ -32,6 +32,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/demos`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/automatizaciones`, lastModified: now, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/mostrador`, lastModified: now, changeFrequency: 'monthly', priority: 0.9 },
+    { url: `${BASE}/terminos`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
+    { url: `${BASE}/privacidad`, lastModified: now, changeFrequency: 'yearly', priority: 0.3 },
     ...DEMOS.map((slug) => ({
       url: `${BASE}/demos/${slug}`,
       lastModified: now,
