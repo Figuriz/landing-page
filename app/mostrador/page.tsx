@@ -35,7 +35,7 @@ const PANTALLAS = [
 const URL_REGISTRO = "https://mostrador.figuriz.com/Registro?de=web-mostrador"
 const TITULO = "Sistema para kiosco y almacén: ventas, caja y fiado · Mostrador"
 const DESCRIPCION =
-  "Mostrador es un sistema de ventas, caja diaria y fiado para kioscos, almacenes y comercios chicos. Se usa desde el celular, sin instalar nada. Probalo gratis 7 días, sin tarjeta."
+  "Mostrador es un sistema de ventas, caja diaria y fiado para kioscos, almacenes y comercios chicos. Se usa desde el celular, sin instalar nada. Sin tope de ventas. Probalo gratis 14 días, sin tarjeta."
 
 export const metadata: Metadata = {
   title: { absolute: TITULO },
@@ -80,6 +80,22 @@ const FUNCIONES = [
   },
 ]
 
+// Lo que distingue a Mostrador de los sistemas de gestión más grandes.
+const DIFERENCIAS = [
+  {
+    titulo: "Sin tope de ventas",
+    texto: "Hagas diez ventas en el día o trescientas, las anotás todas y la cuota no cambia.",
+  },
+  {
+    titulo: "Hecho para el celular",
+    texto: "Se usa parado, en el mostrador, con una mano. No hace falta computadora ni lector.",
+  },
+  {
+    titulo: "Empezás sin cargar nada",
+    texto: "La primera venta es poner el monto y cómo te pagaron. Los productos, si querés, después.",
+  },
+]
+
 const PASOS = [
   {
     titulo: "Te registrás",
@@ -90,7 +106,7 @@ const PASOS = [
     texto: "La primera venta la hacés poniendo solo el monto. Lo que ya te deben lo pasás del cuaderno con su fecha, cliente por cliente, cuando tengas un rato.",
   },
   {
-    titulo: "Lo usás 7 días gratis",
+    titulo: "Lo usás 14 días gratis",
     texto: "En tu local, con tus clientes de verdad, antes de pagar nada.",
   },
   {
@@ -102,7 +118,11 @@ const PASOS = [
 const FAQ = [
   {
     q: "¿Es gratis?",
-    a: "Los primeros 7 días son gratis y no pedimos tarjeta. Después es una cuota mensual fija. Si no seguís, tus datos quedan guardados y los podés descargar.",
+    a: "Los primeros 14 días son gratis y no pedimos tarjeta. Después es una cuota mensual fija. Si no seguís, tus datos quedan guardados y los podés descargar.",
+  },
+  {
+    q: "¿Hay un tope de ventas por mes?",
+    a: "No. Anotás todas las ventas que hagas y la cuota es la misma, vendas veinte veces por día o quinientas.",
   },
   {
     q: "¿Necesito una computadora?",
@@ -114,7 +134,7 @@ const FAQ = [
   },
   {
     q: "¿Tiene control de stock, código de barras o factura?",
-    a: "Por ahora no. Mostrador lleva las ventas, la caja y el fiado. Si ya tenés un sistema para facturar, puede ir al lado.",
+    a: "Por ahora no. Mostrador lleva las ventas, la caja y el fiado. Si necesitás controlar stock o facturar desde el mismo sistema, te conviene uno más grande. Si ya tenés con qué facturar, Mostrador puede ir al lado.",
   },
   {
     q: "¿Funciona sin internet?",
@@ -145,7 +165,7 @@ export default function MostradorPage() {
         description: DESCRIPCION,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web, Android, iOS",
-        offers: { "@type": "Offer", description: "Prueba gratis de 7 días, sin tarjeta" },
+        offers: { "@type": "Offer", description: "Prueba gratis de 14 días, sin tarjeta" },
         provider: { "@id": `${BASE}/#organization` },
         url: URL_PAGINA,
       },
@@ -189,13 +209,13 @@ export default function MostradorPage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <BotonProbar href={URL_REGISTRO} lugar="arriba" className="px-8 py-6 shadow-lg shadow-primary/20">
-                Probalo gratis 7 días
+                Probalo gratis 14 días
               </BotonProbar>
               <Button asChild size="lg" variant="outline" className="px-8 py-6">
                 <a href="#como-se-ve">Ver cómo es</a>
               </Button>
             </div>
-            <p className="mt-4 text-sm text-muted-foreground">Sin tarjeta. Te registrás en un minuto con el nombre de tu negocio y tu celular.</p>
+            <p className="mt-4 text-sm text-muted-foreground">Sin tarjeta y sin tope de ventas. Te registrás en un minuto con el nombre de tu negocio y tu celular.</p>
           </div>
 
           <div className="hidden lg:block">
@@ -236,6 +256,19 @@ export default function MostradorPage() {
               )
             })}
           </div>
+        </div>
+      </section>
+
+      <section className="border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <dl className="grid grid-cols-1 md:grid-cols-3 md:divide-x divide-border">
+            {DIFERENCIAS.map((d) => (
+              <div key={d.titulo} className="py-8 md:py-10 md:px-8 first:md:pl-0 last:md:pr-0 border-b border-border last:border-b-0 md:border-b-0">
+                <dt className="text-lg font-semibold font-[family-name:var(--font-heading)] text-foreground">{d.titulo}</dt>
+                <dd className="mt-2 text-muted-foreground leading-relaxed">{d.texto}</dd>
+              </div>
+            ))}
+          </dl>
         </div>
       </section>
 
@@ -294,7 +327,7 @@ export default function MostradorPage() {
               Probalo hoy en tu negocio
             </h2>
             <p className="mt-2 text-muted-foreground leading-relaxed">
-              Son 7 días gratis y no pedimos tarjeta. Si tenés una duda antes de empezar, escribinos.
+              Son 14 días gratis y no pedimos tarjeta. Si tenés una duda antes de empezar, escribinos.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <BotonProbar href={URL_REGISTRO} lugar="abajo">
