@@ -10,7 +10,7 @@ const mainServices = [
     title: "Mostrador",
     description:
       "El sistema para kioscos, almacenes y comercios que venden en un mostrador: anotás cada venta en dos toques, cerrás el día con la caja ya hecha y sabés quién te debe y qué se llevó. Todo desde el celular, y te registrás vos solo.",
-    tag: "7 días gratis",
+    tag: "14 días gratis",
     link: { href: "/mostrador", label: "Probá Mostrador gratis" },
   },
   {
