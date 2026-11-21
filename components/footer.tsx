@@ -11,6 +11,8 @@ const navLinks = [
   { label: "Cómo trabajamos", href: "/#proceso" },
   { label: "Preguntas frecuentes", href: "/#faq" },
   { label: "Contacto", href: "/#contacto" },
+  { label: "Términos de uso", href: "/terminos" },
+  { label: "Privacidad", href: "/privacidad" },
 ]
 
 const services = [
