@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Punto Fruta · Pedidos</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Elegí tus frutas y verduras y el pedido le llega armado por WhatsApp a Punto Fruta. Ejemplo armado por Figuriz.">
+<meta property="og:title" content="Punto Fruta · Hacé tu pedido">
+<meta property="og:description" content="Elegí tus productos y el pedido llega armado por WhatsApp. Envíos gratis.">
+<meta name="theme-color" content="#0e4a40">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE: mostrador de verdulería de barrio, cálido y directo, para pedir desde el celu
+   IDEA: la pizarra de precios del local convertida en un changuito que se arma solo
+   PICTURE: el catálogo mismo, con el pedido sumando abajo en vivo
+   COLOUR and TYPE: los de su Instagram: verde petróleo, naranja, gris claro; Poppins gruesa
+   LAYOUT: cabecera corta, categorías pegadas arriba, lista de una columna, barra del pedido abajo */
+:root{color-scheme:light dark;
+--bg:light-dark(#f3f3f1,#0f1715);--card:light-dark(#ffffff,#18231f);--ink:light-dark(#0e4a40,#eef4f1);
+--soft:light-dark(#5d6f6a,#a6b8b2);--line:light-dark(#e2e4e0,#26332f);
+--tomate:#f05a28;--tomateOsc:#c94216;--hoja:light-dark(#0e4a40,#3fb59a);--hojaFondo:light-dark(#e3efec,#14302a)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 Poppins,system-ui,sans-serif;overflow-x:clip;padding-bottom:110px}
+h1,h2,h3{font-family:Poppins,sans-serif;font-weight:800;letter-spacing:-.02em;margin:0;line-height:1.05}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--hoja);outline-offset:2px}
+.top{background:#0e4a40;color:#fff;padding:22px max(5vw,16px) 26px;position:relative;overflow:hidden}
+.top .wrap{display:flex;gap:16px;align-items:center;max-width:760px;margin:auto;position:relative}
+.marca{display:flex;align-items:center;gap:6px;font-weight:800;font-size:clamp(26px,7vw,36px);letter-spacing:.06em;line-height:1}.marca svg{width:.95em;height:1.25em;flex:none}.sub{color:#f7a47f;font-size:15px;margin:2px 0 16px}
+.top h1{font-size:clamp(30px,6.5vw,44px);color:#fff}
+.top p{margin:4px 0 0;font-size:16px;opacity:.95}
+.demo{max-width:760px;margin:12px auto 0;padding:0 max(5vw,16px);font-size:13px;color:var(--soft)}
+.bar{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:10px max(5vw,16px)}
+.bar .wrap{max-width:760px;margin:auto;display:grid;gap:10px}
+.buscar{width:100%;height:46px;border:2px solid var(--line);border-radius:12px;padding:0 14px;background:var(--card);font-size:16px}
+.cats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.cats button{height:40px;padding:0 6px;border-radius:999px;border:2px solid var(--line);background:var(--bg);font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cats button.on{background:var(--tomate);border-color:var(--tomate);color:#fff}
+main{max-width:760px;margin:auto;padding:4px max(5vw,16px) 0}
+section{padding-top:22px;scroll-margin-top:120px}
+section h2{font-size:26px;color:var(--tomate);margin-bottom:6px}
+.prod{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.prod .n{font-weight:700;font-size:17px}
+.prod .d{color:var(--soft);font-size:14px}
+.opts{grid-column:1/-1;display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--card);border-radius:12px;padding:6px 6px 6px 12px}
+.opt .p{white-space:nowrap}
+.opt .p b{font-size:17px}
+.opt .p span{color:var(--soft);font-size:14px}
+.opt.lleno{background:var(--hojaFondo);box-shadow:inset 0 0 0 2px var(--hoja)}
+.step{display:flex;align-items:center;gap:2px;flex:none}
+.step button{width:44px;height:44px;border-radius:10px;border:0;background:var(--bg);font-size:22px;font-weight:700;color:var(--tomate)}
+.step .q{min-width:64px;text-align:center;font-weight:700;white-space:nowrap}
+.step .add{width:auto;padding:0 16px;background:var(--tomate);color:#fff;font-size:16px}
+.consultar{color:var(--soft);font-size:14px;font-style:italic}
+.vacio{padding:40px 0;text-align:center;color:var(--soft)}
+.carrito{position:fixed;left:0;right:0;bottom:0;z-index:6;padding:12px max(4vw,12px) max(12px,env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,transparent)}
+.carrito button{display:flex;width:100%;max-width:760px;margin:auto;justify-content:space-between;align-items:center;height:60px;border:0;border-radius:16px;background:var(--tomate);color:#fff;padding:0 20px;font-size:17px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.18)}
+.carrito button[disabled]{background:var(--soft);opacity:.6;cursor:default}
+.hoja{position:fixed;inset:0;z-index:10;display:none;background:rgba(0,0,0,.45)}
+.hoja.ab{display:block}
+.panel{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;padding:20px max(5vw,16px) 28px}
+.panel .in{max-width:640px;margin:auto}
+.panel h2{font-size:30px}
+.cerrar{float:right;width:44px;height:44px;border-radius:50%;border:0;background:var(--card);font-size:22px}
+.lin{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px dashed var(--line)}
+.lin span:last-child{white-space:nowrap;font-weight:500}
+.tot{display:flex;justify-content:space-between;font-weight:800;font-size:26px;padding:12px 0 2px}
+.aviso{font-size:13px;color:var(--soft);margin:0 0 14px}
+fieldset{border:0;padding:0;margin:14px 0}
+legend,label.t{font-weight:700;display:block;margin-bottom:6px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.seg label{display:flex;align-items:center;justify-content:center;height:48px;border:2px solid var(--line);border-radius:12px;font-weight:500;text-align:center}
+.seg input{position:absolute;opacity:0}
+.seg input:checked+span{color:var(--hoja)}
+.seg label:has(input:checked){border-color:var(--hoja);background:var(--hojaFondo)}
+.seg label:has(input:focus-visible){outline:3px solid var(--hoja)}
+.campo{width:100%;min-height:46px;border:2px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--card);font-size:16px}
+.vista{background:var(--card);border-radius:12px;padding:12px;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere;margin:6px 0 14px}
+.enviar{display:flex;align-items:center;justify-content:center;height:58px;border-radius:16px;background:#1faa53;color:#fff;font-weight:700;font-size:18px;text-decoration:none}
+.enviar.off{background:var(--soft);pointer-events:none;opacity:.6}
+.falta{color:var(--tomateOsc);font-size:14px;margin:6px 0 0;min-height:1.2em}
+.adm{padding-bottom:0;height:92vh;display:flex;flex-direction:column}.adm .in{flex:1;overflow:auto;width:100%}
+.adm h3{font-size:18px;color:var(--tomate);margin:18px 0 4px}
+.afila{display:grid;grid-template-columns:minmax(0,1fr) 120px 92px;gap:8px;align-items:center;padding:8px 6px;border-bottom:1px solid var(--line);border-radius:10px}
+.afila.cambio{background:var(--hojaFondo)}.afila.sin .an,.afila.sin .pesos{opacity:.45}
+.an b{display:block;font-size:15px;line-height:1.25}.an span{font-size:13px;color:var(--soft)}
+.pesos{display:flex;align-items:center;height:48px;border:2px solid var(--line);border-radius:12px;background:var(--card);padding:0 8px;gap:2px}
+.pesos:focus-within{border-color:var(--tomate)}.pesos span{color:var(--soft);font-weight:600}
+.pesos input{width:100%;border:0;background:transparent;font-size:18px;font-weight:700;text-align:right;outline:0}
+.stk{height:44px;border-radius:999px;border:2px solid var(--hoja);background:var(--bg);color:var(--hoja);font-weight:600;font-size:14px}
+.stk[aria-pressed=true]{background:var(--tomate);border-color:var(--tomate);color:#fff}
+.admPie{display:grid;grid-template-columns:1fr 2fr;gap:8px;padding:12px 0 max(4px,env(safe-area-inset-bottom));max-width:640px;width:100%;margin:auto}
+.admPie button{height:54px;border-radius:14px;font-weight:700;font-size:16px;border:2px solid var(--line);background:var(--bg)}
+#admGuardar{background:var(--tomate);border-color:var(--tomate);color:#fff}#admGuardar[disabled]{opacity:.5}
+.toast{position:fixed;left:50%;top:16px;transform:translate(-50%,-80px);background:#0e4a40;color:#fff;padding:12px 18px;border-radius:12px;font-weight:600;z-index:20;transition:transform .25s}
+.toast.ve{transform:translate(-50%,0)}
+@media(max-width:380px){.afila{grid-template-columns:minmax(0,1fr) 104px;}.afila .stk{grid-column:1/-1;height:40px}}
+.dueña{max-width:760px;margin:36px auto 0;padding:18px max(5vw,16px);border-top:3px solid var(--tomate)}
+.dueña h3{font-size:22px}
+.dueña p{color:var(--soft);margin:4px 0 12px}
+.dueña button{height:46px;padding:0 18px;border-radius:12px;border:2px solid var(--tomate);background:var(--bg);color:var(--tomate);font-weight:700}
+@media(prefers-reduced-motion:no-preference){.opt{transition:background .2s,box-shadow .2s}.panel{animation:sube .25s ease-out}@keyframes sube{from{transform:translateY(40px);opacity:.6}}}
+@media(max-width:420px){.step .q{min-width:52px}.step button{width:42px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div>
+      <div class="marca" aria-label="Punto Fruta">PUNTO<svg viewBox="0 0 40 52" aria-hidden="true"><path d="M20 50C9 36 4 28 4 20a16 16 0 0 1 32 0c0 8-5 16-16 30z" fill="#f05a28"/><circle cx="20" cy="20" r="8" fill="#fff"/><circle cx="20" cy="20" r="4.5" fill="#f05a28"/><path d="M20 5c-1-4-5-6-8-5 1 4 5 6 8 5zM21 5c1-4 5-6 8-5-1 4-5 6-8 5z" fill="#fff"/></svg>FRUTA</div>
+      <div class="sub">| frutas &amp; verduras |</div>
+      <h1>Elegí tus productos</h1>
+      <p>Te llega el pedido armado por WhatsApp. <b>Envíos gratis</b> y coordinamos el horario que te quede cómodo.</p>
+    </div>
+  </div>
+</header>
+<p class="demo">Ejemplo armado por Figuriz con la lista de precios del 26/11. Consultá también por el catering frutal.</p>
+
+<div class="bar"><div class="wrap">
+  <input class="buscar" id="buscar" type="search" placeholder="Buscar: tomate, palta, huevos…" aria-label="Buscar producto">
+  <nav class="cats" id="cats" aria-label="Categorías"></nav>
+</div></div>
+
+<main id="lista"></main>
+
+<div class="dueña">
+  <h3>Para Gise: precios y stock</h3>
+  <p>Cambiás los precios del día o marcás lo que se terminó, tocás Guardar y los clientes ya lo ven. En la versión real entrás con tu clave; en este ejemplo los cambios quedan solo en este celular.</p>
+  <button id="modo" type="button">Cambiar precios</button>
+</div>
+
+<div class="carrito"><button id="ver" type="button" disabled><span id="cant">Tu pedido está vacío</span><span id="total"></span></button></div>
+
+<div class="hoja" id="adm" role="dialog" aria-modal="true" aria-labelledby="ta">
+  <div class="panel adm"><div class="in">
+    <h2 id="ta">Precios de hoy</h2>
+    <p class="aviso">Tocá un precio para cambiarlo. "Hay / Sin stock" oculta el producto a los clientes.</p>
+    <input class="buscar" id="admBus" type="search" placeholder="Buscar producto" aria-label="Buscar producto">
+    <div id="admLista"></div>
+  </div>
+  <div class="admPie"><button type="button" id="admCancelar">Cancelar</button><button type="button" id="admGuardar" disabled>Sin cambios</button></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<div class="hoja" id="hoja" role="dialog" aria-modal="true" aria-labelledby="tp">
+  <div class="panel"><div class="in">
+    <button class="cerrar" id="cerrar" type="button" aria-label="Cerrar">×</button>
+    <h2 id="tp">Tu pedido</h2>
+    <div id="lineas"></div>
+    <div class="tot"><span>Total</span><span id="tot2"></span></div>
+    <p class="aviso" id="avisoKg"></p>
+    <form id="form">
+      <fieldset><legend>¿Cómo lo recibís?</legend>
+        <div class="seg">
+          <label><input type="radio" name="ent" value="Envío a domicilio" checked><span>Envío gratis</span></label>
+          <label><input type="radio" name="ent" value="Retiro en el local"><span>Retiro en el local</span></label>
+        </div>
+      </fieldset>
+      <fieldset><legend>¿Cómo pagás?</legend>
+        <div class="seg">
+          <label><input type="radio" name="pago" value="Efectivo" checked><span>Efectivo</span></label>
+          <label><input type="radio" name="pago" value="Transferencia"><span>Transferencia</span></label>
+        </div>
+      </fieldset>
+      <label class="t" for="nom">Tu nombre</label>
+      <input class="campo" id="nom" autocomplete="name">
+      <div id="dirBox"><label class="t" for="dir" style="margin-top:12px">Dirección</label>
+      <input class="campo" id="dir" autocomplete="street-address" placeholder="Calle, número, depto"></div>
+      <label class="t" for="nota" style="margin-top:12px">Nota (opcional)</label>
+      <textarea class="campo" id="nota" rows="2" placeholder="Ej.: horario que te queda bien, tomates no muy maduros"></textarea>
+    </form>
+    <p class="t" style="font-weight:700;margin:16px 0 0">Así nos llega:</p>
+    <div class="vista" id="vista"></div>
+    <a class="enviar" id="enviar" href="#" target="_blank" rel="noopener">Enviar pedido por WhatsApp</a>
+    <p class="falta" id="falta"></p>
+  </div></div>
+</div>
+
+<script>
+{
+const WA='5492262356694';
+// [nombre, nota, [[etiqueta, precio, paso]]]; paso 0.5 = se vende por kilo
+const K=(p)=>['kg',p,0.5];
+const DATA=[
+ ['Frutas',[
+  ['Arándanos','',[['bandejita 125 g',3500,1]]],
+  ['Banana Bolivia','',[K(2200)]],
+  ['Banana Ecuador','',[K(3500)]],
+  ['Cereza','',[['¼ kg',5000,1]]],
+  ['Damascos','',[K(6000)]],
+  ['Durazno','',[K(5000)]],
+  ['Frutilla','',[['¼ kg',1000,1],K(4000)]],
+  ['Kiwi','',[K(8000)]],
+  ['Limón','',[K(2500)]],
+  ['Mandarina W-Murcott','Muy dulce, pocas semillas',[K(1500),['bolsa 2 kg',2800,1]]],
+  ['Manzana roja Brevi','Super deliciosa',[K(6500)]],
+  ['Manzana chica Brevi','Muy ricas y bien rojas',[K(4500)]],
+  ['Manzana Pink Lady','',[K(4500)]],
+  ['Manzana verde Brevi','De primera',[K(4000)]],
+  ['Melón blanco','',[['unidad',6500,1]]],
+  ['Naranja de jugo','',[['bolsa 2 kg',2000,1]]],
+  ['Naranja de ombligo','',[K(2000)]],
+  ['Palta','',[['unidad',1200,1]]],
+  ['Pera','',[K(3500)]],
+  ['Pomelo rosado','',[K(1900)]],
+  ['Sandía Brasil','',[K(2000)]],
+  ['Uva rosada Red Globe','',[['bolsa 1 kg',8000,1]]],
+  ['Uva blanca Candy Cotton','Súper dulce',[['cubeta 500 g',7500,1]]],
+  ['Uva blanca sin semilla','Bolsa por kilo',[['consultar',0,1]]]]],
+ ['Verduras',[
+  ['Ajo chico','',[['2 unidades',1000,1]]],
+  ['Ajo grande','',[['unidad',1300,1]]],
+  ['Anco / Coquena','De primera',[K(3000)]],
+  ['Anco rayado','',[K(2600)]],
+  ['Batata','',[K(4500)]],
+  ['Berenjena negra','',[K(2800)]],
+  ['Boniato','',[K(5000)]],
+  ['Brócoli','',[['unidad',1000,1]]],
+  ['Cabutia','',[K(4000)]],
+  ['Cebolla','',[K(2200),['bolsa 2 kg',4000,1]]],
+  ['Cebolla blanca','',[K(4000)]],
+  ['Cebolla morada','',[K(4000)]],
+  ['Champignones','',[['bandeja',6000,1]]],
+  ['Cherry','',[['¼ kg',1000,1],K(4000)]],
+  ['Chaucha','',[K(3000)]],
+  ['Choclo','',[['unidad',2500,1]]],
+  ['Espárragos','',[['paquete',5000,1]]],
+  ['Morrón rojo','De primera',[K(2600)]],
+  ['Morrón verde','',[K(4000)]],
+  ['Morrón amarillo','',[K(4000)]],
+  ['Papa','',[['bolsa 2 kg',3500,1]]],
+  ['Papines','',[K(5000)]],
+  ['Pepino','',[K(3000)]],
+  ['Remolacha','',[['atado',1500,1]]],
+  ['Repollo blanco','',[K(2000)]],
+  ['Repollo morado','',[K(2000)]],
+  ['Tomate','De primera',[K(3500)]],
+  ['Tomate perita','',[K(4000)]],
+  ['Zanahoria','De primera',[K(2700),['bolsa seleccionada',2000,1]]],
+  ['Zapallito verde','',[K(1800)]],
+  ['Zapallo princesa','',[K(3500)]],
+  ['Zuquini','',[K(1800)]]]],
+ ['Hojas y aromáticas',[
+  ['Acelga','',[['atado',1000,1]]],
+  ['Apio','',[['atado',3000,1],['un par de ramitas',900,1]]],
+  ['Ciboulette','',[['atadito',2000,1]]],
+  ['Cilantro','',[['atado',2000,1]]],
+  ['Espinaca','',[['atado',1000,1]]],
+  ['Jengibre','',[['100 g',1500,1]]],
+  ['Lechuga crespa','',[K(6500)]],
+  ['Lechuga manteca','',[K(6500)]],
+  ['Lechuga repollada','',[K(6500)]],
+  ['Lechuga morada','',[K(6500)]],
+  ['Perejil','',[['atado',3000,1],['un poco',1000,1]]],
+  ['Puerro','',[['atado',4000,1],['un poco',900,1]]],
+  ['Rúcula','',[['unidad',700,1],['2 unidades',1000,1]]],
+  ['Verdeo','',[['atado',4000,1],['unas ramitas',800,1]]]]],
+ ['Huevos y almacén',[
+  ['Huevos','',[['maple',7000,1],['media docena',2000,1]]],
+  ['Huevos de campo','',[['maple',9500,1],['media docena',2500,1]]],
+  ['Jugo de arándanos','',[['unidad',3500,1]]],
+  ['Salsa de tomate','',[['botella chica',2300,1],['botella grande',2900,1]]]]],
+ ['Listo para comer',[
+  ['Ensalada cruda','Consultá los ingredientes',[['porción',5500,1]]],
+  ['Ensalada con ingredientes cocidos','Consultá los ingredientes',[['porción',6000,1]]],
+  ['Ensalada Caesar con pollo','',[['porción',8000,1]]],
+  ['Wok','',[['porción',4500,1]]],
+  ['Sopa','Para 2 o 3 personas',[['unidad',4500,1]]]]],
+ ['Carbón y leña',[
+  ['Carbón','',[['bolsa 4 kg',6500,1]]],
+  ['Leña de quebracho','',[['bolsa 6 kg',6500,1]]]]]
+];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const plata=n=>'$'+Math.round(n).toLocaleString('es-AR');
+const slug=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^a-z0-9]+/g,'-');
+const items={};
+DATA.forEach(([cat,prods])=>prods.forEach(([n,d,ops])=>ops.forEach(([et,pr,paso],i)=>{items[slug(n)+'-'+i]={n,et,pr,paso,cat}})));
+let cant={},filtro='';
+try{const g=JSON.parse(localStorage.getItem('pf-pedido')||'{}');for(const k in g)if(items[k])cant[k]=g[k];
+const pr=JSON.parse(localStorage.getItem('pf-precios')||'{}');for(const k in pr)if(items[k])items[k].pr=pr[k];
+for(const k of JSON.parse(localStorage.getItem('pf-sin')||'[]'))if(items[k])items[k].sin=true;}catch(e){}
+const guardar=()=>{try{localStorage.setItem('pf-pedido',JSON.stringify(cant))}catch(e){}};
+const qtxt=(it,q)=>it.paso<1?(q.toLocaleString('es-AR')+' kg'):(q+' × '+it.et);
+const lista=document.getElementById('lista'),cats=document.getElementById('cats');
+const CORTO={'Frutas':'Frutas','Verduras':'Verduras','Hojas y aromáticas':'Hojas','Huevos y almacén':'Huevos','Listo para comer':'Comidas','Carbón y leña':'Carbón'};
+cats.innerHTML=DATA.map(([c],i)=>`<button type="button" data-c="${slug(c)}"${i?'':' class="on"'}>${esc(CORTO[c]||c)}</button>`).join('');
+function render(){
+  const f=filtro.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  let html='';
+  DATA.forEach(([cat,prods])=>{
+    const vis=prods.filter(([n,d])=>!f||(n+' '+d).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(f));
+    if(!vis.length)return;
+    html+=`<section id="${slug(cat)}"><h2>${esc(cat)}</h2>`+vis.map(([n,d,ops])=>`<div class="prod"><div><div class="n">${esc(n)}</div>${d?`<div class="d">${esc(d)}</div>`:''}</div><div></div><div class="opts">`+ops.map((o,i)=>{
+      const id=slug(n)+'-'+i,it=items[id],q=cant[id]||0;
+      if(it.sin)return `<div class="opt"><span class="consultar">${esc(it.paso<1?'Por kilo':it.et)}: sin stock hoy</span></div>`;
+      if(!it.pr)return `<div class="opt"><span class="consultar">Precio a consultar</span></div>`;
+      const precio=`<span class="p"><b>${plata(it.pr)}</b> <span>${it.paso<1?'el kg':esc(it.et)}</span></span>`;
+      const st=q?`<div class="step"><button type="button" data-m="${id}" aria-label="Sacar">−</button><span class="q">${esc(qtxt(it,q))}</span><button type="button" data-a="${id}" aria-label="Agregar">+</button></div>`:`<div class="step"><button type="button" class="add" data-a="${id}">Agregar</button></div>`;
+      return `<div class="opt${q?' lleno':''}">${precio}${st}</div>`}).join('')+`</div></div>`).join('')+`</section>`;
+  });
+  lista.innerHTML=html||`<p class="vacio">No encontramos "${esc(filtro)}". Probá con otra palabra o escribilo en la nota del pedido.</p>`;
+  resumen();
+}
+function lineas(){return Object.entries(cant).filter(([k,q])=>q>0&&!items[k].sin&&items[k].pr).map(([k,q])=>({it:items[k],q,sub:items[k].pr*q}))}
+function resumen(){
+  const ls=lineas(),tot=ls.reduce((a,l)=>a+l.sub,0),b=document.getElementById('ver');
+  b.disabled=!ls.length;
+  document.getElementById('cant').textContent=ls.length?`Ver pedido · ${ls.length} producto${ls.length>1?'s':''}`:'Tu pedido está vacío';
+  document.getElementById('total').textContent=ls.length?plata(tot):'';
+  armar();
+}
+function armar(){
+  const ls=lineas(),tot=ls.reduce((a,l)=>a+l.sub,0);
+  document.getElementById('lineas').innerHTML=ls.map(l=>`<div class="lin"><span>${esc(qtxt(l.it,l.q))} ${l.it.paso<1?'':'· '}${esc(l.it.n)}</span><span>${plata(l.sub)}</span></div>`).join('');
+  document.getElementById('tot2').textContent=plata(tot);
+  const hayKg=ls.some(l=>l.it.paso<1);
+  document.getElementById('avisoKg').textContent=hayKg?'Lo que va por kilo se pesa al armar el pedido, así que el total puede variar un poco.':'';
+  const ent=document.querySelector('input[name=ent]:checked').value,pago=document.querySelector('input[name=pago]:checked').value;
+  const nom=document.getElementById('nom').value.trim(),dir=document.getElementById('dir').value.trim(),nota=document.getElementById('nota').value.trim();
+  document.getElementById('dirBox').hidden=ent!=='Envío a domicilio';
+  let t='¡Hola Punto Fruta! Quiero hacer un pedido:\n'+ls.map(l=>`• ${qtxt(l.it,l.q)} ${l.it.n} — ${plata(l.sub)}`).join('\n')+`\n\nTotal${hayKg?' aprox.':''}: ${plata(tot)}\nEntrega: ${ent}${ent==='Envío a domicilio'&&dir?' — '+dir:''}\nPago: ${pago}`+(nom?`\nNombre: ${nom}`:'')+(nota?`\nNota: ${nota}`:'');
+  document.getElementById('vista').textContent=t;
+  const falta=!ls.length?'Agregá algún producto.':!nom?'Falta tu nombre.':(ent==='Envío a domicilio'&&!dir)?'Falta la dirección.':'';
+  document.getElementById('falta').textContent=falta;
+  const a=document.getElementById('enviar');a.classList.toggle('off',!!falta);a.href='https://wa.me/'+WA+'?text='+encodeURIComponent(t);
+}
+lista.addEventListener('click',e=>{
+  const a=e.target.closest('[data-a]'),m=e.target.closest('[data-m]');if(!a&&!m)return;
+  const id=(a||m).dataset[a?'a':'m'],it=items[id];
+  cant[id]=Math.max(0,+((cant[id]||0)+(a?1:-1)*it.paso).toFixed(1));if(!cant[id])delete cant[id];
+  guardar();render();mirar();
+});
+
+cats.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;[...cats.children].forEach(x=>x.classList.toggle('on',x===b));const s=document.getElementById(b.dataset.c);if(s)s.scrollIntoView({behavior:'smooth'});});
+document.getElementById('buscar').addEventListener('input',e=>{filtro=e.target.value;render();mirar();});
+// ---- Panel de Gise ----
+const adm=document.getElementById('adm'),admLista=document.getElementById('admLista'),admBus=document.getElementById('admBus'),admBtn=document.getElementById('admGuardar');
+let borr={};
+function admRender(){
+  const f=admBus.value.trim().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  admLista.innerHTML=DATA.map(([cat,prods])=>{
+    const filas=prods.flatMap(([n,d,ops])=>ops.map((o,i)=>{const id=slug(n)+'-'+i,it=items[id],b=borr[id]||{};
+      if(f&&!n.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').includes(f))return'';
+      const pr=b.pr!==undefined?b.pr:it.pr,sin=b.sin!==undefined?b.sin:!!it.sin,cambio=(b.pr!==undefined&&b.pr!==it.pr)||(b.sin!==undefined&&b.sin!==!!it.sin);
+      return `<div class="afila${cambio?' cambio':''}${sin?' sin':''}"><div class="an"><b>${esc(n)}</b><span>${esc(it.paso<1?'por kg':it.et)}</span></div>
+      <label class="pesos"><span>$</span><input inputmode="numeric" pattern="[0-9]*" data-ap="${id}" value="${pr||''}" placeholder="—" aria-label="Precio de ${esc(n)} ${esc(it.et)}"></label>
+      <button type="button" class="stk" data-as="${id}" aria-pressed="${sin}">${sin?'Sin stock':'Hay'}</button></div>`})).join('');
+    return filas?`<h3>${esc(cat)}</h3>${filas}`:'';}).join('')||'<p class="vacio">No hay productos con ese nombre.</p>';
+  const n=Object.keys(borr).length;admBtn.textContent=n?`Guardar ${n} cambio${n>1?'s':''}`:'Sin cambios';admBtn.disabled=!n;
+}
+function admSet(id,k,v){const it=items[id];borr[id]=borr[id]||{};borr[id][k]=v;
+  const b=borr[id];if((b.pr===undefined||b.pr===it.pr)&&(b.sin===undefined||b.sin===!!it.sin))delete borr[id];
+  const n=Object.keys(borr).length;admBtn.textContent=n?`Guardar ${n} cambio${n>1?'s':''}`:'Sin cambios';admBtn.disabled=!n;}
+admLista.addEventListener('input',e=>{const id=e.target.dataset.ap;if(!id)return;e.target.value=e.target.value.replace(/\D/g,'');admSet(id,'pr',parseInt(e.target.value||'0',10));e.target.closest('.afila').classList.toggle('cambio',!!borr[id]);});
+admLista.addEventListener('focusin',e=>{if(e.target.dataset.ap)setTimeout(()=>e.target.select(),0);});
+admLista.addEventListener('click',e=>{const b=e.target.closest('[data-as]');if(!b)return;const id=b.dataset.as,ahora=b.getAttribute('aria-pressed')!=='true';admSet(id,'sin',ahora);
+  b.setAttribute('aria-pressed',ahora);b.textContent=ahora?'Sin stock':'Hay';const fila=b.closest('.afila');fila.classList.toggle('sin',ahora);fila.classList.toggle('cambio',!!borr[id]);});
+admBus.addEventListener('input',admRender);
+document.getElementById('modo').addEventListener('click',()=>{borr={};admBus.value='';admRender();adm.classList.add('ab');admBus.focus();});
+const admCerrar=()=>adm.classList.remove('ab');
+document.getElementById('admCancelar').addEventListener('click',admCerrar);
+admBtn.addEventListener('click',()=>{
+  for(const id in borr){const b=borr[id];if(b.pr!==undefined)items[id].pr=b.pr;if(b.sin!==undefined)items[id].sin=b.sin;}
+  try{const pr={},sin=[];for(const id in items){pr[id]=items[id].pr;if(items[id].sin)sin.push(id);}localStorage.setItem('pf-precios',JSON.stringify(pr));localStorage.setItem('pf-sin',JSON.stringify(sin));}catch(e){}
+  const n=Object.keys(borr).length;borr={};admCerrar();render();aviso(`Listo: ${n} cambio${n>1?'s':''} guardado${n>1?'s':''}`);});
+const toast=document.getElementById('toast');let tt;
+function aviso(t){toast.textContent=t;toast.classList.add('ve');clearTimeout(tt);tt=setTimeout(()=>toast.classList.remove('ve'),2600);}
+// categoria activa al scrollear
+const obs=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){[...cats.children].forEach(b=>b.classList.toggle('on',b.dataset.c===e.target.id));}},{rootMargin:'-140px 0px -60% 0px'});
+const mirar=()=>{obs.disconnect();lista.querySelectorAll('section').forEach(s=>obs.observe(s));};
+const hoja=document.getElementById('hoja');
+document.getElementById('ver').addEventListener('click',()=>{armar();hoja.classList.add('ab');document.getElementById('cerrar').focus();});
+const cerrar=()=>hoja.classList.remove('ab');
+document.getElementById('cerrar').addEventListener('click',cerrar);
+hoja.addEventListener('click',e=>{if(e.target===hoja)cerrar();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){cerrar();adm.classList.remove('ab');}});
+document.getElementById('form').addEventListener('input',armar);
+document.getElementById('form').addEventListener('submit',e=>e.preventDefault());
+render();mirar();
+}
+</script>
+</body>
+</html>
