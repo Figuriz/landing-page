@@ -62,10 +62,12 @@ section h2{font-size:26px;color:var(--tomate);margin-bottom:6px}
 .carrito{position:fixed;left:0;right:0;bottom:0;z-index:6;padding:12px max(4vw,12px) max(12px,env(safe-area-inset-bottom));background:linear-gradient(to top,var(--bg) 70%,transparent)}
 .carrito button{display:flex;width:100%;max-width:760px;margin:auto;justify-content:space-between;align-items:center;height:60px;border:0;border-radius:16px;background:var(--tomate);color:#fff;padding:0 20px;font-size:17px;font-weight:700;box-shadow:0 6px 20px rgba(0,0,0,.18)}
 .carrito button[disabled]{background:var(--soft);opacity:.6;cursor:default}
-.hoja{position:fixed;inset:0;z-index:10;display:none;background:rgba(0,0,0,.6);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.hoja{position:fixed;inset:0;z-index:10;display:none;background:rgba(0,0,0,.72)}
+body.trabado{overflow:hidden}
 .hoja.ab{display:block}
 .panel{position:absolute;left:0;right:0;bottom:0;max-height:92vh;overflow:auto;background:var(--bg);border-radius:20px 20px 0 0;padding:20px max(5vw,16px) 28px}
-.panel{box-shadow:0 -10px 40px rgba(0,0,0,.35);background:var(--card)}
+.panel{box-shadow:0 -10px 40px rgba(0,0,0,.35);background:var(--card);overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.adm .in{overscroll-behavior:contain}
 .panel .campo,.panel .buscar,.panel .pesos,.panel .vista,.panel .cerrar,.panel .stk,.admPie button{background:var(--bg)}
 @media(min-width:700px){.panel{left:50%;right:auto;bottom:auto;top:50%;transform:translate(-50%,-50%);width:min(680px,92vw);max-height:88vh;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,.45)}.adm{height:88vh}}
 .panel .in{max-width:640px;margin:auto}
@@ -365,8 +367,8 @@ admLista.addEventListener('focusin',e=>{if(e.target.dataset.ap)setTimeout(()=>e.
 admLista.addEventListener('click',e=>{const b=e.target.closest('[data-as]');if(!b)return;const id=b.dataset.as,ahora=b.getAttribute('aria-pressed')!=='true';admSet(id,'sin',ahora);
   b.setAttribute('aria-pressed',ahora);b.textContent=ahora?'Sin stock':'Hay';const fila=b.closest('.afila');fila.classList.toggle('sin',ahora);fila.classList.toggle('cambio',!!borr[id]);});
 admBus.addEventListener('input',admRender);
-document.getElementById('modo').addEventListener('click',()=>{borr={};admBus.value='';admRender();adm.classList.add('ab');admBus.focus();});
-const admCerrar=()=>adm.classList.remove('ab');
+document.getElementById('modo').addEventListener('click',()=>{borr={};admBus.value='';admRender();adm.classList.add('ab');document.body.classList.add('trabado');admBus.focus();});
+const admCerrar=()=>{adm.classList.remove('ab');document.body.classList.remove('trabado');};
 document.getElementById('admCancelar').addEventListener('click',admCerrar);
 admBtn.addEventListener('click',()=>{
   for(const id in borr){const b=borr[id];if(b.pr!==undefined)items[id].pr=b.pr;if(b.sin!==undefined)items[id].sin=b.sin;}
@@ -378,11 +380,11 @@ function aviso(t){toast.textContent=t;toast.classList.add('ve');clearTimeout(tt)
 const obs=new IntersectionObserver(es=>{for(const e of es)if(e.isIntersecting){[...cats.children].forEach(b=>b.classList.toggle('on',b.dataset.c===e.target.id));}},{rootMargin:'-140px 0px -60% 0px'});
 const mirar=()=>{obs.disconnect();lista.querySelectorAll('section').forEach(s=>obs.observe(s));};
 const hoja=document.getElementById('hoja');
-document.getElementById('ver').addEventListener('click',()=>{armar();hoja.classList.add('ab');document.getElementById('cerrar').focus();});
-const cerrar=()=>hoja.classList.remove('ab');
+document.getElementById('ver').addEventListener('click',()=>{armar();hoja.classList.add('ab');document.body.classList.add('trabado');document.getElementById('cerrar').focus();});
+const cerrar=()=>{hoja.classList.remove('ab');document.body.classList.remove('trabado');};
 document.getElementById('cerrar').addEventListener('click',cerrar);
 hoja.addEventListener('click',e=>{if(e.target===hoja)cerrar();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){cerrar();adm.classList.remove('ab');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){cerrar();admCerrar();}});
 document.getElementById('form').addEventListener('input',armar);
 document.getElementById('form').addEventListener('submit',e=>e.preventDefault());
 render();mirar();
