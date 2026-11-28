@@ -25,7 +25,7 @@ export function Hero() {
           </h1>
 
           <p className="mt-4 md:mt-6 text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed text-pretty animate-fade-in-up animation-delay-200">
-            Sistemas simples para tu negocio, pensados para usar desde el celular. Mostrador lo empezás a usar hoy, gratis por 14 días.
+            Sistemas simples para tu negocio, pensados para usar desde el celular. Mostrador lo empezás a usar hoy, gratis por un mes.
           </p>
 
           <div className="mt-8 md:mt-10 grid sm:grid-cols-2 gap-3 md:gap-4 max-w-3xl mx-auto text-left animate-fade-in-up animation-delay-400">
@@ -40,7 +40,7 @@ export function Hero() {
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </span>
                 <span className="mt-1 block text-sm text-primary-foreground/85 leading-snug">
-                  Kiosco, almacén, carnicería, verdulería, ferretería, pet shop. Ventas, caja y fiado: probalo gratis 14 días.
+                  Kiosco, almacén, carnicería, verdulería, ferretería, pet shop. Ventas, caja y fiado: probalo gratis un mes.
                 </span>
               </span>
             </Link>

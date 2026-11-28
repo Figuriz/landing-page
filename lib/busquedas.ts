@@ -18,12 +18,12 @@ export type Busqueda = {
 export const BUSQUEDAS: Busqueda[] = [
   {
     slug: "sistema-para-kiosco",
-    titulo: "Sistema para kiosco: ventas y caja desde el celular, gratis 14 días · Mostrador",
+    titulo: "Sistema para kiosco: ventas y caja desde el celular, gratis un mes · Mostrador",
     descripcion:
-      "Mostrador es un sistema simple para kioscos: anotás cada venta en dos toques, cerrás la caja del día y llevás el fiado. Desde el celular, sin instalar nada. Gratis 14 días.",
+      "Mostrador es un sistema simple para kioscos: anotás cada venta en dos toques, cerrás la caja del día y llevás el fiado. Desde el celular, sin instalar nada. Gratis un mes.",
     encabezado: "Sistema para kiosco, desde el celular",
     respuesta:
-      "Mostrador es un sistema de ventas y caja para kioscos que se usa desde el celular. Anotás cada venta poniendo el monto y cómo te pagaron, y a la noche la caja ya está hecha. Lo probás gratis 14 días, sin tarjeta; después es una cuota mensual.",
+      "Mostrador es un sistema de ventas y caja para kioscos que se usa desde el celular. Anotás cada venta poniendo el monto y cómo te pagaron, y a la noche la caja ya está hecha. Lo probás gratis un mes, sin tarjeta; después es una cuota mensual.",
     secciones: [
       {
         titulo: "Para qué le sirve a un kiosco",
@@ -42,7 +42,7 @@ export const BUSQUEDAS: Busqueda[] = [
       },
     ],
     preguntas: [
-      { q: "¿Es un sistema para kiosco gratis?", a: "Es gratis durante 14 días, sin tarjeta. Después tiene una cuota mensual fija. Si no seguís, tus datos quedan guardados y los podés descargar." },
+      { q: "¿Es un sistema para kiosco gratis?", a: "Es gratis durante un mes, sin tarjeta. Después tiene una cuota mensual fija. Si no seguís, tus datos quedan guardados y los podés descargar." },
       { q: "¿Necesito una computadora o un lector?", a: "No. Se usa desde el celular, en el navegador, sin instalar nada." },
       { q: "¿Sirve para un maxikiosco con empleados?", a: "Sirve para anotar ventas y cerrar la caja. Hoy cada negocio tiene un solo usuario, así que todos entran con la misma cuenta." },
     ],
@@ -52,10 +52,10 @@ export const BUSQUEDAS: Busqueda[] = [
     slug: "programa-para-almacen",
     titulo: "Programa para almacén: ventas, caja y fiado en el celular · Mostrador",
     descripcion:
-      "Mostrador es un programa para almacenes y despensas: ventas en dos toques, caja del día y fiado con detalle y fecha. Desde el celular, sin instalar nada. Gratis 14 días.",
+      "Mostrador es un programa para almacenes y despensas: ventas en dos toques, caja del día y fiado con detalle y fecha. Desde el celular, sin instalar nada. Gratis un mes.",
     encabezado: "Programa para almacén, con el fiado incluido",
     respuesta:
-      "Mostrador es un programa para almacenes y despensas que reemplaza el cuaderno: anotás las ventas, cerrás la caja del día y llevás el fiado de cada cliente con lo que se llevó y la fecha. Funciona en el celular y se prueba gratis 14 días.",
+      "Mostrador es un programa para almacenes y despensas que reemplaza el cuaderno: anotás las ventas, cerrás la caja del día y llevás el fiado de cada cliente con lo que se llevó y la fecha. Funciona en el celular y se prueba gratis un mes.",
     secciones: [
       {
         titulo: "El fiado, sin sumar el cuaderno",
@@ -74,7 +74,7 @@ export const BUSQUEDAS: Busqueda[] = [
       },
     ],
     preguntas: [
-      { q: "¿Es un programa para almacén gratis?", a: "Los primeros 14 días son gratis y no pedimos tarjeta. Después es una cuota mensual fija." },
+      { q: "¿Es un programa para almacén gratis?", a: "El primer mes es gratis y no pedimos tarjeta. Después es una cuota mensual fija." },
       { q: "¿Tengo que pasar todo el cuaderno?", a: "No hace falta de entrada. Empezás anotando las ventas y vas pasando lo que te deben cliente por cliente, con la fecha que tenía en el cuaderno." },
       { q: "¿Anda en la computadora?", a: "Sí, también, pero está pensado para el celular. No se instala: se abre desde el navegador." },
     ],
@@ -113,7 +113,7 @@ export const BUSQUEDAS: Busqueda[] = [
     preguntas: [
       { q: "¿Sirve una planilla de Excel?", a: "Sí, sirve. El problema suele ser cargarla en el momento, con clientes esperando. Por eso Mostrador se usa desde el celular y con dos toques por venta." },
       { q: "¿Cada cuánto conviene cerrar la caja?", a: "Todos los días, al terminar. Si lo dejás para el fin de semana, ya no te acordás de qué salió del cajón." },
-      { q: "¿Mostrador es gratis?", a: "Durante 14 días, sin tarjeta. Después es una cuota mensual fija." },
+      { q: "¿Mostrador es gratis?", a: "Durante un mes, sin tarjeta. Después es una cuota mensual fija." },
     ],
     pantalla: "caja",
   },

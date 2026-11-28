@@ -35,7 +35,7 @@ const PANTALLAS = [
 const URL_REGISTRO = "https://mostrador.figuriz.com/Registro?de=web-mostrador"
 const TITULO = "Sistema para kiosco y almacén: ventas, caja y fiado · Mostrador"
 const DESCRIPCION =
-  "Mostrador es un sistema de ventas, caja diaria y fiado para kioscos, almacenes y comercios chicos. Se usa desde el celular, sin instalar nada. Sin tope de ventas. Probalo gratis 14 días, sin tarjeta."
+  "Mostrador es un sistema de ventas, caja diaria y fiado para kioscos, almacenes y comercios chicos. Se usa desde el celular, sin instalar nada. Sin tope de ventas. Probalo gratis un mes, sin tarjeta."
 
 export const metadata: Metadata = {
   title: { absolute: TITULO },
@@ -106,7 +106,7 @@ const PASOS = [
     texto: "La primera venta la hacés poniendo solo el monto. Lo que ya te deben lo pasás del cuaderno con su fecha, cliente por cliente, cuando tengas un rato.",
   },
   {
-    titulo: "Lo usás 14 días gratis",
+    titulo: "Lo usás un mes gratis",
     texto: "En tu local, con tus clientes de verdad, antes de pagar nada.",
   },
   {
@@ -118,7 +118,7 @@ const PASOS = [
 const FAQ = [
   {
     q: "¿Es gratis?",
-    a: "Los primeros 14 días son gratis y no pedimos tarjeta. Después es una cuota mensual fija. Si no seguís, tus datos quedan guardados y los podés descargar.",
+    a: "El primer mes es gratis y no pedimos tarjeta. Después es una cuota mensual fija. Si no seguís, tus datos quedan guardados y los podés descargar.",
   },
   {
     q: "¿Hay un tope de ventas por mes?",
@@ -165,7 +165,7 @@ export default function MostradorPage() {
         description: DESCRIPCION,
         applicationCategory: "BusinessApplication",
         operatingSystem: "Web, Android, iOS",
-        offers: { "@type": "Offer", description: "Prueba gratis de 14 días, sin tarjeta" },
+        offers: { "@type": "Offer", description: "Prueba gratis de un mes, sin tarjeta" },
         provider: { "@id": `${BASE}/#organization` },
         url: URL_PAGINA,
       },
@@ -209,7 +209,7 @@ export default function MostradorPage() {
             </p>
             <div className="mt-8 flex flex-col sm:flex-row gap-3">
               <BotonProbar href={URL_REGISTRO} lugar="arriba" className="px-8 py-6 shadow-lg shadow-primary/20">
-                Probalo gratis 14 días
+                Probalo gratis un mes
               </BotonProbar>
               <Button asChild size="lg" variant="outline" className="px-8 py-6">
                 <a href="#como-se-ve">Ver cómo es</a>
@@ -327,7 +327,7 @@ export default function MostradorPage() {
               Probalo hoy en tu negocio
             </h2>
             <p className="mt-2 text-muted-foreground leading-relaxed">
-              Son 14 días gratis y no pedimos tarjeta. Si tenés una duda antes de empezar, escribinos.
+              Es un mes gratis y no pedimos tarjeta. Si tenés una duda antes de empezar, escribinos.
             </p>
             <div className="mt-6 flex flex-col sm:flex-row gap-3">
               <BotonProbar href={URL_REGISTRO} lugar="abajo">
