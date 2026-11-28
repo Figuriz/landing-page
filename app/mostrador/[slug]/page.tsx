@@ -70,7 +70,7 @@ export default async function BusquedaPage({ params }: { params: Promise<{ slug:
             <p className="mt-6 text-base md:text-lg text-foreground/85 leading-relaxed">{b.respuesta}</p>
             <div className="mt-8">
               <BotonProbar href={registro} lugar={b.slug} className="px-8 py-6 shadow-lg shadow-primary/20">
-                Probalo gratis 14 días
+                Probalo gratis un mes
               </BotonProbar>
               <p className="mt-3 text-sm text-muted-foreground">Sin tarjeta. Te registrás en un minuto.</p>
             </div>
@@ -114,7 +114,7 @@ export default async function BusquedaPage({ params }: { params: Promise<{ slug:
           </dl>
           <div className="mt-12 rounded-xl border border-primary/30 bg-primary/5 p-6 md:p-8">
             <h2 className="text-xl md:text-2xl font-bold font-[family-name:var(--font-heading)] text-foreground">Probalo hoy en tu negocio</h2>
-            <p className="mt-2 text-muted-foreground leading-relaxed">Son 14 días gratis y no pedimos tarjeta.</p>
+            <p className="mt-2 text-muted-foreground leading-relaxed">Es un mes gratis y no pedimos tarjeta.</p>
             <div className="mt-6">
               <BotonProbar href={registro} lugar={`${b.slug}-abajo`}>
                 Empezar la prueba gratis

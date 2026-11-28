@@ -12,7 +12,7 @@ const faqs = [
   {
     question: "¿Cuánto cuesta?",
     answer:
-      "Depende de qué necesites. Mostrador es una cuota mensual fija: los primeros 14 días son gratis, sin tarjeta, y te registrás vos solo. Los sistemas a medida y las automatizaciones van por etapas: la primera es chica, con alcance y precio cerrados por escrito antes de empezar. En la primera charla, que no tiene costo, te decimos cuánto saldría tu caso.",
+      "Depende de qué necesites. Mostrador es una cuota mensual fija: el primer mes es gratis, sin tarjeta, y te registrás vos solo. Los sistemas a medida y las automatizaciones van por etapas: la primera es chica, con alcance y precio cerrados por escrito antes de empezar. En la primera charla, que no tiene costo, te decimos cuánto saldría tu caso.",
   },
   {
     question: "¿Cuánto tarda?",
@@ -22,7 +22,7 @@ const faqs = [
   {
     question: "Tengo un comercio chico, ¿esto es para mí?",
     answer:
-      "Sí. Para almacenes, kioscos, carnicerías, verdulerías, ferreterías o pet shops está Mostrador: las ventas, la caja del día y el fiado en el celular, sin instalar nada ni saber de computadoras. Lo probás gratis 14 días.",
+      "Sí. Para almacenes, kioscos, carnicerías, verdulerías, ferreterías o pet shops está Mostrador: las ventas, la caja del día y el fiado en el celular, sin instalar nada ni saber de computadoras. Lo probás gratis un mes.",
   },
   {
     question: "¿Necesito saber de tecnología?",
