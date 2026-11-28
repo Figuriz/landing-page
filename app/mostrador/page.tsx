@@ -51,11 +51,11 @@ export const metadata: Metadata = {
 
 const FUNCIONES = [
   {
-    icon: NotebookPen,
-    titulo: "Fiado",
-    frase: "Tu cuaderno, pero en el celular.",
+    icon: ShoppingBasket,
+    titulo: "Vender",
+    frase: "Dos toques y listo.",
     texto:
-      "Quién te debe, qué se llevó y qué día. Anotás lo que deja a cuenta, ves quién pasó los 30 días y le mandás el recordatorio por WhatsApp con el detalle.",
+      "Ponés solo el monto, o tocás los productos. Elegís cómo te pagan y queda anotado. Si es fiado, se suma solo a la cuenta del cliente con lo que se llevó.",
   },
   {
     icon: Wallet,
@@ -65,18 +65,18 @@ const FUNCIONES = [
       "Todo lo que entró, separado por cómo te pagaron: efectivo, transferencia, Mercado Pago, tarjeta. Anotás gastos y retiros, contás el efectivo y te dice si sobra o falta.",
   },
   {
-    icon: ShoppingBasket,
-    titulo: "Vender",
-    frase: "Dos toques y listo.",
-    texto:
-      "Ponés solo el monto, o tocás los productos. Elegís cómo te pagan y queda anotado. Si es fiado, se suma solo a la cuenta del cliente con lo que se llevó.",
-  },
-  {
     icon: CalendarRange,
     titulo: "Resumen del mes",
     frase: "Cuánto entró, sin hacer cuentas.",
     texto:
       "El total del mes y cómo le fue a cada día. Qué fue lo que más se vendió y qué no salió. Podés volver a mirar la caja de cualquier día.",
+  },
+  {
+    icon: NotebookPen,
+    titulo: "Fiado",
+    frase: "Tu cuaderno, pero en el celular.",
+    texto:
+      "Quién te debe, qué se llevó y qué día. Anotás lo que deja a cuenta, ves quién pasó los 30 días y le mandás el recordatorio por WhatsApp con el detalle.",
   },
 ]
 
